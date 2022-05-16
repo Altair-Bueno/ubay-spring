@@ -53,12 +53,12 @@ alter table login_credentials
 
 create table password_reset
 (
-    username varchar(20) not null
+    login_id integer not null
         constraint login_credentials_fk
-            references login_credentials(username)
+            references login_credentials(id)
             on delete cascade ,
     request_id varchar(20) not null,
-    primary key (username,request_id)
+    primary key (login_id,request_id)
 );
 
 alter table password_reset
