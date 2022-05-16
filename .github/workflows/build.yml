@@ -40,6 +40,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+      - name: Install
+        run: ./mvnw install
       - name: Build
         run: |
           ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.image-name }}:${{ steps.meta.outputs.tags }}
