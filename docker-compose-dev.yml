@@ -4,7 +4,7 @@ services:
   # username: postgres
   # password: mysecretpassword
   # Database: UBAY
-  postgres:
+  postgres-dev:
     container_name: 'orange-fleet'
     image: postgres
     ports:
@@ -17,7 +17,7 @@ services:
       - ./sql/test-data.sql:/docker-entrypoint-initdb.d/2.sql
       - postgres-data-dev:/var/lib/postgresql/data
 
-  minio:
+  minio-dev:
     container_name: 'green-bird'
     image: minio/minio
     environment:
