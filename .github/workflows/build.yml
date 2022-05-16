@@ -48,7 +48,7 @@ jobs:
         run: ./mvnw install
       - name: Build
         run: |
-          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.IMAGE_NAME }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -57,4 +57,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Extract metadata (tags, labels) for Docker
-        run: docker push ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+        run: docker push ${{ steps.meta.outputs.tags }}
