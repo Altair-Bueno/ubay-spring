@@ -22,7 +22,7 @@ docker compose up -d
 ### Start the required services
 
 ```shell
-docker compose up -f docker-compose-dev.yml -d
+docker compose -f docker-compose-dev.yml up -d
 ```
 
 ### Build and run Ubay Spring
