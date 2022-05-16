@@ -14,7 +14,7 @@ services:
       POSTGRES_DB: UBAY
     volumes:
       - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql
-      - ./sql/sample-data.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./sql/test-data.sql:/docker-entrypoint-initdb.d/2.sql
       - postgres-data-dev:/var/lib/postgresql/data
 
   minio:
