@@ -2,10 +2,10 @@ name: Build artifacts
 on:
   push:
     tags:
-      - *
+      - '*'
     branches:
       - latest
-      - *
+      - '*'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
