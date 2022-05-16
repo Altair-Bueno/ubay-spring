@@ -7,6 +7,7 @@ drop table if exists password_reset cascade ;
 drop table if exists product_favourites cascade ;
 drop table if exists user_favourites cascade ;
 drop table if exists product cascade ;
+drop table if exists session cascade ;
 
 create table category
 (
@@ -34,13 +35,16 @@ alter table client
 
 create table login_credentials
 (
-    username varchar(20) not null primary key,
+    id       serial primary key,
+    username varchar(20) not null,
     password varchar(60) not null,
     kind     varchar(10) not null,
-    user_id  integer
+    client_id  integer
         constraint user_fk
             references client (id)
-            on delete cascade
+            on delete cascade ,
+        constraint username_unique
+            unique (username)
 );
 
 alter table login_credentials
@@ -88,11 +92,11 @@ create table user_favourites
         constraint category_fk
             references category (id)
             on delete cascade ,
-    user_id     integer not null
+    client_id     integer not null
         constraint user_fk
             references client (id)
             on delete cascade ,
-    primary key (category_id, user_id)
+    primary key (category_id, client_id)
 );
 
 alter table user_favourites
@@ -104,11 +108,11 @@ create table product_favourites
         constraint product_id_fk
             references product (id)
             on delete cascade ,
-    user_id     integer not null
+    client_id     integer not null
         constraint user_fk
             references client (id)
             on delete cascade ,
-    primary key (product_id, user_id)
+    primary key (product_id, client_id)
 );
 
 alter table product_favourites
@@ -123,12 +127,27 @@ create table bid
         constraint product_fk
             references product (id)
             on delete cascade ,
-    user_id       integer not null
+    client_id       integer not null
         constraint user_fk
             references client (id)
             on delete cascade ,
-    primary key (id,product_id, user_id)
+    primary key (id, product_id, client_id)
 );
 
 alter table bid
+    owner to postgres;
+
+create table session
+(
+    id            serial,
+    start_date    timestamp not null ,
+    finish_date   timestamp ,
+    login_id      integer not null
+        constraint login_credentials_fk
+            references login_credentials (id)
+            on delete cascade ,
+    primary key (id, login_id)
+);
+
+alter table session
     owner to postgres;
