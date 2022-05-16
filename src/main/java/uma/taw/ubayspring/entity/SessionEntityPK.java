@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * @author Altair Bueno
+ */
+
 public class SessionEntityPK implements Serializable {
     @Column(name = "id", nullable = false)
     @Id
@@ -40,10 +44,7 @@ public class SessionEntityPK implements Serializable {
         SessionEntityPK that = (SessionEntityPK) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (loginId != null ? !loginId.equals(that.loginId) : that.loginId != null)
-            return false;
-
-        return true;
+        return loginId != null ? loginId.equals(that.loginId) : that.loginId == null;
     }
 
     @Override

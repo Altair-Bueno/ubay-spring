@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "client", schema = "public", catalog = "UBAY")
 public class ClientEntity {
@@ -114,10 +118,7 @@ public class ClientEntity {
             return false;
         if (birthDate != null ? !birthDate.equals(that.birthDate) : that.birthDate != null)
             return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null)
-            return false;
-
-        return true;
+        return gender != null ? gender.equals(that.gender) : that.gender == null;
     }
 
     @Override

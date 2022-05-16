@@ -5,6 +5,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "product", schema = "public", catalog = "UBAY")
 public class ProductEntity {
@@ -39,10 +43,10 @@ public class ProductEntity {
     @OneToMany(mappedBy = "productByProductId")
     private Collection<BidEntity> bidsById;
     @ManyToOne
-    @JoinColumn(name = "vendor_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "vendor_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ClientEntity clientByVendorId;
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private CategoryEntity categoryByCategoryId;
     @OneToMany(mappedBy = "productByProductId")
     private Collection<ProductFavouritesEntity> productFavouritesById;
@@ -141,10 +145,7 @@ public class ProductEntity {
             return false;
         if (vendorId != null ? !vendorId.equals(that.vendorId) : that.vendorId != null)
             return false;
-        if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null)
-            return false;
-
-        return true;
+        return categoryId != null ? categoryId.equals(that.categoryId) : that.categoryId == null;
     }
 
     @Override

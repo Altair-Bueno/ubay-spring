@@ -3,6 +3,10 @@ package uma.taw.ubayspring.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "session", schema = "public", catalog = "UBAY")
 @IdClass(SessionEntityPK.class)
@@ -22,7 +26,7 @@ public class SessionEntity {
     @Column(name = "login_id", nullable = false)
     private Integer loginId;
     @ManyToOne
-    @JoinColumn(name = "login_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "login_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private LoginCredentialsEntity loginCredentialsByLoginId;
 
     public Integer getId() {
@@ -69,10 +73,7 @@ public class SessionEntity {
             return false;
         if (finishDate != null ? !finishDate.equals(that.finishDate) : that.finishDate != null)
             return false;
-        if (loginId != null ? !loginId.equals(that.loginId) : that.loginId != null)
-            return false;
-
-        return true;
+        return loginId != null ? loginId.equals(that.loginId) : that.loginId == null;
     }
 
     @Override

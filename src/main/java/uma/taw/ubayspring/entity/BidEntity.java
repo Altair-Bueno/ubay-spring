@@ -3,6 +3,10 @@ package uma.taw.ubayspring.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "bid", schema = "public", catalog = "UBAY")
 @IdClass(BidEntityPK.class)
@@ -26,10 +30,10 @@ public class BidEntity {
     @Column(name = "client_id", nullable = false)
     private Integer clientId;
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ProductEntity productByProductId;
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ClientEntity clientByClientId;
 
     public Integer getId() {
@@ -87,10 +91,7 @@ public class BidEntity {
             return false;
         if (productId != null ? !productId.equals(bidEntity.productId) : bidEntity.productId != null)
             return false;
-        if (clientId != null ? !clientId.equals(bidEntity.clientId) : bidEntity.clientId != null)
-            return false;
-
-        return true;
+        return clientId != null ? clientId.equals(bidEntity.clientId) : bidEntity.clientId == null;
     }
 
     @Override

@@ -3,6 +3,10 @@ package uma.taw.ubayspring.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "category", schema = "public", catalog = "UBAY")
 public class CategoryEntity {
@@ -55,10 +59,7 @@ public class CategoryEntity {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null)
             return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-
-        return true;
+        return description != null ? description.equals(that.description) : that.description == null;
     }
 
     @Override

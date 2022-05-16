@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * @author Altair Bueno
+ */
+
 public class UserFavouritesEntityPK implements Serializable {
     @Column(name = "category_id", nullable = false)
     @Id
@@ -41,10 +45,7 @@ public class UserFavouritesEntityPK implements Serializable {
 
         if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null)
             return false;
-        if (clientId != null ? !clientId.equals(that.clientId) : that.clientId != null)
-            return false;
-
-        return true;
+        return clientId != null ? clientId.equals(that.clientId) : that.clientId == null;
     }
 
     @Override

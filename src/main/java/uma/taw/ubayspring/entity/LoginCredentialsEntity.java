@@ -3,6 +3,10 @@ package uma.taw.ubayspring.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "login_credentials", schema = "public", catalog = "UBAY")
 public class LoginCredentialsEntity {
@@ -23,7 +27,7 @@ public class LoginCredentialsEntity {
     @Column(name = "client_id", nullable = true)
     private Integer clientId;
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false,updatable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ClientEntity clientByClientId;
     @OneToMany(mappedBy = "loginCredentialsByLoginId")
     private Collection<PasswordResetEntity> passwordResetsById;
@@ -84,10 +88,7 @@ public class LoginCredentialsEntity {
             return false;
         if (kind != null ? !kind.equals(that.kind) : that.kind != null)
             return false;
-        if (clientId != null ? !clientId.equals(that.clientId) : that.clientId != null)
-            return false;
-
-        return true;
+        return clientId != null ? clientId.equals(that.clientId) : that.clientId == null;
     }
 
     @Override

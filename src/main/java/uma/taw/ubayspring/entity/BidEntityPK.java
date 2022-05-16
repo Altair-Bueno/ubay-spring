@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * @author Altair Bueno
+ */
+
 public class BidEntityPK implements Serializable {
     @Column(name = "id", nullable = false)
     @Id
@@ -54,10 +58,7 @@ public class BidEntityPK implements Serializable {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (productId != null ? !productId.equals(that.productId) : that.productId != null)
             return false;
-        if (clientId != null ? !clientId.equals(that.clientId) : that.clientId != null)
-            return false;
-
-        return true;
+        return clientId != null ? clientId.equals(that.clientId) : that.clientId == null;
     }
 
     @Override

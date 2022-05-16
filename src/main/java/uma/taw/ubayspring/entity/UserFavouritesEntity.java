@@ -2,6 +2,10 @@ package uma.taw.ubayspring.entity;
 
 import javax.persistence.*;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Entity
 @Table(name = "user_favourites", schema = "public", catalog = "UBAY")
 @IdClass(UserFavouritesEntityPK.class)
@@ -15,10 +19,10 @@ public class UserFavouritesEntity {
     @Column(name = "client_id", nullable = false)
     private Integer clientId;
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private CategoryEntity categoryByCategoryId;
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, insertable = false,updatable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private ClientEntity clientByClientId;
 
     public Integer getCategoryId() {
@@ -46,10 +50,7 @@ public class UserFavouritesEntity {
 
         if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null)
             return false;
-        if (clientId != null ? !clientId.equals(that.clientId) : that.clientId != null)
-            return false;
-
-        return true;
+        return clientId != null ? clientId.equals(that.clientId) : that.clientId == null;
     }
 
     @Override

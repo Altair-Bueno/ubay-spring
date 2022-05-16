@@ -4,5 +4,9 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import uma.taw.ubayspring.entity.ProductFavouritesEntity;
 import uma.taw.ubayspring.entity.ProductFavouritesEntityPK;
 
+/**
+ * @author Altair Bueno
+ */
+
 public interface ProductFavouritesRepository extends PagingAndSortingRepository<ProductFavouritesEntity, ProductFavouritesEntityPK> {
 }

@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * @author Altair Bueno
+ */
+
 public class PasswordResetEntityPK implements Serializable {
     @Column(name = "login_id", nullable = false)
     @Id
@@ -41,10 +45,7 @@ public class PasswordResetEntityPK implements Serializable {
 
         if (loginId != null ? !loginId.equals(that.loginId) : that.loginId != null)
             return false;
-        if (requestId != null ? !requestId.equals(that.requestId) : that.requestId != null)
-            return false;
-
-        return true;
+        return requestId != null ? requestId.equals(that.requestId) : that.requestId == null;
     }
 
     @Override
