@@ -13,7 +13,11 @@ Run the development Docker compose to spin up a Postgres database and Minio
 container
 
 ```shell
+git clone https://github.com/Altair-Bueno/ubay-spring
+cd ubay-spring
 docker compose -f docker-compose-dev.yml up -d
+# To stop the server
+docker compose -f docker-compose-dev.yml down
 ```
 
 ### Run the Spring application
