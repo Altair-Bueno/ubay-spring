@@ -15,7 +15,7 @@ services:
     volumes:
       - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql
       - ./sql/sample-data.sql:/docker-entrypoint-initdb.d/2.sql
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-dev:/var/lib/postgresql/data
 
   minio:
     container_name: 'green-bird'
@@ -29,21 +29,10 @@ services:
       # Actual server
       - '9000:9000'
     volumes:
-      - minio-data:/data
+      - minio-data-dev:/data
     entrypoint: sh
     command: -c 'mkdir -p /data/ubay && /usr/bin/docker-entrypoint.sh server /data --console-address ":9001"'
 
-  ubay-spring:
-    container_name: 'purple-plant'
-    image: 'ghcr.io/altair-bueno/ubay-spring'
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    ports:
-      - '8080:8080'
-    depends_on:
-      - minio
-      - postgres
-
 volumes:
-  postgres-data:
-  minio-data:
+  postgres-data-dev:
+  minio-data-dev:
