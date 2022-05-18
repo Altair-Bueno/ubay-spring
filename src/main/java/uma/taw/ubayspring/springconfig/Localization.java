@@ -1,10 +1,15 @@
 package uma.taw.ubayspring.springconfig;
 
-import lombok.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+/**
+ * Configures messageSource taking the messages
+ * bundle set up in resources
+ *
+ * @author Francisco Javier Hernández Martín
+ */
 public class Localization {
     private String messagesBasename;
 

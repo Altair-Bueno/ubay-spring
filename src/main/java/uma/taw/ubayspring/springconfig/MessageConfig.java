@@ -14,9 +14,15 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
- * @author pratikdas
+ * Usage: apply parameter "lang" equal to
+ * a language code (i.e: "en", "es"...)
+ * and it will translate the strings to the
+ * language chosen.
+ *
+ * @author Francisco Javier Hernández Martín
  *
  */
+
 @Configuration
 public class MessageConfig implements WebMvcConfigurer{
 
