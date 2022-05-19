@@ -1,6 +1,7 @@
 package uma.taw.ubayspring.entity;
 
 import lombok.Data;
+import uma.taw.ubayspring.types.KindEnum;
 
 import javax.persistence.*;
 
@@ -19,8 +20,9 @@ public class LoginCredentialsEntity {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "kind", nullable = false, length = 10)
-    private String kind;
+    private KindEnum kind;
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = true)
     private ClientEntity client;

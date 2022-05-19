@@ -1,6 +1,7 @@
 package uma.taw.ubayspring.entity;
 
 import lombok.Data;
+import uma.taw.ubayspring.types.GenderEnum;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -29,6 +30,7 @@ public class ClientEntity {
     @Column(name = "birth_date", nullable = false)
     private Date birthDate;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false, length = 10)
-    private String gender;
+    private GenderEnum gender;
 }
