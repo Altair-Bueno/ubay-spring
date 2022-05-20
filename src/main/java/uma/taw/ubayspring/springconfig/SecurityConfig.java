@@ -33,14 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
-        security
-                .authorizeRequests()
-
+        security.authorizeRequests()
                 .antMatchers("/auth/changePassword").authenticated().and()
 
                 .logout()
                 .logoutUrl("/auth/signoff")
+                .logoutSuccessUrl("/")
                 .and()
+
+                .csrf().disable()
 
                 .formLogin()
                 .loginPage("/auth/login")

@@ -1,12 +1,13 @@
 package uma.taw.ubayspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.exception.AuthenticationException;
 import uma.taw.ubayspring.service.AuthService;
 import uma.taw.ubayspring.types.GenderEnum;
@@ -29,8 +30,8 @@ public class AuthController {
 
     @PostMapping("/changePassword")
     public String postChangePassword(@RequestParam String oldPassword, @RequestParam String password, @RequestParam String repeatPassword) throws AuthenticationException {
-        LoginDTO loginDTO = null; // TODO Current loginDTO
-        service.changePassword(loginDTO, oldPassword, password, repeatPassword);
+        var user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        service.changePassword(user,oldPassword,password,repeatPassword);
 
         return "redirect:/";
     }

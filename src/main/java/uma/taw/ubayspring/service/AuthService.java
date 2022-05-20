@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.LoginCredentialsEntity;
 import uma.taw.ubayspring.entity.PasswordResetEntityPK;
@@ -37,7 +36,7 @@ public class AuthService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public void changePassword(@NonNull LoginDTO loginDTO,
+    public void changePassword(@NonNull User user,
                                @NonNull String oldPassword,
                                @NonNull String newPassword,
                                @NonNull String repeatPassword
@@ -47,7 +46,7 @@ public class AuthService implements UserDetailsService {
         if (!newPassword.matches(AuthKeys.PASSWORD_REGEX))
             throw new AuthenticationException("Invalid password format");
 
-        LoginCredentialsEntity loginCredentials = getCredentialsEntity(loginDTO);
+        LoginCredentialsEntity loginCredentials = getCredentialsEntity(user);
         String oldHash = loginCredentials.getPassword();
 
         if (passwordEncoder.matches(oldPassword, oldHash)) {
@@ -110,8 +109,8 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-    public LoginCredentialsEntity getCredentialsEntity(@NonNull LoginDTO loginDTO) {
-        return loginCredentialsRepository.findById(loginDTO.id()).orElse(null);
+    public LoginCredentialsEntity getCredentialsEntity(@NonNull User user) {
+        return loginCredentialsRepository.findLoginCredentialsEntityByUsername(user.getUsername());
     }
 
     @Override
