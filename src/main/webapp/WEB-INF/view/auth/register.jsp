@@ -1,5 +1,5 @@
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
-<%@ page import="uma.taw.ubay.entity.GenderEnum" %><%--
+<%@ page import="uma.taw.ubayspring.types.GenderEnum" %><%--
   Created by IntelliJ IDEA.
   User: Altair Bueno
   Date: 28/3/22
