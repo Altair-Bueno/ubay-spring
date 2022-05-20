@@ -37,14 +37,6 @@ public class AuthService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    private String getHashedPassword(@NonNull String newPassword) {
-        return passwordEncoder.encode(newPassword);
-    }
-
-    private boolean checkPasswordHash(@NonNull String oldPassword, @NonNull String oldHash) {
-        return passwordEncoder.matches(oldPassword,oldHash);
-    }
-
     public void changePassword(@NonNull LoginDTO loginDTO,
                                @NonNull String oldPassword,
                                @NonNull String newPassword,
@@ -58,8 +50,8 @@ public class AuthService implements UserDetailsService {
         LoginCredentialsEntity loginCredentials = getCredentialsEntity(loginDTO);
         String oldHash = loginCredentials.getPassword();
 
-        if (checkPasswordHash(oldPassword, oldHash)) {
-            var newHash = getHashedPassword(newPassword);
+        if (passwordEncoder.matches(oldPassword, oldHash)) {
+            var newHash = passwordEncoder.encode(newPassword);
             loginCredentials.setPassword(newHash);
 
             loginCredentialsRepository.save(loginCredentials);
@@ -86,7 +78,7 @@ public class AuthService implements UserDetailsService {
         if (!password.equals(repeatPassword))
             throw new AuthenticationException("Passwords don't match");
 
-        var hashedPassword = getHashedPassword(password);
+        var hashedPassword = passwordEncoder.encode(password);
         var client = new ClientEntity(name, lastName, address, city, birthDate, gender);
         var login = new LoginCredentialsEntity(username, hashedPassword, KindEnum.client, client);
 
@@ -110,7 +102,7 @@ public class AuthService implements UserDetailsService {
             throw new AuthenticationException("Request not found");
         } else {
             var passwordResetEntity = passwordResetEntityOptional.get();
-            var hashedPassword = getHashedPassword(newPassword);
+            var hashedPassword = passwordEncoder.encode(newPassword);
             loginCredentialsEntity.setPassword(hashedPassword);
 
             passwordResetRepository.delete(passwordResetEntity);
