@@ -1,4 +1,5 @@
-<%--
+<%@ page import="uma.taw.ubayspring.dto.users.ClientDTO" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: jota
   Date: 20/5/22
@@ -40,7 +41,7 @@
                     </div>
                 </form>
             </div>
-            <%--
+
             <div class="col">
                 <table class="table table-responsive" id="userDataTable">
                     <thead>
@@ -59,7 +60,7 @@
                     </thead>
                     <tbody>
                     <%
-                        //List<ClientDTO> searchClient = (List)request.getAttribute("search-user");
+                        List<ClientDTO> searchClient = (List<ClientDTO>)request.getAttribute("search-user");
 
                         if(searchClient != null){
                             for(ClientDTO c : searchClient){
@@ -80,7 +81,11 @@
                         </td>
                         <td><%=c.getBirthDate()%>
                         </td>
-                        <td><a href=delete?id=<%=c.getId()%>>Eliminar usuario</a></td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                               data-bs-target="#deleteModal">Eliminar usuario</button>
+                        </td>
+
                         <td>
                             <a href="modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">Modificar
                                 usuario</a></td>
@@ -92,11 +97,33 @@
                     %>
                     </tbody>
                 </table>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Eliminar usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Está seguro de que quiere eliminar el usuario?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <form method="post" action="${pageContext.request.contextPath}/users/delete">
+                                    <input type='hidden' name='id' value="10"/>
+                                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            --%>
         </div>
     </div>
-
 </div>
 </body>
 </html>
