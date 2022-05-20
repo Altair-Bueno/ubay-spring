@@ -6,6 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Data
 public class UserFavouritesEntityPK implements Serializable {
     @Id

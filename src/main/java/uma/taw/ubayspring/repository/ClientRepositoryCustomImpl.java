@@ -1,6 +1,5 @@
 package uma.taw.ubayspring.repository;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.types.GenderEnum;
@@ -28,26 +27,26 @@ public class ClientRepositoryCustomImpl implements ClientRepositoryCustom {
         query.select(clientTable);
         List<Predicate> predicateList = new ArrayList<>();
 
-        if(!"".equals(id)){
+        if (!"".equals(id)) {
             predicateList.add(builder.equal(clientTable.get("id"), id));
         }
 
-        if(gender != null){
+        if (gender != null) {
             predicateList.add(builder.equal(clientTable.get("gender"), gender));
         }
 
-        if(address != null){
+        if (address != null) {
             predicateList.add(builder.like(builder.upper(clientTable.get("address")), "%" + address.toUpperCase(Locale.ROOT) + "%"));
         }
-        if(city != null){
+        if (city != null) {
             predicateList.add(builder.like(builder.upper(clientTable.get("city")), "%" + city.toUpperCase(Locale.ROOT) + "%"));
         }
 
-        if(name != null){
+        if (name != null) {
             predicateList.add(builder.like(builder.upper(clientTable.get("name")), "%" + name.toUpperCase(Locale.ROOT) + "%"));
         }
 
-        if(lastName != null){
+        if (lastName != null) {
             predicateList.add(builder.like(builder.upper(clientTable.get("lastName")), "%" + lastName.toUpperCase(Locale.ROOT) + "%"));
         }
 

@@ -3,7 +3,6 @@ package uma.taw.ubayspring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.users.ClientDTO;
-import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
@@ -150,7 +149,7 @@ public class UsersService {
 
         List<ClientEntity> clientEntityList = (List<ClientEntity>) clientRepository.findAll();
         List<ClientEntity> filtrados = clientRepositoryCustom.filterClients(name, lastName, gender, address, city, id);
-        if(!name.equals("") || !lastName.equals("") || gender != null|| !address.equals("") || !city.equals("") || !id.equals("")){
+        if (!name.equals("") || !lastName.equals("") || gender != null || !address.equals("") || !city.equals("") || !id.equals("")) {
             return filtrados.stream().map(this::clientEntityToDTO).collect(Collectors.toList());
         } else {
             return clientEntityList.stream().map(this::clientEntityToDTO).collect(Collectors.toList());

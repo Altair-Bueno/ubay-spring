@@ -23,6 +23,10 @@ import uma.taw.ubayspring.types.KindEnum;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Service
 public class AuthService implements UserDetailsService {
     @Autowired
@@ -122,7 +126,7 @@ public class AuthService implements UserDetailsService {
             var kind = loginCredentialsEntity.getKind();
             var authorities = List.of(kind);
 
-            return new User(username,password,authorities);
+            return new User(username, password, authorities);
         } else {
             throw new UsernameNotFoundException("Invalid username or password");
         }

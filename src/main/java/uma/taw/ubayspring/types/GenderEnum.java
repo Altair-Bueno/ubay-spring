@@ -1,4 +1,5 @@
 package uma.taw.ubayspring.types;
+
 /**
  * @author Altair Bueno
  */

@@ -6,6 +6,10 @@ import uma.taw.ubayspring.types.GenderEnum;
 import javax.persistence.*;
 import java.sql.Date;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Data
 @Entity
 @Table(name = "client", schema = "public", catalog = "UBAY")

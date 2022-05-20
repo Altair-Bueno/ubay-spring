@@ -5,6 +5,10 @@ import uma.taw.ubayspring.types.KindEnum;
 
 import javax.persistence.*;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Data
 @Entity
 @Table(name = "login_credentials", schema = "public", catalog = "UBAY")

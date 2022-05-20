@@ -86,7 +86,9 @@
             >
             <label for="floatingRepeat">Repetir nueva contraseña</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Cambiar contraseña</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Cambiar
+            contraseña
+        </button>
         <input type="text"
                hidden
                name="<%=AuthKeys.USERNAME_PARAMETER%>"

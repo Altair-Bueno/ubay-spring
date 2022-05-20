@@ -5,6 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Data
 @Entity
 @Table(name = "session", schema = "public", catalog = "UBAY")

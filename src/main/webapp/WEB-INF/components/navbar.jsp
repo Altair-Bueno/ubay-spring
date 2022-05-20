@@ -41,15 +41,18 @@
     }
 %>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+     aria-label="Third navbar example">
     <div class="container-fluid">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}">Ubay</a>
+        <a class="navbar-brand"
+           href="${pageContext.request.contextPath}">Ubay</a>
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
             <%
                 for (String url : urls.keySet()) {
             %>
             <li class="nav-item">
-                <a class="nav-link <%=urls.get(url).equals(currenturl) ? "active" : ""%>" aria-current="page"
+                <a class="nav-link <%=urls.get(url).equals(currenturl) ? "active" : ""%>"
+                   aria-current="page"
                    href="<%=urls.get(url)%>"><%=url%>
                 </a>
             </li>
@@ -58,42 +61,54 @@
             %>
         </ul>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto me-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                    <a class="nav-link dropdown-toggle" href="#"
+                       id="navbarDarkDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <%=username%>
                     </a>
                     <%
                         if (navsesion != null) {
                     %>
-                    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <ul class="dropdown-menu dropdown-menu-end mt-2"
+                        aria-labelledby="navbarDarkDropdownMenuLink">
                         <%
                             if (!((LoginDTO) navsesion).getKind().equals(KindEnum.admin)) {
                         %>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/users/bids">Mis pujas</a>
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/users/bids">Mis
+                            pujas</a>
                         </li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/vendor/bids">Pujas
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/vendor/bids">Pujas
                             recibidas</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/users/products">Productos
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/users/products">Productos
                             favoritos</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/users/notifications">Notificaciones</a>
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/users/notifications">Notificaciones</a>
                         </li>
 
                         <%
                             }
                         %>
 
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/auth/changePassword">Cambiar
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/auth/changePassword">Cambiar
                             mi contraseña</a></li>
                         <li>
-                            <form method="post" action="${pageContext.request.contextPath}/auth/signoff">
-                                <input type="submit" class="dropdown-item" value="Cerrar sesión">
+                            <form method="post"
+                                  action="${pageContext.request.contextPath}/auth/signoff">
+                                <input type="submit" class="dropdown-item"
+                                       value="Cerrar sesión">
                             </form>
                         </li>
                     </ul>
@@ -101,11 +116,14 @@
                     <%
                     } else {
                     %>
-                    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/auth/login">Iniciar
+                    <ul class="dropdown-menu dropdown-menu-end mt-2"
+                        aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item"
+                               href="${pageContext.request.contextPath}/auth/login">Iniciar
                             sesión</a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/auth/register">Registrarse</a></li>
+                               href="${pageContext.request.contextPath}/auth/register">Registrarse</a>
+                        </li>
                     </ul>
                     <%
                         }

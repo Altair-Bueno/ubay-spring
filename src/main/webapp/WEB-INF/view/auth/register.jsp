@@ -34,17 +34,24 @@
 <body class="text-center">
 <main class="form-signin">
     <h1 class="h3 mb-3 fw-normal">Registro en Ubay</h1>
-    <form method="post" action="${pageContext.request.contextPath}/auth/register" class="row g-2">
+    <form method="post"
+          action="${pageContext.request.contextPath}/auth/register"
+          class="row g-2">
         <div class="form-floating col-12">
-            <input id="username" class="form-control" placeholder="Usuario" name="<%=AuthKeys.USERNAME_PARAMETER%>"
-                   type="text" pattern="<%=AuthKeys.USERNAME_REGEX%>" required aria-describedby="usernameHelp">
+            <input id="username" class="form-control" placeholder="Usuario"
+                   name="<%=AuthKeys.USERNAME_PARAMETER%>"
+                   type="text" pattern="<%=AuthKeys.USERNAME_REGEX%>" required
+                   aria-describedby="usernameHelp">
             <label for="username">Usuario</label>
-            <div id="usernameHelp" class="form-text">Entre 3 y 20 caracteres</div>
+            <div id="usernameHelp" class="form-text">Entre 3 y 20 caracteres
+            </div>
 
         </div>
         <div class="form-floating col-12">
-            <input id="password" class="form-control" placeholder="Contraseña" name="<%=AuthKeys.PASSWORD_PARAMETER%>"
-                   type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>" required aria-describedby="passwordHelp">
+            <input id="password" class="form-control" placeholder="Contraseña"
+                   name="<%=AuthKeys.PASSWORD_PARAMETER%>"
+                   type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>"
+                   required aria-describedby="passwordHelp">
             <label for="password">Contraseña</label>
             <div id="passwordHelp" class="form-text">8 caracteres mínimo</div>
         </div>
@@ -89,18 +96,22 @@
         </div>
         <div class="col-md-6">
             <label for="gender" class="form-label">Género</label>
-            <select id="gender" class="form-select" name="<%=AuthKeys.GENDER_PARAMETER%>" required>
+            <select id="gender" class="form-select"
+                    name="<%=AuthKeys.GENDER_PARAMETER%>" required>
                 <% for (GenderEnum gender : GenderEnum.values()) {%>
-                <option value="<%=gender%>"><%=gender%></option>
+                <option value="<%=gender%>"><%=gender%>
+                </option>
                 <%}%>
             </select>
         </div>
         <div class="row-1">
-            <button type="submit" class="btn btn-primary col-6">Crear cuenta</button>
+            <button type="submit" class="btn btn-primary col-6">Crear cuenta
+            </button>
         </div>
     </form>
     <small>
-        <a class="link-primary" href="${pageContext.request.contextPath}/auth/login">
+        <a class="link-primary"
+           href="${pageContext.request.contextPath}/auth/login">
             ¿Tiene ya una cuenta en Ubay?
         </a>
     </small>

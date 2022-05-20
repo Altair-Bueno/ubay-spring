@@ -5,15 +5,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * @author Altair Bueno
+ */
 @SpringBootApplication
 @Controller
-public class Application{
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
     @GetMapping("/dev")
     public void dev() {
         // TODO remove
-    }
-
-    public static void main(String[] args){
-        SpringApplication.run(Application.class, args);
     }
 }

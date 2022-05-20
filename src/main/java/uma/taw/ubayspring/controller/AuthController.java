@@ -14,6 +14,11 @@ import uma.taw.ubayspring.types.GenderEnum;
 
 import java.sql.Date;
 
+
+/**
+ * @author Altair Bueno
+ */
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -31,7 +36,7 @@ public class AuthController {
     @PostMapping("/changePassword")
     public String postChangePassword(@RequestParam String oldPassword, @RequestParam String password, @RequestParam String repeatPassword) throws AuthenticationException {
         var user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        service.changePassword(user,oldPassword,password,repeatPassword);
+        service.changePassword(user, oldPassword, password, repeatPassword);
 
         return "redirect:/";
     }

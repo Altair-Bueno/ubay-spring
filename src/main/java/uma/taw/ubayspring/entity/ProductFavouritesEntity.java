@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+/**
+ * @author Altair Bueno
+ */
+
 @Data
 @Entity
 @Table(name = "product_favourites", schema = "public", catalog = "UBAY")

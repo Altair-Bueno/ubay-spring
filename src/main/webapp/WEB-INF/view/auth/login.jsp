@@ -84,10 +84,13 @@
             >
             <label for="floatingPassword">Contraseña</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar
+            sesión
+        </button>
     </form>
     <small>
-        <a class="link-primary" href="${pageContext.request.contextPath}/auth/register">
+        <a class="link-primary"
+           href="${pageContext.request.contextPath}/auth/register">
             Crear una cuenta
         </a>
     </small>

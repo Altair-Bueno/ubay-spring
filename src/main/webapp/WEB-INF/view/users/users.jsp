@@ -20,24 +20,37 @@
 <div>
     <div class="container">
         <h1>Buscar usuarios</h1>
-        <a class="btn btn-primary" href="${pageContext.request.contextPath}/auth/register" role="button">Registrar
+        <a class="btn btn-primary"
+           href="${pageContext.request.contextPath}/auth/register"
+           role="button">Registrar
             a un usuario nuevo</a>
         <div class="row">
             <div class="col-3">
                 <form>
                     <div class="form col">
-                        ID: <input type="number" class="form-control" id="id" name="id" maxlength="5">
-                        Nombre: <input type="text" class="form-control" id="name" name="name" maxlength="10">
-                        Apellidos: <input type="text" class="form-control" id="lastName" name="lastName" maxlength="10">
-                        Dirección: <input type="text" class="form-control" id="address" name="address" maxlength="15">
-                        Ciudad: <input type="text" class="form-control" id="city" name="city" aria-describedby="city" maxlength="10">
-                        Género: <select class="form-select" id="gender" name="gender">
+                        ID: <input type="number" class="form-control" id="id"
+                                   name="id" maxlength="5">
+                        Nombre: <input type="text" class="form-control"
+                                       id="name" name="name" maxlength="10">
+                        Apellidos: <input type="text" class="form-control"
+                                          id="lastName" name="lastName"
+                                          maxlength="10">
+                        Dirección: <input type="text" class="form-control"
+                                          id="address" name="address"
+                                          maxlength="15">
+                        Ciudad: <input type="text" class="form-control"
+                                       id="city" name="city"
+                                       aria-describedby="city" maxlength="10">
+                        Género: <select class="form-select" id="gender"
+                                        name="gender">
                         <option selected value="--">--</option>
                         <option value="male">Masculino</option>
                         <option value="female">Femenino</option>
                         <option value="other">Otro</option>
                     </select>
-                        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+                        <button type="submit" class="btn btn-primary mt-2">
+                            Buscar
+                        </button>
                     </div>
                 </form>
             </div>
@@ -60,10 +73,10 @@
                     </thead>
                     <tbody>
                     <%
-                        List<ClientDTO> searchClient = (List<ClientDTO>)request.getAttribute("search-user");
+                        List<ClientDTO> searchClient = (List<ClientDTO>) request.getAttribute("search-user");
 
-                        if(searchClient != null){
-                            for(ClientDTO c : searchClient){
+                        if (searchClient != null) {
+                            for (ClientDTO c : searchClient) {
 
                     %>
                     <tr>
@@ -82,14 +95,18 @@
                         <td><%=c.getBirthDate()%>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                               data-bs-target="#deleteModal">Eliminar usuario</button>
+                            <button type="button" class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">Eliminar
+                                usuario
+                            </button>
                         </td>
 
                         <td>
                             <a href="modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">Modificar
                                 usuario</a></td>
-                        <td><a href="passwordChangeLink?id=<%=c.getId()%>">Reestablecer contraseña</a></td>
+                        <td><a href="passwordChangeLink?id=<%=c.getId()%>">Reestablecer
+                            contraseña</a></td>
                     </tr>
                     <%
                             }
@@ -99,23 +116,32 @@
                 </table>
 
                 <!-- Delete Modal -->
-                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                <div class="modal fade" id="deleteModal"
+                     data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1"
                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Eliminar usuario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                <h5 class="modal-title"
+                                    id="staticBackdropLabel">Eliminar
+                                    usuario</h5>
+                                <button type="button" class="btn-close"
+                                        data-bs-dismiss="modal"
                                         aria-label="Cerrar"></button>
                             </div>
                             <div class="modal-body">
                                 ¿Está seguro de que quiere eliminar el usuario?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <form method="post" action="${pageContext.request.contextPath}/users/delete">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <form method="post"
+                                      action="${pageContext.request.contextPath}/users/delete">
                                     <input type='hidden' name='id' value="10"/>
-                                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                                    <input class="btn btn-danger" type="submit"
+                                           value="Eliminar">
                                 </form>
                             </div>
                         </div>

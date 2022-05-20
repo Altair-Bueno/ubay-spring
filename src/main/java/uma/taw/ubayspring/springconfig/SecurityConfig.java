@@ -16,7 +16,7 @@ import uma.taw.ubayspring.keys.AuthKeys;
  * (by default it's disabled, or else
  * a sign in will always pop-up)
  *
- * @author Francisco Javier Hernández Martín
+ * @author Altair Bueno 90 Francisco Javier Hernández Martín 10
  */
 @Configuration
 @EnableWebSecurity
