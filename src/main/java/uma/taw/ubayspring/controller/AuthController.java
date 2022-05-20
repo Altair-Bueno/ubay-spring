@@ -44,7 +44,7 @@ public class AuthController {
     public String postRegister(@RequestParam String username, @RequestParam String password, @RequestParam String repeatPassword, @RequestParam String name, @RequestParam String lastName, @RequestParam String address, @RequestParam String city, @RequestParam GenderEnum gender, @RequestParam Date birthDate) throws AuthenticationException {
         service.register(username, password, repeatPassword, name, lastName, address, city, gender, birthDate);
 
-        return "redirect:/";
+        return "redirect:/auth/login";
     }
 
     @GetMapping("/resetPassword")
