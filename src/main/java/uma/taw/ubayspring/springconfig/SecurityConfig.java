@@ -34,15 +34,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity security) throws Exception {
         security
-                .authorizeHttpRequests()
-                .antMatchers("/dev").authenticated()
+                .authorizeRequests()
+
+                .antMatchers("/auth/changePassword").authenticated().and()
+
+                .logout()
+                .logoutUrl("/auth/signoff")
                 .and()
-                .logout().logoutUrl("/auth/signoff")
-                .and()
+
                 .formLogin()
                 .loginPage("/auth/login")
-                .loginProcessingUrl("/auth/login")
                 .usernameParameter(AuthKeys.USERNAME_PARAMETER)
-                .passwordParameter(AuthKeys.PASSWORD_PARAMETER);
+                .passwordParameter(AuthKeys.PASSWORD_PARAMETER)
+                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/auth/login");
     }
 }
