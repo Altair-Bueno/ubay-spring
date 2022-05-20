@@ -26,4 +26,14 @@ public class LoginCredentialsEntity {
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = true)
     private ClientEntity client;
+
+    public LoginCredentialsEntity() {
+    }
+
+    public LoginCredentialsEntity(String username, String password, KindEnum kind, ClientEntity client) {
+        this.username = username;
+        this.password = password;
+        this.kind = kind;
+        this.client = client;
+    }
 }

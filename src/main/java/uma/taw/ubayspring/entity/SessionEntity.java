@@ -24,4 +24,13 @@ public class SessionEntity {
     @ManyToOne
     @JoinColumn(name = "login_id", nullable = false)
     private LoginCredentialsEntity loginCredentials;
+
+    public SessionEntity() {
+    }
+
+    public SessionEntity(Timestamp startDate, Timestamp finishDate, LoginCredentialsEntity loginCredentials) {
+        this.startDate = startDate;
+        this.finishDate = finishDate;
+        this.loginCredentials = loginCredentials;
+    }
 }

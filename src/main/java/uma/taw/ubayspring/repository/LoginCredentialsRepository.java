@@ -8,4 +8,5 @@ import uma.taw.ubayspring.entity.LoginCredentialsEntity;
  */
 
 public interface LoginCredentialsRepository extends PagingAndSortingRepository<LoginCredentialsEntity, Integer> {
+    LoginCredentialsEntity findLoginCredentialsEntityByUsername(String username);
 }
