@@ -2,7 +2,10 @@ package uma.taw.ubayspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.exception.AuthenticationException;
 import uma.taw.ubayspring.service.AuthService;
@@ -18,13 +21,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public void getLogin() {
-    }
-
-    @PostMapping("/login")
-    public String postLogin(@RequestParam String username, @RequestParam String password) throws AuthenticationException {
-        var loginDTO = service.login(username, password);
-        // TODO hacer algo con el logindto
-        return "redirect:/";
     }
 
     @GetMapping("/changePassword")
@@ -59,11 +55,5 @@ public class AuthController {
     public String postResetPassword(@RequestParam String username, @RequestParam String requestID, @RequestParam String newPassword, @RequestParam String repeatPassword) throws AuthenticationException {
         service.resetPassword(username, requestID, newPassword, repeatPassword);
         return "redirect:/";
-    }
-
-    @PostMapping("/signoff")
-    public String postSignoff(@RequestHeader(defaultValue = "/") String referer) {
-        // TODO close session
-        return "redirect:" + referer;
     }
 }
