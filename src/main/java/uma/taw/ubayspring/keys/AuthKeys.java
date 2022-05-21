@@ -11,10 +11,6 @@ public class AuthKeys {
     //public final static String USERNAME_REGEX = "^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$";
 
     public final static String PASSWORD_REGEX = ".{8,}";
-
-    public final static String INDEX_REDIRECT = "/";
-    public final static String LOGIN_REDIRECT = "/auth/login.jsp";
-
     public final static String USERNAME_PARAMETER = "username";
     public final static String PASSWORD_PARAMETER = "password";
     public static final String NAME_PARAMETER = "name";
