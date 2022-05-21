@@ -59,6 +59,11 @@
 </style>
 <body class="text-center">
 <main class="form-signin">
+    <% if (request.getParameter("error") != null) { %>
+        <div class="alert alert-danger" role="alert">
+            Error: Usuario y/o contraseña no encontrados
+        </div>
+    <%}%>
     <form method="post" action="${pageContext.request.contextPath}/auth/login">
         <%--        <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">--%>
         <h1 class="h3 mb-3 fw-normal">Por favor, inicie sesión</h1>
