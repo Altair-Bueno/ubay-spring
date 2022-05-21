@@ -1,8 +1,11 @@
-<%@ page import="uma.taw.ubay.SessionKeys" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
-<%@ page import="uma.taw.ubay.entity.KindEnum" %>
-<%@ page import="uma.taw.ubay.dto.LoginDTO" %>
+<%@ page import="uma.taw.ubayspring.types.KindEnum" %>
+<%@ page import="org.springframework.security.core.userdetails.User" %>
+<%@ page
+        import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
 <%--
   Author: Francisco Javier Hernández
   Date: 30/3/22
@@ -24,20 +27,25 @@
 </style>
 
 <%
-    Object navsesion = session.getAttribute(SessionKeys.LOGIN_DTO);
-    String username = navsesion == null ? "Usuario nuevo" : ((LoginDTO) navsesion).getUsername();
-    Object currentURLObject = request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
-    String currenturl = currentURLObject == null ? request.getRequestURI() : currentURLObject.toString();
-    if (currenturl.charAt(currenturl.length() - 1) == '/')
-        currenturl = currenturl.substring(0, currenturl.length() - 1);
+    Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+    Object principal = authentication.getPrincipal();
 
-    Map<String, String> urls = new LinkedHashMap<>();
-    urls.put("Productos", request.getContextPath() + "/product");
-    if (navsesion != null) {
-        urls.put("Categorías", request.getContextPath() + "/categories");
-        if (((LoginDTO) navsesion).getKind().equals(KindEnum.admin)) {
-            urls.put("Usuarios", request.getContextPath() + "/users");
-        }
+    boolean isAuthenticated = false;
+    String username;
+
+    if (principal instanceof UserDetails) {
+        isAuthenticated = true;
+        username = ((UserDetails)principal).getUsername();
+    } else {
+        username = principal.toString();
+    }
+
+    Map<String, String> navbar = new LinkedHashMap<>();
+    navbar.put("Productos", "/product");
+    if (isAuthenticated) {
+        navbar.put("Categorías", "/categories");
+        if (((UserDetails) principal).getAuthorities().contains(KindEnum.admin))
+            navbar.put("Usuarios", "/users");
     }
 %>
 
@@ -47,18 +55,17 @@
         <a class="navbar-brand"
            href="${pageContext.request.contextPath}">Ubay</a>
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <% for (String name : navbar.keySet()) { %>
             <%
-                for (String url : urls.keySet()) {
+                String route = navbar.get(name);
             %>
             <li class="nav-item">
-                <a class="nav-link <%=urls.get(url).equals(currenturl) ? "active" : ""%>"
+                <a class="nav-link <%=route.equals(request.getRequestURI()) ? "active" : ""%>"
                    aria-current="page"
-                   href="<%=urls.get(url)%>"><%=url%>
+                   href="<%=route%>"><%=name%>
                 </a>
             </li>
-            <%
-                }
-            %>
+            <%}%>
         </ul>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -76,13 +83,11 @@
                         <%=username%>
                     </a>
                     <%
-                        if (navsesion != null) {
+                        if (isAuthenticated) {
                     %>
                     <ul class="dropdown-menu dropdown-menu-end mt-2"
                         aria-labelledby="navbarDarkDropdownMenuLink">
-                        <%
-                            if (!((LoginDTO) navsesion).getKind().equals(KindEnum.admin)) {
-                        %>
+                        <% if (authentication.getAuthorities().contains(KindEnum.client)) { %>
                         <li><a class="dropdown-item"
                                href="${pageContext.request.contextPath}/users/bids">Mis
                             pujas</a>
@@ -97,9 +102,7 @@
                                href="${pageContext.request.contextPath}/users/notifications">Notificaciones</a>
                         </li>
 
-                        <%
-                            }
-                        %>
+                        <% } %>
 
                         <li><a class="dropdown-item"
                                href="${pageContext.request.contextPath}/auth/changePassword">Cambiar
@@ -113,9 +116,7 @@
                         </li>
                     </ul>
 
-                    <%
-                    } else {
-                    %>
+                    <% } else { %>
                     <ul class="dropdown-menu dropdown-menu-end mt-2"
                         aria-labelledby="navbarDarkDropdownMenuLink">
                         <li><a class="dropdown-item"
@@ -125,9 +126,7 @@
                                href="${pageContext.request.contextPath}/auth/register">Registrarse</a>
                         </li>
                     </ul>
-                    <%
-                        }
-                    %>
+                    <% } %>
                 </li>
             </ul>
         </div>
