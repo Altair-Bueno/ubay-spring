@@ -4,19 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uma.taw.ubayspring.dto.users.ClientDTO;
 import uma.taw.ubayspring.service.UsersService;
+import uma.taw.ubayspring.types.GenderEnum;
 
+import java.sql.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/users")
 public class Users {
 
     @Autowired
     UsersService usersService;
 
-    @GetMapping("/users")
+    @GetMapping("")
     public String client(Model model,
                          @RequestParam(defaultValue = "") String id,
                          @RequestParam(defaultValue = "") String name,
@@ -31,9 +35,21 @@ public class Users {
         return "users/users";
     }
 
-    @GetMapping("/users/delete")
+    @GetMapping("/delete")
     public String delete(@RequestParam String id) {
         usersService.deleteUser(id);
-        return "users/delete";
+        return "redirect:";
+    }
+
+    @GetMapping("modify")
+    public String modify(@RequestParam String id,
+                         @RequestParam String name,
+                         @RequestParam String lastName,
+                         @RequestParam GenderEnum gender,
+                         @RequestParam String address,
+                         @RequestParam String city,
+                         @RequestParam Date birthDate){
+        usersService.modifyUser(id, name, lastName, gender, address, city, birthDate);
+        return "users/modify";
     }
 }
