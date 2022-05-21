@@ -48,8 +48,15 @@ public class Users {
                          @RequestParam GenderEnum gender,
                          @RequestParam String address,
                          @RequestParam String city,
-                         @RequestParam Date birthDate){
+                         @RequestParam Date birthDate,
+                         @RequestParam (defaultValue = "") String edited){
         usersService.modifyUser(id, name, lastName, gender, address, city, birthDate);
-        return "users/modify";
+
+        if (edited.equals("")) {
+            return "users/modify";
+        } else {
+            usersService.modifyUser(id, name, lastName, gender, address, city, birthDate);
+            return "redirect:";
+        }
     }
 }
