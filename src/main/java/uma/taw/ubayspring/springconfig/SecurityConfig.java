@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import uma.taw.ubayspring.keys.AuthKeys;
+import uma.taw.ubayspring.types.KindEnum;
 
 /**
  * Configures the security on the system
@@ -33,15 +34,63 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
-        security.authorizeRequests()
-                .antMatchers("/auth/changePassword").authenticated().and()
+        var requiresAuthentication = new String[]{
+                "/admin/*",
+                "/users/*",
+                "/vendor/*",
+                "/categories/*",
+                "/product/new",
+                "/product/update",
+                "/product/delete",
+                "/auth/changePassword"
+        };
+        var requiresClientRole = new String[] {
+                "/product/new",
+                "/users/addFavourite",
+                "/users/deleteFavourite",
+                "users/notifications",
+                "/users/products",
+                "/users/bids/*",
+                "/categories/addFavourite",
+                "/categories/addFavourite",
+                "/categories/deleteFavourite",
+                "/vendor/bids/*"
+        };
+        var requiresAdminRole = new String[]{
+                "/admin/*",
+                "/categories/new",
+                "/categories/update",
+                "/categories/delete",
+                "/users",
+                "/users/new",
+                "/users/update",
+                "/users/modify",
+                "/users/delete",
+                "/users/passwordChangeLink"
+        };
+
+        security
+                .csrf().disable()
+
+                .authorizeRequests()
+                .antMatchers(requiresAuthentication)
+                .authenticated()
+                .and()
+
+                .authorizeRequests()
+                .antMatchers(requiresClientRole)
+                .hasAuthority(KindEnum.client.toString())
+                .and()
+
+                .authorizeRequests()
+                .antMatchers(requiresAdminRole)
+                .hasAuthority(KindEnum.admin.toString())
+                .and()
 
                 .logout()
                 .logoutUrl("/auth/signoff")
                 .logoutSuccessUrl("/")
                 .and()
-
-                .csrf().disable()
 
                 .formLogin()
                 .loginPage("/auth/login")
