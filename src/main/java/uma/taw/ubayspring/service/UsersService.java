@@ -1,12 +1,14 @@
 package uma.taw.ubayspring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.users.ClientDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
 import uma.taw.ubayspring.entity.ProductFavouritesEntity;
+import uma.taw.ubayspring.entity.ProductFavouritesEntityPK;
 import uma.taw.ubayspring.repository.*;
 import uma.taw.ubayspring.types.GenderEnum;
 
@@ -32,8 +34,8 @@ public class UsersService {
     @Autowired
     LoginCredentialsRepository loginRepository;
 
-    //@Autowired
-    //AuthService authService;
+    @Autowired
+    AuthService authService;
 
     @Autowired
     BidRepository bidRepository;
@@ -41,11 +43,22 @@ public class UsersService {
     @Autowired
     PasswordResetRepository passwordResetRepository;
 
+    @Autowired
+    FavouritesRepositoryCustom favouritesRepositoryCustom;
+
     public void addFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
         ProductFavouritesEntity fav = new ProductFavouritesEntity();
+
+        /**
+        ProductFavouritesEntityPK favPK = new ProductFavouritesEntityPK();
+        favPK.setProduct(product.getId());
+        favPK.setClient(client.getId());
+         **/
+
+        //fav.setKey(favPK);
         fav.setProduct(product);
         fav.setClient(client);
         favouritesRepository.save(fav);
@@ -53,22 +66,19 @@ public class UsersService {
 
 
     public void deleteUser(String id) {
-        ClientEntity client = clientRepository.findById(Integer.parseInt(id)).isPresent() ? clientRepository.findById(Integer.parseInt(id)).get() : null;
-        clientRepository.delete(client);
+        if(clientRepository.findById(Integer.parseInt(id)).isPresent()){
+            clientRepository.delete(clientRepository.findById(Integer.parseInt(id)).get());
+        }
     }
 
 
-    /* TODO: No se como enganchar el getTuple...
     public void deleteFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
-        ProductFavouritesEntity fav = favouritesRepository.getTuple(client, product);
+        ProductFavouritesEntity fav = favouritesRepositoryCustom.getTuple(client, product);
         favouritesRepository.delete(fav);
     }
-
-     */
-
     public void modifyUser(String id, String name, String lastName, GenderEnum gender, String address, String city, Date birthDate) {
         ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
         client.setName(name);
@@ -81,15 +91,13 @@ public class UsersService {
     }
 
 
-    /*
-    public List<ProductDTO> products(LoginDTO client) {
-        ClientEntity user = authService.getCredentialsEntity(client).getUser();
+    public List<ProductDTO> products(User client) {
+        ClientEntity user = authService.getCredentialsEntity(client).getClient();
 
-        List<ProductDTO> favouriteProducts = favouritesRepository.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
+        List<ProductDTO> favouriteProducts = favouritesRepositoryCustom.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
         return favouriteProducts;
     }
 
-    */
 
     private ProductDTO productEntityToDTO(ProductEntity productEntity) {
         return new ProductDTO(productEntity.getId(),
@@ -110,11 +118,11 @@ public class UsersService {
 
      */
 
-    /*
-    public int getClientID(LoginDTO login) {
-        return authService.getCredentialsEntity(login).getUser().getId();
+
+    public int getClientID(User user) {
+        return authService.getCredentialsEntity(user).getClient().getId();
     }
-    */
+
 
 
     /*
