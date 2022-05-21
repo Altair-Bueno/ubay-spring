@@ -1,12 +1,15 @@
 package uma.taw.ubayspring.controller.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.types.GenderEnum;
 
@@ -15,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/users")
-public class Users {
+public class UsersController {
 
     @Autowired
     UsersService usersService;
@@ -41,7 +44,7 @@ public class Users {
         return "redirect:";
     }
 
-    @GetMapping("modify")
+    @GetMapping("/modify")
     public String modify(@RequestParam String id,
                          @RequestParam String name,
                          @RequestParam String lastName,
@@ -59,4 +62,30 @@ public class Users {
             return "redirect:";
         }
     }
+
+    @GetMapping("/addFavourite")
+    public String addFavourite(@RequestParam String productID, @RequestParam String clientID){
+        usersService.addFavProduct(productID, clientID);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/deleteFavourite")
+    public String deleteFavourite(@RequestParam String productID, @RequestParam String clientID){
+        usersService.deleteFavProduct(productID, clientID);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/products")
+    public String products(Model model){
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        List<ProductDTO> favouriteProducts = usersService.products(user);
+
+
+        model.addAttribute("clientID", usersService.getClientID(user));
+        model.addAttribute("favourite-products-list", favouriteProducts);
+
+        return "users/products";
+    }
+
+
 }

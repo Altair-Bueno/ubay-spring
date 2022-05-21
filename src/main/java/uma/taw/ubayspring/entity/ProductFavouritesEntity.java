@@ -11,14 +11,17 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "product_favourites", schema = "public", catalog = "UBAY")
-@IdClass(ProductFavouritesEntityPK.class)
 public class ProductFavouritesEntity {
-    @Id
-    @ManyToOne
-    @Column(name = "product_id", nullable = false)
+    @EmbeddedId
+    ProductFavouritesEntityPK key = new ProductFavouritesEntityPK();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("product")
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
-    @Id
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("client")
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity client;
 }
