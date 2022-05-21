@@ -1,6 +1,5 @@
 package uma.taw.ubayspring.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,10 +10,10 @@ import java.util.Objects;
 
 @Embeddable
 public class ProductFavouritesEntityPK implements Serializable {
-    @Column(name = "product_id", nullable = false)
+    //@Column(name = "product_id", nullable = false)
     private Integer product;
 
-    @Column(name = "client_id", nullable = false)
+    //@Column(name = "client_id", nullable = false)
     private Integer client;
 
     public int getProduct() {
