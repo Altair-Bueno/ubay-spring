@@ -4,7 +4,7 @@ package uma.taw.ubayspring.exception;
  * @author Altair Bueno
  */
 
-public class AuthenticationException extends Exception {
+public class AuthenticationException extends UbayException {
     public AuthenticationException() {
     }
 
