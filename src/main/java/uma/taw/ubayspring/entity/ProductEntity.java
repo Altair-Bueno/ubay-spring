@@ -1,16 +1,14 @@
 package uma.taw.ubayspring.entity;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * @author Altair Bueno
  */
 
-@Data
 @Entity
 @Table(name = "product", schema = "public", catalog = "UBAY")
 public class ProductEntity {
@@ -42,4 +40,89 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private ClientEntity categoryId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductEntity)) return false;
+        ProductEntity that = (ProductEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(outPrice, that.outPrice) && Objects.equals(image, that.image) && Objects.equals(closeDate, that.closeDate) && Objects.equals(publishDate, that.publishDate) && Objects.equals(vendedor, that.vendedor) && Objects.equals(categoryId, that.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, outPrice, image, closeDate, publishDate, vendedor, categoryId);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getOutPrice() {
+        return outPrice;
+    }
+
+    public void setOutPrice(Double outPrice) {
+        this.outPrice = outPrice;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Date getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    public Timestamp getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Timestamp publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public ClientEntity getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(ClientEntity vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public ClientEntity getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(ClientEntity categoryId) {
+        this.categoryId = categoryId;
+    }
 }
