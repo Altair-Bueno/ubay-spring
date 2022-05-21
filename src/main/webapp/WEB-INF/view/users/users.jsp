@@ -23,7 +23,7 @@
     <title>Ubay | Usuarios</title>
 </head>
 <body>
-<%-- <%@include file="../WEB-INF/components/navbar.jsp" %>--%>
+<%@jsp:include file="../../components/navbar.jsp"%>
 <div>
     <div class="container">
         <h1>Buscar usuarios</h1>

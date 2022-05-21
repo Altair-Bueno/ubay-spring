@@ -15,7 +15,7 @@
     <title>Ubay | Modificar usuario</title>
 </head>
 <body>
-<%-- <%@include file="../WEB-INF/components/navbar.jsp" %> --%>
+<%-- <%@jsp:include file="../../components/navbar.jsp"%> --%>
 
 <div class="d-flex flex-column align-items-center">
     <div>
