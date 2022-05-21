@@ -11,7 +11,8 @@ import java.util.Objects;
 @Table(name = "category", schema = "public", catalog = "UBAY")
 public class CategoryEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_generator")
+    @SequenceGenerator(name = "category_id_generator", sequenceName = "category_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic

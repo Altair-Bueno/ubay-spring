@@ -14,7 +14,8 @@ import java.util.Objects;
 @Table(name = "client", schema = "public", catalog = "UBAY")
 public class ClientEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_generator")
+    @SequenceGenerator(name = "client_id_generator", sequenceName = "client_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic

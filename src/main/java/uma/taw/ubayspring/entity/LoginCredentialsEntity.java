@@ -13,7 +13,8 @@ import java.util.Objects;
 @Table(name = "login_credentials", schema = "public", catalog = "UBAY")
 public class LoginCredentialsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "login_credentials_id_generator")
+    @SequenceGenerator(name = "login_credentials_id_generator", sequenceName = "login_credentials_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic

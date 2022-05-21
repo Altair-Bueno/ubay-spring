@@ -12,7 +12,8 @@ import java.util.Objects;
 @Table(name = "session", schema = "public", catalog = "UBAY")
 @IdClass(SessionEntityPK.class)
 public class SessionEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session_id_generator")
+    @SequenceGenerator(name = "session_id_generator", sequenceName = "session_id_seq", allocationSize = 1)
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
