@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.types.GenderEnum;
@@ -66,13 +67,13 @@ public class UsersController {
     @GetMapping("/addFavourite")
     public String addFavourite(@RequestParam String productID, @RequestParam String clientID){
         usersService.addFavProduct(productID, clientID);
-        return "redirect:/products";
+        return "redirect:products";
     }
 
     @GetMapping("/deleteFavourite")
     public String deleteFavourite(@RequestParam String productID, @RequestParam String clientID){
         usersService.deleteFavProduct(productID, clientID);
-        return "redirect:/products";
+        return "redirect:products";
     }
 
     @GetMapping("/products")
@@ -85,6 +86,16 @@ public class UsersController {
         model.addAttribute("favourite-products-list", favouriteProducts);
 
         return "users/products";
+    }
+
+    @GetMapping("/passwordChangeLink")
+    public String passwordChangeLink(Model model, @RequestParam String id){
+        PasswordChangeDTO passwordChangeDTO = usersService.passwordChange(id);
+
+        model.addAttribute("passwordChangeID", passwordChangeDTO.getPasswordChangeID());
+        model.addAttribute("username", passwordChangeDTO.getUsername());
+
+        return "users/passwordChange";
     }
 
 

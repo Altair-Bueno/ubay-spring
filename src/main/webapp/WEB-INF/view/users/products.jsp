@@ -16,7 +16,7 @@
     <title>Ubay | Productos favoritos</title>
 </head>
 <body>
-<%-- <%@jsp:include file="../../components/navbar.jsp"%> --%>
+<jsp:include page="../../components/navbar.jsp"/>
 <div class="container mt-4">
     <div class="row">
         <h1>Productos favoritos</h1>

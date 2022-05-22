@@ -1,14 +1,13 @@
 package uma.taw.ubayspring.service;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
-import uma.taw.ubayspring.entity.ClientEntity;
-import uma.taw.ubayspring.entity.ProductEntity;
-import uma.taw.ubayspring.entity.ProductFavouritesEntity;
-import uma.taw.ubayspring.entity.ProductFavouritesEntityPK;
+import uma.taw.ubayspring.entity.*;
 import uma.taw.ubayspring.repository.*;
 import uma.taw.ubayspring.types.GenderEnum;
 
@@ -35,6 +34,9 @@ public class UsersService {
     LoginCredentialsRepository loginRepository;
 
     @Autowired
+    LoginCredentialsRepositoryCustom loginRepositoryCustom;
+
+    @Autowired
     AuthService authService;
 
     @Autowired
@@ -52,13 +54,6 @@ public class UsersService {
 
         ProductFavouritesEntity fav = new ProductFavouritesEntity();
 
-        /**
-        ProductFavouritesEntityPK favPK = new ProductFavouritesEntityPK();
-        favPK.setProduct(product.getId());
-        favPK.setClient(client.getId());
-         **/
-
-        //fav.setKey(favPK);
         fav.setProduct(product);
         fav.setClient(client);
         favouritesRepository.save(fav);
@@ -178,20 +173,23 @@ public class UsersService {
         }
         return sb.toString();
     }
-    /*
+
     @NotNull
     public PasswordChangeDTO passwordChange(String id) {
         String passwordChangeID = generateRandomString(20, new Random());
-        ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
-        LoginCredentialsEntity loginCredentialsEntity = loginRepository.searchClientLoginByClient(client);
 
-        PasswordResetEntity passwordResetEntity = new PasswordResetEntity();
-        passwordResetEntity.setUser(loginCredentialsEntity);
-        passwordResetEntity.setRequestId(passwordChangeID);
-        passwordResetRepository.create(passwordResetEntity);
+        if(clientRepository.findById(Integer.parseInt(id)).isPresent()){
+            ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
+            LoginCredentialsEntity loginCredentialsEntity = loginRepositoryCustom.searchClientLoginByClient(client);
 
-        return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
+
+            PasswordResetEntity passwordResetEntity = new PasswordResetEntity();
+            passwordResetEntity.setLoginCredentials(loginCredentialsEntity);
+            passwordResetEntity.setRequestId(passwordChangeID);
+            passwordResetRepository.save(passwordResetEntity);
+
+            return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
+        }
+        return null;
     }
-
-     */
 }
