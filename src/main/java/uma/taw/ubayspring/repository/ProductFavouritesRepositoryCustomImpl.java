@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Repository
-public class ProductFavouritesRepositoryCustomImpl {
+public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesRepositoryCustom{
 
     @PersistenceContext
     private EntityManager em;
