@@ -99,7 +99,7 @@ public class AuthService implements UserDetailsService {
             throw new AuthenticationException("Invalid password format");
 
         var loginCredentialsEntity = loginCredentialsRepository.findLoginCredentialsEntityByUsername(username);
-        var passwordResetEntityOptional = passwordResetRepository.findById(new PasswordResetEntityPK(loginCredentialsEntity, requestID));
+        var passwordResetEntityOptional = passwordResetRepository.findById(new PasswordResetEntityPK(loginCredentialsEntity.getId(), requestID));
 
         if (passwordResetEntityOptional.isEmpty()) {
             throw new AuthenticationException("Request not found");
