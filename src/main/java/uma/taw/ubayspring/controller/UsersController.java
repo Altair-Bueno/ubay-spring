@@ -1,4 +1,4 @@
-package uma.taw.ubayspring.controller.users;
+package uma.taw.ubayspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

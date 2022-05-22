@@ -48,6 +48,12 @@ public class UsersService {
     @Autowired
     FavouritesRepositoryCustom favouritesRepositoryCustom;
 
+    @Autowired
+    ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
+
+    @Autowired
+    ProductFavouritesRepository productFavouritesRepository;
+
     public void addFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
@@ -71,8 +77,8 @@ public class UsersService {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
-        ProductFavouritesEntity fav = favouritesRepositoryCustom.getTuple(client, product);
-        favouritesRepository.delete(fav);
+        ProductFavouritesEntity fav = productFavouritesRepositoryCustom.getTuple(client, product);
+        productFavouritesRepository.delete(fav);
     }
     public void modifyUser(String id, String name, String lastName, GenderEnum gender, String address, String city, Date birthDate) {
         ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
@@ -89,7 +95,7 @@ public class UsersService {
     public List<ProductDTO> products(User client) {
         ClientEntity user = authService.getCredentialsEntity(client).getClient();
 
-        List<ProductDTO> favouriteProducts = favouritesRepositoryCustom.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
+        List<ProductDTO> favouriteProducts = productFavouritesRepositoryCustom.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
         return favouriteProducts;
     }
 
