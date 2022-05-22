@@ -1,5 +1,6 @@
 package uma.taw.ubayspring.repository;
 
+import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
@@ -13,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Repository
 public class ProductFavouritesRepositoryCustomImpl {
 
-    @PersistenceContext(unitName = "default")
+    @PersistenceContext
     private EntityManager em;
 
     /**

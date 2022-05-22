@@ -48,7 +48,7 @@ public class UsersService {
     @Autowired
     FavouritesRepositoryCustom favouritesRepositoryCustom;
 
-    @Autowired
+    //@Autowired // TODO application crash
     ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
 
     @Autowired

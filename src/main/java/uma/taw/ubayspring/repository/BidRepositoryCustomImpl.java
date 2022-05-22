@@ -1,19 +1,21 @@
 package uma.taw.ubayspring.repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.*;
+import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.BidEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Repository
 public class BidRepositoryCustomImpl implements BidRepositoryCustom{
-    @PersistenceContext(unitName = "default")
+    @PersistenceContext
     private EntityManager em;
 
     public Stream<BidEntity> getFilteredBidsFromVendor(ClientEntity vendor, int page, Date startDate, Date endDate, String productTitle, String clientName, String orderBy, boolean asc) {

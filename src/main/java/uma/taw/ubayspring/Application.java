@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * @author Altair Bueno
  */
-@SpringBootApplication(scanBasePackages = {"uma.taw.ubayspring.repository"})
+@SpringBootApplication
 @Controller
 public class Application {
     public static void main(String[] args) {

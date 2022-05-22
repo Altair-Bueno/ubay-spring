@@ -2,7 +2,6 @@ package uma.taw.ubayspring.springconfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,11 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
     @Autowired
     PasswordEncoder bCryptPasswordEncoder;
+/*
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
+*/
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
@@ -73,18 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers(requiresAuthentication)
-                .authenticated()
-                .and()
-
-                .authorizeRequests()
-                .antMatchers(requiresClientRole)
-                .hasAuthority(KindEnum.client.toString())
-                .and()
-
-                .authorizeRequests()
-                .antMatchers(requiresAdminRole)
-                .hasAuthority(KindEnum.admin.toString())
+                .antMatchers(requiresAuthentication).authenticated()
+                .antMatchers(requiresClientRole).hasAuthority(KindEnum.client.toString())
+                .antMatchers(requiresAdminRole).hasAuthority(KindEnum.admin.toString())
+                .anyRequest().permitAll()
                 .and()
 
                 .logout()

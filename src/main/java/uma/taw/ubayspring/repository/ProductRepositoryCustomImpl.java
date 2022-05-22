@@ -1,11 +1,11 @@
 package uma.taw.ubayspring.repository;
 
+import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
 import uma.taw.ubayspring.keys.ProductKeys;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Repository
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 
     @PersistenceContext

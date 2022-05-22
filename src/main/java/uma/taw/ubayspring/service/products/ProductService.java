@@ -1,24 +1,22 @@
 package uma.taw.ubayspring.service.products;
 
-import io.minio.errors.*;
+import com.jlefebure.spring.boot.minio.MinioException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.products.*;
 import uma.taw.ubayspring.entity.*;
-import uma.taw.ubayspring.service.AuthService;
-import uma.taw.ubayspring.service.MinioService;
-import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.repository.*;
+import uma.taw.ubayspring.service.AuthService;
+import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.types.KindEnum;
+import uma.taw.ubayspring.wrapper.MinioWrapperService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ public class ProductService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @Autowired
+    //@Autowired // TODO crash
     ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
 
     @Autowired
@@ -57,7 +55,7 @@ public class ProductService {
     LoginCredentialsRepository loginCredentialsRepository;
 
     @Autowired
-    MinioService minioService;
+    MinioWrapperService minioWrapperService;
 
     @Autowired
     AuthService authService;
@@ -182,11 +180,11 @@ public class ProductService {
         return new ProductClientDTO(credentials.getClient().getId(), credentials.getKind());
     }
 
-    public void deleteProduct(int id) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public void deleteProduct(int id) throws MinioException {
         ProductEntity p = productRepository.findById(id).get();
 
         if (p.getImage() != null) {
-            minioService.removeObject(p.getImage());
+            minioWrapperService.removeObject(p.getImage());
         }
 
         productRepository.delete(p);
@@ -203,9 +201,9 @@ public class ProductService {
             String img = "";
 
             try {
-                img = minioService.uploadObject(inputStream);
+                img = minioWrapperService.uploadObject(inputStream);
                 if (!img.equals(p.getImage())) {
-                    minioService.removeObject(p.getImage());
+                    minioWrapperService.removeObject(p.getImage());
                 }
             } catch (Exception e) {
                 throw new ServletException(e.getStackTrace().toString());
