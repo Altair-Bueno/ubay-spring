@@ -1,0 +1,16 @@
+package uma.taw.ubayspring.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class Index {
+
+    @RequestMapping("/product")
+    public String process(@RequestParam int page, Model model){
+        model.addAttribute("page", page);
+        return "product/index.html";
+    }
+}

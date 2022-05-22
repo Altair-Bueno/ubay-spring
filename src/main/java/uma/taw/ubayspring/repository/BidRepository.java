@@ -9,5 +9,4 @@ import uma.taw.ubayspring.entity.BidEntityPK;
  */
 
 public interface BidRepository extends PagingAndSortingRepository<BidEntity, BidEntityPK> {
-
 }

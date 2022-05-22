@@ -40,7 +40,7 @@ public class ProductEntity {
     private ClientEntity vendedor;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private ClientEntity categoryId;
+    private CategoryEntity categoryId;
 
     @Override
     public boolean equals(Object o) {
@@ -119,11 +119,11 @@ public class ProductEntity {
         this.vendedor = vendedor;
     }
 
-    public ClientEntity getCategoryId() {
+    public CategoryEntity getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(ClientEntity categoryId) {
+    public void setCategoryId(CategoryEntity categoryId) {
         this.categoryId = categoryId;
     }
 }
