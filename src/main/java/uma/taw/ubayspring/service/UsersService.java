@@ -1,14 +1,13 @@
 package uma.taw.ubayspring.service;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
-import uma.taw.ubayspring.entity.ClientEntity;
-import uma.taw.ubayspring.entity.ProductEntity;
-import uma.taw.ubayspring.entity.ProductFavouritesEntity;
-import uma.taw.ubayspring.entity.ProductFavouritesEntityPK;
+import uma.taw.ubayspring.entity.*;
 import uma.taw.ubayspring.repository.*;
 import uma.taw.ubayspring.types.GenderEnum;
 
@@ -35,6 +34,9 @@ public class UsersService {
     LoginCredentialsRepository loginRepository;
 
     @Autowired
+    LoginCredentialsRepositoryCustom loginRepositoryCustom;
+
+    @Autowired
     AuthService authService;
 
     @Autowired
@@ -46,19 +48,18 @@ public class UsersService {
     @Autowired
     FavouritesRepositoryCustom favouritesRepositoryCustom;
 
+    @Autowired
+    ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
+
+    @Autowired
+    ProductFavouritesRepository productFavouritesRepository;
+
     public void addFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
         ProductFavouritesEntity fav = new ProductFavouritesEntity();
 
-        /**
-        ProductFavouritesEntityPK favPK = new ProductFavouritesEntityPK();
-        favPK.setProduct(product.getId());
-        favPK.setClient(client.getId());
-         **/
-
-        //fav.setKey(favPK);
         fav.setProduct(product);
         fav.setClient(client);
         favouritesRepository.save(fav);
@@ -76,8 +77,8 @@ public class UsersService {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
-        ProductFavouritesEntity fav = favouritesRepositoryCustom.getTuple(client, product);
-        favouritesRepository.delete(fav);
+        ProductFavouritesEntity fav = productFavouritesRepositoryCustom.getTuple(client, product);
+        productFavouritesRepository.delete(fav);
     }
     public void modifyUser(String id, String name, String lastName, GenderEnum gender, String address, String city, Date birthDate) {
         ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
@@ -94,7 +95,7 @@ public class UsersService {
     public List<ProductDTO> products(User client) {
         ClientEntity user = authService.getCredentialsEntity(client).getClient();
 
-        List<ProductDTO> favouriteProducts = favouritesRepositoryCustom.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
+        List<ProductDTO> favouriteProducts = productFavouritesRepositoryCustom.getClientFavouriteProducts(user).stream().map(this::productEntityToDTO).collect(Collectors.toList());
         return favouriteProducts;
     }
 
@@ -178,20 +179,23 @@ public class UsersService {
         }
         return sb.toString();
     }
-    /*
+
     @NotNull
     public PasswordChangeDTO passwordChange(String id) {
         String passwordChangeID = generateRandomString(20, new Random());
-        ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
-        LoginCredentialsEntity loginCredentialsEntity = loginRepository.searchClientLoginByClient(client);
 
-        PasswordResetEntity passwordResetEntity = new PasswordResetEntity();
-        passwordResetEntity.setUser(loginCredentialsEntity);
-        passwordResetEntity.setRequestId(passwordChangeID);
-        passwordResetRepository.create(passwordResetEntity);
+        if(clientRepository.findById(Integer.parseInt(id)).isPresent()){
+            ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
+            LoginCredentialsEntity loginCredentialsEntity = loginRepositoryCustom.searchClientLoginByClient(client);
 
-        return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
+
+            PasswordResetEntity passwordResetEntity = new PasswordResetEntity();
+            passwordResetEntity.setLoginCredentials(loginCredentialsEntity);
+            passwordResetEntity.setRequestId(passwordChangeID);
+            passwordResetRepository.save(passwordResetEntity);
+
+            return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
+        }
+        return null;
     }
-
-     */
 }
