@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Repository
-public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesRepositoryCustom{
+public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesRepositoryCustom {
 
     @PersistenceContext
     private EntityManager em;
@@ -53,10 +53,10 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
         }
 
         if (category != null) {
-            predicateList.add(builder.equal(productTable.get("category"), category));
+            predicateList.add(builder.equal(productTable.get("categoryId"), category));
         }
 
-        predicateList.add(builder.equal(productFavTable.get("user"), clientEntity));
+        predicateList.add(builder.equal(productFavTable.get("client"), clientEntity));
         predicateList.add(builder.equal(productTable.get("id"), productFavTable.get("product").get("id")));
 
         query.select(productTable).where(predicateList.toArray(new Predicate[0]));

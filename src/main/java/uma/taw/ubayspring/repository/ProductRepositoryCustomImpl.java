@@ -36,11 +36,11 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
         }
 
         if(category != null){
-            predicateList.add(builder.equal(productTable.get("category"), category));
+            predicateList.add(builder.equal(productTable.get("categoryId"), category));
         }
 
         if(client != null && owned){
-            predicateList.add(builder.equal(productTable.get("vendor"), client));
+            predicateList.add(builder.equal(productTable.get("vendedor"), client));
         }
 
         query.select(productTable).where(predicateList.toArray(new Predicate[0]));

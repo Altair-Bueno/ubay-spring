@@ -1,13 +1,14 @@
 package uma.taw.ubayspring.repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
+
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.BidEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class BidRepositoryCustomImpl implements BidRepositoryCustom{
         Root<BidEntity> bidTable = query.from(BidEntity.class);
         query
                 .select(bidTable)
-                .where(builder.equal(bidTable.get("product"), product))
+                .where(builder.equal(bidTable.get("product"), product.getId()))
                 .orderBy(builder.desc(bidTable.get("amount")));
 
         List<BidEntity> resultList = em.createQuery(query)

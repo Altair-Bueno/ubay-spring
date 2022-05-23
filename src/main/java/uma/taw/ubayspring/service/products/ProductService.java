@@ -45,7 +45,7 @@ public class ProductService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    //@Autowired // TODO crash
+    @Autowired
     ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
 
     @Autowired
@@ -154,7 +154,7 @@ public class ProductService {
     @NonNull
     public List<ProductCategoryDTO> categories() {
         return StreamSupport
-                .stream(categoryRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).spliterator(), false)
+                .stream(categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).spliterator(), false)
                 .map(this::categoryEntityToDTO)
                 .collect(Collectors.toList());
     }

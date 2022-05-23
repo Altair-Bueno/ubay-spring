@@ -15,6 +15,11 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    @GetMapping("")
+    public String getIndex(){
+        return "redirect:/product";
+    }
+
     @GetMapping("/dev")
     public void dev() {
         // TODO remove
