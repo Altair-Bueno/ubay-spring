@@ -26,7 +26,7 @@
     if (login != null && login.getKind().equals(KindEnum.admin)) {
 %>
 <div class="container">
-    <h1>Categorías <a class="btn btn-primary m-2" href="add" role="button">Añadir una nueva categoría</a></h1>
+    <h1>Categorías <a class="btn btn-primary m-2" href="/categories/add" role="button">Añadir una nueva categoría</a></h1>
 
     <div class="row">
         <div class="col">
@@ -83,7 +83,7 @@
                                                 data-bs-dismiss="modal">Cancelar
                                         </button>
                                         <form method="GET"
-                                              action="categories/delete?id=<%=c.getId()%>">
+                                              action="/categories/delete?id=<%=c.getId()%>">
                                             <input hidden name='id' value="<%=c.getId()%>"/>
                                             <input class="btn btn-danger" type="submit"
                                                    value="Eliminar">
@@ -95,7 +95,7 @@
 
 
                     </td>
-                    <td><a href="categories/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&description=<%=c.getDescription()%>">Modificar
+                    <td><a href="/categories/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&description=<%=c.getDescription()%>">Modificar
                         categoría</a></td>
                 </tr>
                 <%
@@ -150,7 +150,7 @@
                         </td>
 
                         <td>
-                            <a href="${pageContext.request.contextPath}/product?category=<%=c.getId()%>"><%=c.getName()%></a>
+                            <a href="/product?category=<%=c.getId()%>"><%=c.getName()%></a>
                         </td>
 
                         <td>
@@ -158,7 +158,7 @@
                         </td>
 
                         <td>
-                            <a href="categories/deleteFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Eliminar
+                            <a href="/categories/deleteFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Eliminar
                                 de favoritos</a>
                         </td>
                     </tr>
@@ -172,7 +172,7 @@
                         </td>
 
                         <td>
-                            <a href="${pageContext.request.contextPath}/product?category=<%=c.getId()%>"><%=c.getName()%></a>
+                            <a href="/product?category=<%=c.getId()%>"><%=c.getName()%></a>
                         </td>
 
                         <td>
@@ -180,7 +180,7 @@
                         </td>
 
                         <td>
-                            <a href="categories/addFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Añadir
+                            <a href="/categories/addFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Añadir
                                 a favoritos</a>
                         </td>
                     </tr>

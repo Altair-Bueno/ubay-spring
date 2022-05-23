@@ -1,9 +1,7 @@
 package uma.taw.ubayspring.entity;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,15 +10,15 @@ import java.util.Objects;
  */
 
 public class BidEntityPK implements Serializable {
-    @Id
-    @Column(name = "id", nullable = false)
+    //@Id
+    //@Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Id
-    @Column(name = "product_id", nullable = false)
+    //@Id
+    //@Column(name = "product_id", nullable = false)
     private Integer product;
-    @Id
-    @Column(name = "client_id", nullable = false)
+    //@Id
+    //@Column(name = "client_id", nullable = false)
     private Integer client;
 
     @Override

@@ -28,7 +28,7 @@
     <div class="container">
         <h1>Buscar usuarios</h1>
         <a class="btn btn-primary"
-           href="${pageContext.request.contextPath}/auth/register"
+           href="/auth/register"
            role="button">Registrar
             a un usuario nuevo</a>
         <div class="row">
@@ -132,7 +132,7 @@
                                                     data-bs-dismiss="modal">Cancelar
                                             </button>
                                             <form method="GET"
-                                                  action="${pageContext.request.contextPath}/users/delete">
+                                                  action="/users/delete">
                                                 <input hidden name='id' value="<%=c.getId()%>"/>
                                                 <input class="btn btn-danger" type="submit"
                                                        value="Eliminar">
@@ -145,9 +145,9 @@
                         </td>
 
                         <td>
-                            <a href="modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">Modificar
+                            <a href="/users/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">Modificar
                                 usuario</a></td>
-                        <td><a href="passwordChangeLink?id=<%=c.getId()%>">Reestablecer
+                        <td><a href="/users/passwordChangeLink?id=<%=c.getId()%>">Reestablecer
                             contraseña</a></td>
                     </tr>
                     <%

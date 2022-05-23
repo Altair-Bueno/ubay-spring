@@ -45,7 +45,7 @@ public class CategoriesController {
     @GetMapping("/addFavourite")
     public String addFavourite(@RequestParam String clientID, @RequestParam String categoryID){
         categoriesService.addFavouriteCategory(clientID, categoryID);
-        return "categories/addFavourite";
+        return "redirect:";
     }
 
     @GetMapping("/delete")
