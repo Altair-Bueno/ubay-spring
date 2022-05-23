@@ -1,5 +1,13 @@
 package uma.taw.ubayspring.keys;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.products.ProductClientDTO;
+import uma.taw.ubayspring.entity.ClientEntity;
+import uma.taw.ubayspring.types.KindEnum;
+
 /**
  * Multiple constant values shared between auth related servlets
  *

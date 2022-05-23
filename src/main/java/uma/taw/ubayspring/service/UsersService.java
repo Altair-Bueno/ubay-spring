@@ -2,16 +2,25 @@ package uma.taw.ubayspring.service;
 
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.notifications.BidsDTO;
+import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
 import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.entity.*;
 import uma.taw.ubayspring.repository.*;
 import uma.taw.ubayspring.types.GenderEnum;
+import uma.taw.ubayspring.types.KindEnum;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -23,9 +32,6 @@ public class UsersService {
 
     @Autowired
     ClientRepositoryCustom clientRepositoryCustom;
-
-    @Autowired
-    ClientRepository clientRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -43,6 +49,12 @@ public class UsersService {
     BidRepository bidRepository;
 
     @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
+    BidRepositoryCustom bidRepositoryCustom;
+
+    @Autowired
     PasswordResetRepository passwordResetRepository;
 
     @Autowired
@@ -53,6 +65,7 @@ public class UsersService {
 
     @Autowired
     ProductFavouritesRepository productFavouritesRepository;
+
 
     public void addFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
@@ -197,5 +210,45 @@ public class UsersService {
             return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
         }
         return null;
+    }
+
+    /**
+     *
+     * @author Francisco Javier Hernández Martín
+     */
+    private uma.taw.ubayspring.dto.notifications.ProductDTO notificationsProductEntityToDTO(ProductEntity productEntity) {
+        return new uma.taw.ubayspring.dto.notifications.ProductDTO(productEntity.getId(),
+                productEntity.getTitle(),
+                productEntity.getDescription(),
+                productEntity.getImage(),
+                productEntity.getCloseDate());
+    }
+
+    /**
+     *
+     * @author Francisco Javier Hernández Martín
+     */
+    private BidsDTO bidEntityToDto(BidEntity bidEntity) {
+        return new BidsDTO(bidEntity.getPublishDate(),
+                bidEntity.getAmount(),
+                notificationsProductEntityToDTO(bidEntity.getProduct())
+        );
+    }
+
+    /**
+     *
+     * @author Francisco Javier Hernández Martín
+     */
+    public HashMap<BidsDTO, Boolean> getNotifications(int id) {
+        var user = clientRepository.findById(id).get();
+        HashMap<BidsDTO, Boolean> notifications = new LinkedHashMap(); // Key: Bid; Value: Is the client the bid winner
+        List<BidEntity> closedBidsByClient = bidRepositoryCustom.productsBiddedClosedProducts(user);
+
+        for (BidEntity b : closedBidsByClient) {
+            BidsDTO bidDto = bidEntityToDto(b);
+            notifications.put(bidDto, bidRepositoryCustom.isWinnerBid(user, b));
+        }
+
+        return notifications;
     }
 }

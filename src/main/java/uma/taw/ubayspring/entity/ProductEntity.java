@@ -27,10 +27,10 @@ public class ProductEntity {
     @Column(name = "out_price", nullable = false, precision = 0)
     private Double outPrice;
     @Basic
-    @Column(name = "images", nullable = true, length = 100)
+    @Column(name = "images", length = 100)
     private String image;
     @Basic
-    @Column(name = "close_date", nullable = true)
+    @Column(name = "close_date")
     private Date closeDate;
     @Basic
     @Column(name = "publish_date", nullable = false)
