@@ -1,9 +1,5 @@
 package uma.taw.ubayspring.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,18 +8,17 @@ import java.util.Objects;
  */
 
 public class PasswordResetEntityPK implements Serializable {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "login_id", nullable = false)
-    private LoginCredentialsEntity loginCredentials;
-    @Id
-    @Column(name = "request_id", nullable = false, length = 20)
+    //@Id
+    //@Column(name = "login_id", nullable = false)
+    private Integer loginCredentials;
+    //@Id
+    //@Column(name = "request_id", nullable = false, length = 20)
     private String requestId;
 
     public PasswordResetEntityPK() {
     }
 
-    public PasswordResetEntityPK(LoginCredentialsEntity loginCredentials, String requestId) {
+    public PasswordResetEntityPK(Integer loginCredentials, String requestId) {
         this.loginCredentials = loginCredentials;
         this.requestId = requestId;
     }
@@ -41,11 +36,11 @@ public class PasswordResetEntityPK implements Serializable {
         return Objects.hash(loginCredentials, requestId);
     }
 
-    public LoginCredentialsEntity getLoginCredentials() {
+    public Integer getLoginCredentials() {
         return loginCredentials;
     }
 
-    public void setLoginCredentials(LoginCredentialsEntity loginCredentials) {
+    public void setLoginCredentials(Integer loginCredentials) {
         this.loginCredentials = loginCredentials;
     }
 
