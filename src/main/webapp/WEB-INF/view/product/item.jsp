@@ -140,13 +140,13 @@ Created by IntelliJ IDEA.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <form method="post" action="${pageContext.request.contextPath}/product/update" enctype="multipart/form-data">
-                                <input type='hidden' name='id' value="<%=p.getId()%>"/>
-                                <input type='hidden' name='categoria' value="<%=p.getCategory().getId()%>"/>
-                                <input type='hidden' name='estado' value="Cerrado"/>
-                                <input type='hidden' name='descripcion' value="<%=p.getDescription()%>"/>
-                                <input type='hidden' name='titulo' value="<%=p.getTitle()%>"/>
-                                <input type='hidden' name='precio' value="<%=p.getOutPrice()%>"/>
+                            <form method="post" action="${pageContext.request.contextPath}/product/update">
+                                <input type='hidden' name='productId' value="<%=p.getId()%>"/>
+                                <input type='hidden' name='category' value="<%=p.getCategory().getId()%>"/>
+                                <input type='hidden' name='status' value="Cerrado"/>
+                                <input type='hidden' name='description' value="<%=p.getDescription()%>"/>
+                                <input type='hidden' name='title' value="<%=p.getTitle()%>"/>
+                                <input type='hidden' name='price' value="<%=p.getOutPrice()%>"/>
                                 <input class="btn btn-warning" type="submit" value="Cerrar">
                             </form>
                         </div>
