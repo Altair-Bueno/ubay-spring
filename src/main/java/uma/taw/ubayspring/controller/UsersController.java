@@ -7,25 +7,25 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
 import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
+import uma.taw.ubayspring.service.BidService;
 import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.service.products.ProductService;
 import uma.taw.ubayspring.types.GenderEnum;
 import uma.taw.ubayspring.types.KindEnum;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -37,7 +37,10 @@ public class UsersController {
     @Autowired
     ProductService productService;
 
-    private ProductClientDTO getSession() {
+    @Autowired
+    BidService bidService;
+
+    private ProductClientDTO getProductSession() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object principal = auth.getPrincipal();
         ProductClientDTO cliente;
@@ -53,6 +56,21 @@ public class UsersController {
         }
 
         return cliente;
+    }
+
+    private LoginDTO getSession() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = auth.getPrincipal();
+
+
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            boolean isAdmin = false;
+            if (user.getAuthorities().contains(KindEnum.admin)) isAdmin = true;
+            return new LoginDTO(user.getUsername(), isAdmin ? KindEnum.admin : KindEnum.client);
+        } else {
+            return null;
+        }
     }
 
     @GetMapping("")
@@ -136,10 +154,8 @@ public class UsersController {
      */
     @GetMapping("/notifications")
     @PostMapping("/notifications")
-    public String processNotifications(Model model
-                                       ){
-
-        var client = getSession();
+    public String processNotifications(Model model){
+        var client = getProductSession();
 
         HashMap<BidsDTO, Boolean> notifications = usersService.getNotifications(client.getId());
 
@@ -147,5 +163,39 @@ public class UsersController {
         return "users/notifications";
     }
 
+    @GetMapping("/bids")
+    public String bidsIndex(Model model,
+                            @RequestParam String startDate,
+                            @RequestParam String endDate,
+                            @RequestParam String productTitle,
+                            @RequestParam String vendorName,
+                            @RequestParam String page,
+                            @RequestParam String orderBy,
+                            @RequestParam String asc
+    ) {
+
+        var bidList = bidService.getSentBids(
+                getSession(),
+                startDate,
+                endDate,
+                productTitle,
+                vendorName,
+                page,
+                orderBy,
+                asc
+        );
+        model.addAttribute("bidsByUser", bidList);
+        return "/users/bids/index";
+    }
+
+    @PostMapping("/bids/new")
+    public String newBid(@RequestHeader("referer") Optional<String> referer,
+                         @RequestParam String amount,
+                         @RequestParam String productID
+    ){
+        bidService.createBid(getSession(), amount, productID);
+
+        return referer.get();
+    }
 
 }
