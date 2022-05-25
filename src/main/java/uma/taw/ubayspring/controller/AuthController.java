@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uma.taw.ubayspring.dto.auth.ChangePasswordDTO;
 import uma.taw.ubayspring.dto.auth.RegisterDTO;
 import uma.taw.ubayspring.exception.AuthenticationException;
 import uma.taw.ubayspring.service.AuthService;
@@ -25,7 +26,8 @@ public class AuthController {
     }
 
     @GetMapping("/changePassword")
-    public void getChangePassword() {
+    public ChangePasswordDTO getChangePassword() {
+        return new ChangePasswordDTO();
     }
 
     @PostMapping("/changePassword")

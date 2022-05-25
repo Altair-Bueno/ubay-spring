@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -59,49 +60,45 @@
 </style>
 <body class="text-center">
 <main class="form-signin">
-    <form method="post"
-          action="${pageContext.request.contextPath}/auth/changePassword">
-        <%--        <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">--%>
+    <%--@elvariable id="changePasswordDTO" type="uma.taw.ubayspring.dto.auth.ChangePasswordDTO"--%>
+    <form:form method="post"
+               action="/auth/changePassword"
+               modelAttribute="changePasswordDTO">
         <h1 class="h3 mb-3 fw-normal">Cambiar mi contraseña</h1>
         <div class="form-floating">
-            <input type="password"
-                   class="form-control"
-                   id="floatingInput"
-                   placeholder="Old Password"
-                   name="<%=AuthKeys.OLD_PASSWORD_PARAMETER%>"
-                   pattern="<%=AuthKeys.PASSWORD_REGEX%>"
-                   required
-            >
+            <form:input type="password"
+                        class="form-control"
+                        id="floatingInput"
+                        placeholder="Old Password"
+                        pattern="${AuthKeys.PASSWORD_REGEX}"
+                        required="" path="oldPassword"/>
             <label for="floatingInput">Contraseña actual</label>
         </div>
         <div class="form-floating">
-            <input
+            <form:input
                     type="password"
                     class="form-control"
                     id="floatingPassword"
                     placeholder="New Password"
-                    name="<%=AuthKeys.PASSWORD_PARAMETER%>"
-                    pattern="<%=AuthKeys.PASSWORD_REGEX%>" required
-                    aria-describedby="passwordHelp"
-            >
+                    pattern="${AuthKeys.PASSWORD_REGEX}" required=""
+                    aria-describedby="passwordHelp" path="password"/>
             <label for="floatingPassword">Nueva contraseña</label>
             <div id="passwordHelp" class="form-text">8 caracteres mínimo</div>
         </div>
         <div class="form-floating last">
-            <input
+            <form:input
                     type="password"
                     class="form-control"
                     id="floatingRepeat"
                     placeholder="Repeat New Password"
-                    name="<%=AuthKeys.REPEAT_PASSWORD_PARAMETER%>"
-                    pattern="<%=AuthKeys.PASSWORD_REGEX%>" required
-            >
+                    pattern="${AuthKeys.PASSWORD_REGEX}" required=""
+                    path="repeatPassword"/>
             <label for="floatingRepeat">Repetir nueva contraseña</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Cambiar
             contraseña
         </button>
-    </form>
+    </form:form>
 </main>
 </body>
 </html>
