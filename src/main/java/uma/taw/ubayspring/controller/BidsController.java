@@ -41,13 +41,13 @@ public class BidsController {
     @GetMapping("")
     @PostMapping("")
     public String getIndex(Model model,
-                           @RequestParam String startDate,
-                           @RequestParam String endDate,
-                           @RequestParam String productTitle,
-                           @RequestParam String clientName,
-                           @RequestParam String page,
-                           @RequestParam String orderBy,
-                           @RequestParam String asc
+                           @RequestParam(required = false) String startDate,
+                           @RequestParam(required = false) String endDate,
+                           @RequestParam(required = false) String productTitle,
+                           @RequestParam(required = false) String clientName,
+                           @RequestParam(required = false) String page,
+                           @RequestParam(required = false) String orderBy,
+                           @RequestParam(required = false) String asc
                            ){
 
         List<ReceivedBidsDTO> bidList = bidService.getReceivedBids(

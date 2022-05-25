@@ -20,8 +20,6 @@ import uma.taw.ubayspring.service.products.ProductService;
 import uma.taw.ubayspring.types.GenderEnum;
 import uma.taw.ubayspring.types.KindEnum;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -165,13 +163,13 @@ public class UsersController {
 
     @GetMapping("/bids")
     public String bidsIndex(Model model,
-                            @RequestParam String startDate,
-                            @RequestParam String endDate,
-                            @RequestParam String productTitle,
-                            @RequestParam String vendorName,
-                            @RequestParam String page,
-                            @RequestParam String orderBy,
-                            @RequestParam String asc
+                            @RequestParam(required = false) String startDate,
+                            @RequestParam(required = false) String endDate,
+                            @RequestParam(required = false) String productTitle,
+                            @RequestParam(required = false) String vendorName,
+                            @RequestParam(required = false) String page,
+                            @RequestParam(required = false) String orderBy,
+                            @RequestParam(required = false) String asc
     ) {
 
         var bidList = bidService.getSentBids(
