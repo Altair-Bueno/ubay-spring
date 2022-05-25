@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.auth.RegisterDTO;
+import uma.taw.ubayspring.dto.auth.ResetPasswordDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.LoginCredentialsEntity;
 import uma.taw.ubayspring.entity.PasswordResetEntityPK;
@@ -90,23 +91,26 @@ public class AuthService implements UserDetailsService {
         loginCredentialsRepository.save(login);
     }
 
-    public void resetPassword(@NonNull String username,
-                              @NonNull String requestID,
-                              @NonNull String newPassword,
-                              @NonNull String repeatPassword) throws AuthenticationException {
+    public void resetPassword(@NonNull ResetPasswordDTO resetPasswordDTO) throws AuthenticationException {
+        String newPassword = resetPasswordDTO.getNewPassword();
+        String repeatPassword = resetPasswordDTO.getRepeatPassword();
+        Integer loginID = resetPasswordDTO.getLoginID();
+        String requestID = resetPasswordDTO.getRequestID();
+
         if (!newPassword.equals(repeatPassword))
             throw new AuthenticationException("Passwords don't match");
         if (!newPassword.matches(AuthKeys.PASSWORD_REGEX))
             throw new AuthenticationException("Invalid password format");
 
-        var loginCredentialsEntity = loginCredentialsRepository.findLoginCredentialsEntityByUsername(username);
-        var passwordResetEntityOptional = passwordResetRepository.findById(new PasswordResetEntityPK(loginCredentialsEntity.getId(), requestID));
+        var optionalLoginCredentialsEntity = loginCredentialsRepository.findById(loginID);
+        var passwordResetEntityOptional = passwordResetRepository.findById(new PasswordResetEntityPK(loginID, requestID));
 
         if (passwordResetEntityOptional.isEmpty()) {
             throw new AuthenticationException("Request not found");
         } else {
             var passwordResetEntity = passwordResetEntityOptional.get();
             var hashedPassword = passwordEncoder.encode(newPassword);
+            var loginCredentialsEntity = optionalLoginCredentialsEntity.orElse(null);
             loginCredentialsEntity.setPassword(hashedPassword);
 
             passwordResetRepository.delete(passwordResetEntity);

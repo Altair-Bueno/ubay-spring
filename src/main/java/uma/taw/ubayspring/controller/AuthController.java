@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.auth.ChangePasswordDTO;
 import uma.taw.ubayspring.dto.auth.RegisterDTO;
+import uma.taw.ubayspring.dto.auth.ResetPasswordDTO;
 import uma.taw.ubayspring.exception.AuthenticationException;
 import uma.taw.ubayspring.service.AuthService;
 
@@ -51,13 +52,13 @@ public class AuthController {
     }
 
     @GetMapping("/resetPassword")
-    public void getResetPassword() {
-
+    public ResetPasswordDTO getResetPassword(@ModelAttribute ResetPasswordDTO passwordDTO) {
+        return passwordDTO;
     }
 
     @PostMapping("/resetPassword")
-    public String postResetPassword(@RequestParam String username, @RequestParam String requestID, @RequestParam String newPassword, @RequestParam String repeatPassword) throws AuthenticationException {
-        service.resetPassword(username, requestID, newPassword, repeatPassword);
+    public String postResetPassword(@ModelAttribute ResetPasswordDTO resetPasswordDTO) throws AuthenticationException {
+        service.resetPassword(resetPasswordDTO);
         return "redirect:/";
     }
 }
