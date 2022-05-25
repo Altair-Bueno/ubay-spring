@@ -20,8 +20,8 @@ public class Application {
         return "redirect:/product";
     }
 
-    @GetMapping("/dev")
-    public void dev() {
-        // TODO remove
+    @GetMapping("/")
+    public String dev() {
+        return "redirect:/product";
     }
 }
