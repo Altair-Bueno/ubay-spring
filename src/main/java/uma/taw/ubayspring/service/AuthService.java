@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import uma.taw.ubayspring.dto.auth.RegisterDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.LoginCredentialsEntity;
 import uma.taw.ubayspring.entity.PasswordResetEntityPK;
@@ -63,17 +64,17 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-    public void register(
-            @NonNull String username,
-            @NonNull String password,
-            @NonNull String repeatPassword,
-            @NonNull String name,
-            @NonNull String lastName,
-            @NonNull String address,
-            @NonNull String city,
-            @NonNull GenderEnum gender,
-            @NonNull Date birthDate
-    ) throws AuthenticationException {
+    public void register(@NonNull RegisterDTO registerDTO) throws AuthenticationException {
+        var username = registerDTO.getUsername();
+        var password = registerDTO.getPassword();
+        var repeatPassword = registerDTO.getRepeatPassword();
+        GenderEnum gender = registerDTO.getGender();
+        String address = registerDTO.getAddress();
+        String name = registerDTO.getName();
+        String lastName = registerDTO.getLastName();
+        String city = registerDTO.getCity();
+        Date birthDate = registerDTO.getBirthDate();
+
         if (!username.matches(AuthKeys.USERNAME_REGEX))
             throw new AuthenticationException("Username invalid format");
         if (!password.matches(AuthKeys.PASSWORD_REGEX))

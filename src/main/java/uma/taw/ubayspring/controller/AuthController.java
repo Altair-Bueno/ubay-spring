@@ -4,15 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import uma.taw.ubayspring.dto.auth.RegisterDTO;
 import uma.taw.ubayspring.exception.AuthenticationException;
 import uma.taw.ubayspring.service.AuthService;
-import uma.taw.ubayspring.types.GenderEnum;
-
-import java.sql.Date;
 
 
 /**
@@ -42,12 +37,13 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public void getRegister() {
+    public RegisterDTO getRegister() {
+        return new RegisterDTO();
     }
 
     @PostMapping("/register")
-    public String postRegister(@RequestParam String username, @RequestParam String password, @RequestParam String repeatPassword, @RequestParam String name, @RequestParam String lastName, @RequestParam String address, @RequestParam String city, @RequestParam GenderEnum gender, @RequestParam Date birthDate) throws AuthenticationException {
-        service.register(username, password, repeatPassword, name, lastName, address, city, gender, birthDate);
+    public String postRegister(@ModelAttribute RegisterDTO registerDTO) throws AuthenticationException {
+        service.register(registerDTO);
 
         return "redirect:/auth/login";
     }

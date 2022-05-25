@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page import="uma.taw.ubayspring.types.GenderEnum" %><%--
   Created by IntelliJ IDEA.
@@ -34,81 +35,80 @@
 <body class="text-center">
 <main class="form-signin">
     <h1 class="h3 mb-3 fw-normal">Registro en Ubay</h1>
-    <form method="post"
-          action="${pageContext.request.contextPath}/auth/register"
-          class="row g-2">
+    <%--@elvariable id="registerDTO" type="uma.taw.ubayspring.dto.auth.RegisterDTO"--%>
+    <form:form class="row g-2" modelAttribute="registerDTO" method="post">
         <div class="form-floating col-12">
-            <input id="username" class="form-control" placeholder="Usuario"
-                   name="<%=AuthKeys.USERNAME_PARAMETER%>"
-                   type="text" pattern="<%=AuthKeys.USERNAME_REGEX%>" required
-                   aria-describedby="usernameHelp">
+            <form:input id="username" class="form-control" placeholder="Usuario"
+                        type="text" pattern="<%=AuthKeys.USERNAME_REGEX%>"
+                        required=""
+                        aria-describedby="usernameHelp" path="username"/>
             <label for="username">Usuario</label>
             <div id="usernameHelp" class="form-text">Entre 3 y 20 caracteres
             </div>
 
         </div>
         <div class="form-floating col-12">
-            <input id="password" class="form-control" placeholder="Contraseña"
-                   name="<%=AuthKeys.PASSWORD_PARAMETER%>"
-                   type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>"
-                   required aria-describedby="passwordHelp">
+            <form:input id="password" class="form-control"
+                        placeholder="Contraseña"
+                        type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>"
+                        required="" aria-describedby="passwordHelp"
+                        path="password"/>
             <label for="password">Contraseña</label>
             <div id="passwordHelp" class="form-text">8 caracteres mínimo</div>
         </div>
         <div class="form-floating col-12">
-            <input id="repeat_password" class="form-control"
-                   placeholder="Repite tu contraseña"
-                   name="<%=AuthKeys.REPEAT_PASSWORD_PARAMETER%>"
-                   type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>"
-                   required>
+            <form:input id="repeat_password" class="form-control"
+                        placeholder="Repite tu contraseña"
+                        type="password" pattern="<%=AuthKeys.PASSWORD_REGEX%>"
+                        required="" path="repeatPassword"/>
             <label for="repeat_password">Repite tu contraseña</label>
         </div>
         <div class="form-floating col-12">
-            <input id="first_name" class="form-control" placeholder="Nombre"
-                   name="<%=AuthKeys.NAME_PARAMETER%>"
-                   type="text" required
-                   maxlength="<%=AuthKeys.NAME_MAXLENGTH%>">
+            <form:input id="first_name" class="form-control"
+                        placeholder="Nombre"
+                        type="text" required=""
+                        maxlength="${AuthKeys.NAME_MAXLENGTH}" path="name"/>
             <label for="first_name">Nombre</label>
         </div>
         <div class="form-floating col-12">
-            <input id="last_name" class="form-control" placeholder="Apellidos"
-                   name="<%=AuthKeys.LAST_NAME_PARAMETER%>"
-                   type="text" required
-                   maxlength="<%=AuthKeys.LAST_NAME_MAXLENGTH%>">
+            <form:input id="last_name" class="form-control"
+                        placeholder="Apellidos"
+                        type="text" required=""
+                        maxlength="${AuthKeys.LAST_NAME_MAXLENGTH}"
+                        path="lastName"/>
             <label for="last_name">Apellidos</label>
         </div>
         <div class="col-md-6">
             <label for="address" class="form-label">Dirección</label>
-            <input id="address" class="form-control"
-                   name="<%=AuthKeys.ADDRESS_PARAMETER%>" type="text" required
-                   maxlength="<%=AuthKeys.ADDRESS_MAXLENGTH%>">
+            <form:input id="address" class="form-control" type="text"
+                        required="" maxlength="${AuthKeys.ADDRESS_MAXLENGTH}"
+                        path="address"/>
         </div>
         <div class="col-md-6">
             <label for="city" class="form-label">Ciudad</label>
-            <input id="city" class="form-control"
-                   maxlength="<%=AuthKeys.CITY_MAXLENGTH%>"
-                   name="<%=AuthKeys.CITY_PARAMETER%>" type="text" required>
+            <form:input id="city" class="form-control"
+                        maxlength="${AuthKeys.CITY_MAXLENGTH}"
+                        type="text" required="" path="city"/>
         </div>
         <div class="col-md-6">
             <label for="birth" class="form-label">Fecha de nacimiento</label>
-            <input id="birth" class="form-control"
-                   name="<%=AuthKeys.BIRTH_PARAMETER%>" type="date" required>
+            <form:input id="birth" class="form-control"
+                        type="date"
+                        required="" path="birthDate"/>
         </div>
         <div class="col-md-6">
             <label for="gender" class="form-label">Género</label>
-            <select id="gender" class="form-select"
-                    name="<%=AuthKeys.GENDER_PARAMETER%>" required>
-                <% for (GenderEnum gender : GenderEnum.values()) {%>
-                <option value="<%=gender%>"><%=gender%>
-                </option>
-                <%}%>
-            </select>
+            <form:select id="gender" class="form-select"
+                         required=""
+                         path="gender">
+                <form:options items="${GenderEnum.values()}"/>
+            </form:select>
         </div>
         <div class="row-1">
             <button type="submit" class="btn btn-primary col-6">Crear cuenta
             </button>
         </div>
-    </form>
+    </form:form>
     <small>
         <a class="link-primary"
            href="${pageContext.request.contextPath}/auth/login">
