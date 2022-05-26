@@ -1,6 +1,8 @@
 package uma.taw.ubayspring.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,6 +13,8 @@ import java.util.Objects;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "product_favourites", schema = "public", catalog = "UBAY")
 @IdClass(ProductFavouritesEntityPK.class)
 public class ProductFavouritesEntity {
