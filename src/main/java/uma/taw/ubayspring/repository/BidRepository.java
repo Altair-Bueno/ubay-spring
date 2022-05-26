@@ -1,5 +1,6 @@
 package uma.taw.ubayspring.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import uma.taw.ubayspring.entity.BidEntity;
 import uma.taw.ubayspring.entity.BidEntityPK;
@@ -8,5 +9,5 @@ import uma.taw.ubayspring.entity.BidEntityPK;
  * @author Altair Bueno
  */
 
-public interface BidRepository extends PagingAndSortingRepository<BidEntity, BidEntityPK> {
+public interface BidRepository extends PagingAndSortingRepository<BidEntity, BidEntityPK>, JpaRepository<BidEntity, BidEntityPK> {
 }

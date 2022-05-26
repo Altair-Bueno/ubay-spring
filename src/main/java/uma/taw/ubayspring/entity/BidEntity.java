@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -9,8 +13,12 @@ import java.util.Objects;
  */
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "bid", schema = "public", catalog = "UBAY")
 @IdClass(BidEntityPK.class)
+
 public class BidEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bid_id_generator")
@@ -31,6 +39,7 @@ public class BidEntity {
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity client;
+
 
     @Override
     public boolean equals(Object o) {

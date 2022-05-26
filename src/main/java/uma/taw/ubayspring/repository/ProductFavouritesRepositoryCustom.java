@@ -12,7 +12,5 @@ public interface ProductFavouritesRepositoryCustom {
 
     public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsFiltered(ClientEntity clientEntity, String name, CategoryEntity category, int page);
 
-    public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsByPage(int page);
-
     public ProductFavouritesEntity getTuple(ClientEntity client, ProductEntity product);
 }

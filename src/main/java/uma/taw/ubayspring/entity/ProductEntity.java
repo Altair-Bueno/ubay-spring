@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -10,6 +14,9 @@ import java.util.Objects;
  */
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "product", schema = "public", catalog = "UBAY")
 public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_generator")

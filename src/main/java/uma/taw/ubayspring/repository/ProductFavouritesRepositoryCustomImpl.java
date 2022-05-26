@@ -1,5 +1,7 @@
 package uma.taw.ubayspring.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
@@ -13,12 +15,19 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Repository
 public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesRepositoryCustom {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    ProductFavouritesRepository productFavouritesRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     /**
      * @author José Luis Bueno Pachón
@@ -36,77 +45,42 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
     /**
      * @author Francisco Javier Hernández
      */
-    public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsFiltered(ClientEntity clientEntity, String name, CategoryEntity category, int page) {
+    public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsFiltered(ClientEntity client, String title, CategoryEntity category, int page) {
 
-        if (clientEntity == null) return null;
+        List<ProductEntity> productEntityList = new ArrayList<>();
+        ProductEntity productExample = ProductEntity
+                .builder()
+                .title(title)
+                .categoryId(category)
+                .build();
+        List<ProductEntity> productsFound = productRepository.findAll(Example.of(productExample));
 
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        List<Predicate> predicateList = new ArrayList<>();
-        CriteriaQuery<ProductEntity> query = builder.createQuery(ProductEntity.class);
-        Root<ProductFavouritesEntity> productFavTable = query.from(ProductFavouritesEntity.class);
-        Root<ProductEntity> productTable = query.from(ProductEntity.class);
-
-        int actualSize = 0;
-
-        if (name != null) {
-            predicateList.add(builder.like(builder.upper(productTable.get("title")), "%" + name.toUpperCase(Locale.ROOT) + "%"));
+        int cont = 0;
+        for(ProductEntity p : productsFound){
+            ProductFavouritesEntity example = ProductFavouritesEntity
+                    .builder()
+                    .client(client)
+                    .product(p)
+                    .build();
+            Optional<ProductFavouritesEntity> queryResult = productFavouritesRepository.findOne(Example.of(example));
+            if(queryResult.isPresent() && cont < ProductKeys.productsPerPageLimit){
+                productEntityList.add(p);
+            }
+            cont++;
         }
 
-        if (category != null) {
-            predicateList.add(builder.equal(productTable.get("categoryId"), category));
-        }
-
-        predicateList.add(builder.equal(productFavTable.get("client"), clientEntity));
-        predicateList.add(builder.equal(productTable.get("id"), productFavTable.get("product").get("id")));
-
-        query.select(productTable).where(predicateList.toArray(new Predicate[0]));
-
-        actualSize = em.createQuery(query)
-                .getResultList()
-                .size();
-
-        List<ProductEntity> productEntities = em.createQuery(query)
-                .setFirstResult(page * ProductKeys.productsPerPageLimit)
-                .setMaxResults(ProductKeys.productsPerPageLimit)
-                .getResultList();
-
-        return new ProductRepositoryCustomImpl.ProductTupleResult<>(productEntities, actualSize);
-    }
-
-    /**
-     * @author Francisco Javier Hernández
-     */
-    public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsByPage(int page) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        List<Predicate> predicateList = new ArrayList<>();
-        CriteriaQuery<ProductEntity> query = builder.createQuery(ProductEntity.class);
-        Root<ProductFavouritesEntity> productFavTable = query.from(ProductFavouritesEntity.class);
-        Join<ProductFavouritesEntity, ProductEntity> join = productFavTable.join("product", JoinType.INNER);
-        int actualSize = 0;
-
-        query.select(join)
-                .orderBy(builder.desc(join.get("id")));
-
-        actualSize = em.createQuery(query)
-                .getResultList()
-                .size();
-
-        List<ProductEntity> productEntities = em.createQuery(query)
-                .setFirstResult(page * ProductKeys.productsPerPageLimit)
-                .setMaxResults(ProductKeys.productsPerPageLimit)
-                .getResultList();
-
-        return new ProductRepositoryCustomImpl.ProductTupleResult(productEntities, actualSize);
-
+        return new ProductRepositoryCustomImpl.ProductTupleResult<>(productEntityList, cont);
     }
 
     /**
      * @author Francisco Javier Hernández
      */
     public ProductFavouritesEntity getTuple(ClientEntity client, ProductEntity product) {
-        return em.createQuery("SELECT p FROM ProductFavouritesEntity p WHERE p.client = :client AND p.product = :product", ProductFavouritesEntity.class)
-                .setParameter("client", client)
-                .setParameter("product", product)
-                .getSingleResult();
+        ProductFavouritesEntity example = ProductFavouritesEntity
+                .builder()
+                .client(client)
+                .product(product)
+                .build();
+        return productFavouritesRepository.findOne(Example.of(example)).get();
     }
 }

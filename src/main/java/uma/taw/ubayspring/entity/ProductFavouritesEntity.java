@@ -1,5 +1,7 @@
 package uma.taw.ubayspring.entity;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,6 +10,7 @@ import java.util.Objects;
  */
 
 @Entity
+@Builder
 @Table(name = "product_favourites", schema = "public", catalog = "UBAY")
 @IdClass(ProductFavouritesEntityPK.class)
 public class ProductFavouritesEntity {

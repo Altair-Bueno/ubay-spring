@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.BidEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
@@ -18,6 +19,9 @@ import java.util.stream.Stream;
 public class BidRepositoryCustomImpl implements BidRepositoryCustom{
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    BidRepository bidRepository;
 
     public Stream<BidEntity> getFilteredBidsFromVendor(ClientEntity vendor, int page, Date startDate, Date endDate, String productTitle, String clientName, String orderBy, boolean asc) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -59,12 +63,6 @@ public class BidRepositoryCustomImpl implements BidRepositoryCustom{
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<BidEntity> query = builder.createQuery(BidEntity.class);
 
-        // select bidTable.*
-        // from BidEntity bidTable, ProductEntity productTable, ClientEntity clientTable
-        // where bidTable.user = :user and
-        //      bidTable.product = productTable and
-        //      bidTable.vendor = clientTable
-        // order by bidTable.publish_date
         Root<BidEntity> bidTable = query.from(BidEntity.class);
         Root<ProductEntity> productTable = query.from(ProductEntity.class);
         Root<ClientEntity> clientTable = query.from(ClientEntity.class);

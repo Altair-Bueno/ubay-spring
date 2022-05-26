@@ -71,10 +71,12 @@ public class UsersService {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
 
-        ProductFavouritesEntity fav = new ProductFavouritesEntity();
+        ProductFavouritesEntity fav = ProductFavouritesEntity
+                .builder()
+                .product(product)
+                .client(client)
+                .build();
 
-        fav.setProduct(product);
-        fav.setClient(client);
         favouritesRepository.save(fav);
     }
 

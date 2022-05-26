@@ -1,5 +1,10 @@
 package uma.taw.ubayspring.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
@@ -8,13 +13,8 @@ import uma.taw.ubayspring.keys.ProductKeys;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Repository
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
@@ -22,39 +22,29 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    ProductRepository productRepository;
+
     @Override
-    public ProductTupleResult filterAndGetByPage(ClientEntity client, String name, CategoryEntity category, boolean owned, int page) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<ProductEntity> query = builder.createQuery(ProductEntity.class);
-        Root<ProductEntity> productTable = query.from(ProductEntity.class);
-        List<Predicate> predicateList = new ArrayList<>();
-        query.select(productTable);
-        int actualSize = 0;
+    public ProductTupleResult filterAndGetByPage(ClientEntity vendedor, String title, CategoryEntity category, boolean owned, int page){
+        int beginning = ProductKeys.productsPerPageLimit * page, end = (ProductKeys.productsPerPageLimit * (page + 1) + 1);
 
-        if(name != null){
-            predicateList.add(builder.like(builder.upper(productTable.get("title")), "%" + name.toUpperCase(Locale.ROOT) + "%"));
-        }
+        ExampleMatcher matcher = ExampleMatcher
+                .matchingAll()
+                .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        ProductEntity example = ProductEntity
+                .builder()
+                .vendedor(owned ? vendedor : null)
+                .title(title)
+                .categoryId(category)
+                .build();
 
-        if(category != null){
-            predicateList.add(builder.equal(productTable.get("categoryId"), category));
-        }
+        List<ProductEntity> productEntities = productRepository.findAll(Example.of(example, matcher));
+        int size = productEntities.size();
+        if(end > productEntities.size()) end = productEntities.size();
+        productEntities = productEntities.subList(beginning, end);
 
-        if(client != null && owned){
-            predicateList.add(builder.equal(productTable.get("vendedor"), client));
-        }
-
-        query.select(productTable).where(predicateList.toArray(new Predicate[0]));
-
-        actualSize = em.createQuery(query)
-                .getResultList()
-                .size();
-
-        List<ProductEntity> productEntities = em.createQuery(query)
-                .setFirstResult(page * ProductKeys.productsPerPageLimit)
-                .setMaxResults(ProductKeys.productsPerPageLimit)
-                .getResultList();
-
-        return new ProductTupleResult<>(productEntities, actualSize);
+        return new ProductTupleResult(productEntities, size);
     }
 
     public static class ProductTupleResult<T>{

@@ -112,11 +112,13 @@ public class BidService {
         }
 
 
-        var bid = new BidEntity();
-        bid.setPublishDate(timestamp);
-        bid.setAmount(amount);
-        bid.setClient(vendor);
-        bid.setProduct(product);
+        BidEntity bid = BidEntity
+                .builder()
+                .publishDate(timestamp)
+                .amount(amount)
+                .client(vendor)
+                .product(product)
+                .build();
         bidRepository.save(bid);
     }
 }

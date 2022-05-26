@@ -128,18 +128,20 @@ public class ProductService {
     }
 
     public ProductDTO createProduct(String title, String description, double outPrice, String image, java.util.Date publishDate, int vendedorId, int categoryId) {
-        ProductEntity p = new ProductEntity();
         ClientEntity vendedorEntity = clientRepository.findById(vendedorId).get();
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).get();
 
-        p.setTitle(title);
-        p.setDescription(description);
-        p.setOutPrice(outPrice);
-        p.setImage(image);
-        p.setCloseDate(null);
-        p.setPublishDate(new Timestamp(publishDate.getTime()));
-        p.setVendedor(vendedorEntity);
-        p.setCategoryId(categoryEntity);
+        ProductEntity p = ProductEntity
+                .builder()
+                .title(title)
+                .description(description)
+                .outPrice(outPrice)
+                .image(image)
+                .closeDate(null)
+                .publishDate(new Timestamp(publishDate.getTime()))
+                .categoryId(categoryEntity)
+                .vendedor(vendedorEntity)
+                .build();
 
         productRepository.save(p);
         p = productRepository.findById(p.getId()).get();
