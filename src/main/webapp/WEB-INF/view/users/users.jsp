@@ -1,4 +1,6 @@
 <%@ page import="uma.taw.ubayspring.dto.users.ClientDTO" %>
+<%@ page import="uma.taw.ubayspring.types.GenderEnum" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: jota
@@ -33,33 +35,31 @@
             a un usuario nuevo</a>
         <div class="row">
             <div class="col-3">
-                <form>
+                <%--@elvariable id="filterUsersDTO" type="uma.taw.ubayspring.dto.users.FilterUsersDTO"--%>
+                <form:form modelAttribute="filterUsersDTO" method="get">
                     <div class="form col">
-                        ID: <input type="number" class="form-control" id="id"
-                                   name="id" maxlength="5">
-                        Nombre: <input type="text" class="form-control"
-                                       id="name" name="name" maxlength="10">
-                        Apellidos: <input type="text" class="form-control"
-                                          id="lastName" name="lastName"
-                                          maxlength="10">
-                        Dirección: <input type="text" class="form-control"
-                                          id="address" name="address"
-                                          maxlength="15">
-                        Ciudad: <input type="text" class="form-control"
-                                       id="city" name="city"
-                                       aria-describedby="city" maxlength="10">
-                        Género: <select class="form-select" id="gender"
-                                        name="gender">
-                        <option selected value="--">--</option>
-                        <option value="male">Masculino</option>
-                        <option value="female">Femenino</option>
-                        <option value="other">Otro</option>
-                    </select>
+                        ID: <form:input path="id" type="number" class="form-control" id="id"
+                                    maxlength="5"/>
+                        Nombre: <form:input type="text" path="name" class="form-control"
+                                       id="name"  maxlength="10"/>
+                        Apellidos: <form:input type="text" path="lastName" class="form-control"
+                                          id="lastName"
+                                          maxlength="10"/>
+                        Dirección: <form:input type="text" path="address" class="form-control"
+                                          id="address"
+                                          maxlength="15"/>
+                        Ciudad: <form:input type="text" path="city" class="form-control"
+                                       id="city"
+                                       aria-describedby="city" maxlength="10"/>
+                        Género: <form:select class="form-select" path="gender" id="gender">
+                                    <form:option value=""/>
+                                    <form:options items="${GenderEnum.values()}"/>
+                                </form:select>
                         <button type="submit" class="btn btn-primary mt-2">
                             Buscar
                         </button>
                     </div>
-                </form>
+                </form:form>
             </div>
 
             <div class="col">

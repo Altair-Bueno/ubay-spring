@@ -20,14 +20,14 @@ public class ClientRepositoryCustomImpl implements ClientRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public List<ClientEntity> filterClients(String name, String lastName, GenderEnum gender, String address, String city, String id) {
+    public List<ClientEntity> filterClients(String name, String lastName, GenderEnum gender, String address, String city, Integer id) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<ClientEntity> query = builder.createQuery(ClientEntity.class);
         Root<ClientEntity> clientTable = query.from(ClientEntity.class);
         query.select(clientTable);
         List<Predicate> predicateList = new ArrayList<>();
 
-        if (!"".equals(id)) {
+        if (id != null) {
             predicateList.add(builder.equal(clientTable.get("id"), id));
         }
 

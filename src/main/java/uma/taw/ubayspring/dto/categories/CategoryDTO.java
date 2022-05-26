@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 public class CategoryDTO {
-    int id;
+    Integer id;
     String name;
     String description;
 }

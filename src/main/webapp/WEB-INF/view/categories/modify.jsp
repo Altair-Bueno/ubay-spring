@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: jota
@@ -21,22 +22,20 @@
     <h1>Datos</h1>
 
     <div class="d-flex flex-column">
-        <form action="modify" method="get">
+        <%--@elvariable id="categoryDTO" type="uma.taw.ubayspring.dto.categories.CategoryDTO"--%>
+        <form:form action="modify" method="post" modelAttribute="categoryDTO">
             <div class="form col">
                 <label>
-                    <input hidden type="text" class="form-control" name="id" value="<%=request.getParameter("id")%>">
+                    <form:hidden path="id" class="form-control" name="id"/>
                     <br>
-                    <input hidden name="edited" value="1"/>
-                    Nombre: <input required type="text" class="form-control" name="name"
-                                   value="<%=request.getParameter("name")%>" maxlength="15"> <br>
-                    Descripción: <input required type="text" class="form-control" name="description"
-                                        value="<%=request.getParameter("description")%>" maxlength="25"> <br>
+                    Nombre: <form:input required="" path="name" type="text" class="form-control"  maxlength="15"/> <br>
+                    Descripción: <form:input required="" path="description" type="text" class="form-control"  maxlength="25"/> <br>
 
                 </label>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Modificar</button>
             <button type="button" class="btn btn-secondary mt-2" onclick="goBack()">Cancelar</button>
-        </form>
+        </form:form>
     </div>
 </div>
 

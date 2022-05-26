@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="uma.taw.ubayspring.types.GenderEnum" %><%--
   Created by IntelliJ IDEA.
   User: jota
@@ -22,17 +23,18 @@
     </div>
 
     <div class="d-flex flex-column">
-        <form action="modify" method="get">
+        <%--@elvariable id="clientDTO" type="uma.taw.ubayspring.dto.users.ClientDTO"--%>
+        <form:form action="modify" modelAttribute="clientDTO" method="post">
             <div class="form col">
-                <input hidden type="text" class="form-control" name="id" value="<%=request.getParameter("id")%>"> <br>
-                Nombre: <input required type="text" class="form-control" name="name" value="<%=request.getParameter("name")%>" maxlength="10">
-                Apellidos: <input required type="text" class="form-control" name="lastName" value="<%=request.getParameter("lastName")%>" maxlength="10"> <br>
-                Dirección: <input required type="text" class="form-control" name="address"
-                                  value="<%=request.getParameter("address")%>" maxlength="15"> <br>
-                <input hidden name="edited" value="1"/>
-                Ciudad: <input required type="text" class="form-control" name="city" value="<%=request.getParameter("city")%>" maxlength="10">
+                <form:hidden class="form-control" name="id" path="id"/> <br>
+                Nombre: <form:input required="true" path="name" type="text" class="form-control" maxlength="10"/>
+                Apellidos: <form:input required="true" path="lastName" type="text" class="form-control" maxlength="10"/> <br>
+                Dirección: <form:input required="true" path="address" type="text" class="form-control"
+                                  maxlength="15"/> <br>
+                Ciudad: <form:input required="true" path="city" type="text" class="form-control" maxlength="10"/>
                 <br>
-                Género: <select name="gender" class="form-select">
+                Género:
+            <form:select path="gender" name="gender" class="form-select" items="${GenderEnum.values()}">
                 <% for (GenderEnum gender : GenderEnum.values()){
                     String clientGender = request.getParameter("gender");
                     GenderEnum clientGenderEnum = GenderEnum.valueOf(clientGender);
@@ -40,20 +42,20 @@
                 %>
                 <option selected><%=gender.toString()%></option>
                 <%
-                } else {
+                } //else {
                 %>
+
                 <option><%=gender.toString()%></option>
                 <%
                     }
                 %>
-                <%}%>
-            </select> </br>
-                Fecha de nacimiento: <input type="date" class="form-control" name="birthDate"
-                                            value="<%=request.getParameter("birthDate")%>"> <br>
+                <%//}%>
+            </form:select> </br>
+                Fecha de nacimiento: <form:input path="birthDate" type="date" class="form-control"/> <br>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Modificar</button>
             <button type="button" class="btn btn-secondary mt-2" onclick="goBack()">Cancelar</button>
-        </form>
+        </form:form>
     </div>
 </div>
 

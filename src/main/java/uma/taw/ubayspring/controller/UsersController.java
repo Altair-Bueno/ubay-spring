@@ -1,5 +1,6 @@
 package uma.taw.ubayspring.controller;
 
+import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +13,7 @@ import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.FilterUsersDTO;
 import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.service.BidService;
@@ -70,19 +72,11 @@ public class UsersController {
             return null;
         }
     }
-
-    @GetMapping("")
-    public String client(Model model,
-                         @RequestParam(defaultValue = "") String id,
-                         @RequestParam(defaultValue = "") String name,
-                         @RequestParam(defaultValue = "") String lastName,
-                         @RequestParam(defaultValue = "") String address,
-                         @RequestParam(defaultValue = "") String city,
-                         @RequestParam(defaultValue = "") String gender) {
-
-        List<ClientDTO> clientDTOList = usersService.users(id, name, lastName, address, city, gender);
-
+    @GetMapping
+    public String getUsers(Model model, @ModelAttribute FilterUsersDTO filterUsersDTO) {
+        List<ClientDTO> clientDTOList = usersService.users(filterUsersDTO);
         model.addAttribute("search-user", clientDTOList);
+        model.addAttribute("filterUsersDTO", filterUsersDTO);
         return "users/users";
     }
 
@@ -93,22 +87,14 @@ public class UsersController {
     }
 
     @GetMapping("/modify")
-    public String modify(@RequestParam String id,
-                         @RequestParam String name,
-                         @RequestParam String lastName,
-                         @RequestParam GenderEnum gender,
-                         @RequestParam String address,
-                         @RequestParam String city,
-                         @RequestParam Date birthDate,
-                         @RequestParam (defaultValue = "") String edited){
-        usersService.modifyUser(id, name, lastName, gender, address, city, birthDate);
+    public ClientDTO getModify(@ModelAttribute ClientDTO clientDTO){
+        return clientDTO;
+    }
 
-        if (edited.equals("")) {
-            return "users/modify";
-        } else {
-            usersService.modifyUser(id, name, lastName, gender, address, city, birthDate);
-            return "redirect:";
-        }
+    @PostMapping("/modify")
+    public String postModify(@ModelAttribute ClientDTO clientDTO){
+        usersService.modifyUser(clientDTO);
+        return "redirect:";
     }
 
     @GetMapping("/addFavourite")

@@ -83,7 +83,7 @@
                                                 data-bs-dismiss="modal">Cancelar
                                         </button>
                                         <form method="GET"
-                                              action="/categories/delete?id=<%=c.getId()%>">
+                                              action="/categories/delete">
                                             <input hidden name='id' value="<%=c.getId()%>"/>
                                             <input class="btn btn-danger" type="submit"
                                                    value="Eliminar">

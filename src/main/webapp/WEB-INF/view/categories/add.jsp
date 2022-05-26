@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: jota
@@ -21,18 +22,18 @@
     <h1>Datos</h1>
     <div class="d-flex flex-column">
 
-        <form action="add" method="get">
+        <%--@elvariable id="categoryDTO" type="uma.taw.ubayspring.dto.categories.CategoryDTO"--%>
+        <form:form action="add" method="post" modelAttribute="addCategoryDTO">
             <div class="form col">
                 <label>
-                    <input hidden name="added" value="1"/>
-                    Nombre: <input type="text" class="form-control" name="name"> <br>
-                    Descripción: <input type="text" class="form-control" name="description"> <br>
+                    Nombre: <form:input path="name" type="text" class="form-control" /> <br>
+                    Descripción: <form:input path="description" type="text" class="form-control" /> <br>
                 </label>
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary mt-2">Crear</button>
             </div>
-        </form>
+        </form:form>
     </div>
 </div>
 

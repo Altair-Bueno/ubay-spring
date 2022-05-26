@@ -11,6 +11,7 @@ import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
+import uma.taw.ubayspring.dto.users.FilterUsersDTO;
 import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
 import uma.taw.ubayspring.entity.*;
@@ -95,14 +96,14 @@ public class UsersService {
         ProductFavouritesEntity fav = productFavouritesRepositoryCustom.getTuple(client, product);
         productFavouritesRepository.delete(fav);
     }
-    public void modifyUser(String id, String name, String lastName, GenderEnum gender, String address, String city, Date birthDate) {
-        ClientEntity client = clientRepository.findById(Integer.parseInt(id)).get();
-        client.setName(name);
-        client.setLastName(lastName);
-        client.setGender(gender);
-        client.setAddress(address);
-        client.setCity(city);
-        client.setBirthDate(birthDate);
+    public void modifyUser(ClientDTO clientDTO) {
+        ClientEntity client = clientRepository.findById(clientDTO.getId()).get();
+        client.setName(clientDTO.getName());
+        client.setLastName(clientDTO.getLastName());
+        client.setGender(clientDTO.getGender());
+        client.setAddress(clientDTO.getAddress());
+        client.setCity(clientDTO.getCity());
+        client.setBirthDate(clientDTO.getBirthDate());
         clientRepository.save(client);
     }
 
@@ -165,19 +166,15 @@ public class UsersService {
     */
 
 
-    public List<ClientDTO> users(String id, String name, String lastName, String address, String city, String genderString) {
-        GenderEnum gender = null;
-        if (genderString != null && !"".equals(genderString) && !genderString.equals("--")) {
-            gender = GenderEnum.valueOf(genderString);
-        }
-
-        List<ClientEntity> clientEntityList = (List<ClientEntity>) clientRepository.findAll();
-        List<ClientEntity> filtrados = clientRepositoryCustom.filterClients(name, lastName, gender, address, city, id);
-        if (!name.equals("") || !lastName.equals("") || gender != null || !address.equals("") || !city.equals("") || !id.equals("")) {
-            return filtrados.stream().map(this::clientEntityToDTO).collect(Collectors.toList());
-        } else {
-            return clientEntityList.stream().map(this::clientEntityToDTO).collect(Collectors.toList());
-        }
+    public List<ClientDTO> users(FilterUsersDTO filterUsersDTO) {
+        List<ClientEntity> filtrados = clientRepositoryCustom.filterClients(
+                filterUsersDTO.getName(),
+                filterUsersDTO.getLastName(),
+                filterUsersDTO.getGender(),
+                filterUsersDTO.getAddress(),
+                filterUsersDTO.getCity(),
+                filterUsersDTO.getId());
+        return filtrados.stream().map(this::clientEntityToDTO).collect(Collectors.toList());
     }
 
 

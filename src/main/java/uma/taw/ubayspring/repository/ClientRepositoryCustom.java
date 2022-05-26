@@ -6,5 +6,5 @@ import uma.taw.ubayspring.types.GenderEnum;
 import java.util.List;
 
 public interface ClientRepositoryCustom {
-    List<ClientEntity> filterClients(String name, String lastName, GenderEnum gender, String address, String city, String id);
+    List<ClientEntity> filterClients(String name, String lastName, GenderEnum gender, String address, String city, Integer id);
 }

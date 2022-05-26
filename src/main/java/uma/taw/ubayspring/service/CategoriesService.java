@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.categories.CategoriesDTO;
 import uma.taw.ubayspring.dto.categories.CategoryDTO;
+import uma.taw.ubayspring.dto.categories.ModifyCategoryDTO;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.UserFavouritesEntity;
@@ -105,11 +106,11 @@ public class CategoriesService {
         favouritesRepository.delete(favourite);
     }
 
-    public void modify(String id, String name, String description) {
-        CategoryEntity category = categoryRepository.findById(Integer.parseInt(id)).get();
+    public void modify(CategoryDTO categoryDTO) {
+        CategoryEntity category = categoryRepository.findById(categoryDTO.getId()).get();
 
-        category.setName(name);
-        category.setDescription(description);
+        category.setName(categoryDTO.getName());
+        category.setDescription(categoryDTO.getDescription());
 
         categoryRepository.save(category);
     }

@@ -5,10 +5,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import uma.taw.ubayspring.dto.categories.AddCategoryDTO;
 import uma.taw.ubayspring.dto.categories.CategoriesDTO;
+import uma.taw.ubayspring.dto.categories.CategoryDTO;
+import uma.taw.ubayspring.dto.categories.ModifyCategoryDTO;
 import uma.taw.ubayspring.exception.UbayException;
 import uma.taw.ubayspring.service.CategoriesService;
 
@@ -19,7 +20,7 @@ public class CategoriesController {
     @Autowired
     CategoriesService categoriesService;
 
-    @GetMapping("")
+    @GetMapping()
     public String categories(Model model){
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         CategoriesDTO categoriesDTO = categoriesService.processCategories(user);
@@ -33,13 +34,14 @@ public class CategoriesController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam (defaultValue = "") String name, @RequestParam (defaultValue = "") String description, @RequestParam (defaultValue = "") String added){
-        if (added.equals("")) {
-            return "categories/add";
-        } else {
-            categoriesService.addCategory(name, description);
-            return "redirect:";
-        }
+    public AddCategoryDTO getAdd(@ModelAttribute AddCategoryDTO addCategoryDTO){
+        return addCategoryDTO;
+    }
+
+    @PostMapping("/add")
+    public String postAdd(@ModelAttribute AddCategoryDTO addCategoryDTO){
+        categoriesService.addCategory(addCategoryDTO.getName(), addCategoryDTO.getDescription());
+        return "redirect:";
     }
 
     @GetMapping("/addFavourite")
@@ -63,15 +65,13 @@ public class CategoriesController {
     }
 
     @GetMapping("/modify")
-    public String modify(@RequestParam String id,
-                         @RequestParam String name,
-                         @RequestParam String description,
-                         @RequestParam (defaultValue = "") String edited){
-        if (edited.equals("")) {
-            return "categories/modify";
-        } else {
-            categoriesService.modify(id, name, description);
-            return "redirect:";
-        }
+    public CategoryDTO getModify(@ModelAttribute CategoryDTO categoryDTO){
+        return categoryDTO;
+    }
+
+    @PostMapping("/modify")
+    public String modify(@ModelAttribute CategoryDTO categoryDTO){
+        categoriesService.modify(categoryDTO);
+        return "redirect:";
     }
 }

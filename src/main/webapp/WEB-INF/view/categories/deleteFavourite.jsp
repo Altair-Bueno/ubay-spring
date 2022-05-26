@@ -15,7 +15,6 @@
     <title>Ubay | Eliminar categoria favorita</title>
 </head>
 <body>
-<%@include file="../WEB-INF/components/navbar.jsp" %>
 
 <div class="container">
     <div class="container">
