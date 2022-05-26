@@ -8,6 +8,9 @@ import uma.taw.ubayspring.wrapper.MinioWrapperService;
 
 import java.io.IOException;
 
+/**
+ * @author Altair Bueno
+ */
 @RequestMapping("/image")
 @RestController
 public class ImageController {
