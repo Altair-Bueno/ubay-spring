@@ -8,6 +8,9 @@ import uma.taw.ubayspring.types.GenderEnum;
 
 import java.sql.Date;
 
+/**
+ * @author Altair Bueno
+ */
 @Data
 @Builder
 @AllArgsConstructor

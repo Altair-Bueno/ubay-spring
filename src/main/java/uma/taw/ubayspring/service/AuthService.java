@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import uma.taw.ubayspring.dto.auth.ChangePasswordDTO;
 import uma.taw.ubayspring.dto.auth.RegisterDTO;
 import uma.taw.ubayspring.dto.auth.ResetPasswordDTO;
 import uma.taw.ubayspring.entity.ClientEntity;
@@ -43,20 +44,22 @@ public class AuthService implements UserDetailsService {
     PasswordEncoder passwordEncoder;
 
     public void changePassword(@NonNull User user,
-                               @NonNull String oldPassword,
-                               @NonNull String newPassword,
-                               @NonNull String repeatPassword
+                               @NonNull ChangePasswordDTO changePasswordDTO
     ) throws AuthenticationException {
-        if (!repeatPassword.equals(newPassword))
+        String password = changePasswordDTO.getPassword();
+        String repeatPassword = changePasswordDTO.getRepeatPassword();
+        String oldPassword = changePasswordDTO.getOldPassword();
+
+        if (!repeatPassword.equals(password))
             throw new AuthenticationException("Passwords don't match");
-        if (!newPassword.matches(AuthKeys.PASSWORD_REGEX))
+        if (!password.matches(AuthKeys.PASSWORD_REGEX))
             throw new AuthenticationException("Invalid password format");
 
         LoginCredentialsEntity loginCredentials = getCredentialsEntity(user);
         String oldHash = loginCredentials.getPassword();
 
         if (passwordEncoder.matches(oldPassword, oldHash)) {
-            var newHash = passwordEncoder.encode(newPassword);
+            var newHash = passwordEncoder.encode(password);
             loginCredentials.setPassword(newHash);
 
             loginCredentialsRepository.save(loginCredentials);
