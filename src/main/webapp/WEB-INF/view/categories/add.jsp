@@ -26,9 +26,15 @@
         <form:form action="add" method="post" modelAttribute="addCategoryDTO">
             <div class="form col">
                 <label>
-                    Nombre: <form:input path="name" required="required" type="text" maxlength="15" class="form-control" /> <br>
-                    Descripción: <form:input path="description" required="required" type="text" maxlength="25" class="form-control" /> <br>
+                    Nombre: <form:input path="name" required="required" type="text" maxlength="15" size="15" class="form-control" /> <br>
                 </label>
+            </div>
+
+            <div class="form col">
+                 <label>
+                      <%-- <form:input path="description" required="required" type="text" maxlength="50" size="50" class="form-control" /> --%> <br>
+                      Descripción: <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
+                 </label>
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary mt-2">Crear</button>

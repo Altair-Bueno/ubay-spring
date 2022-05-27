@@ -29,8 +29,12 @@
                     <form:hidden path="id" class="form-control" name="id"/>
                     <br>
                     Nombre: <form:input required="required" path="name" type="text" class="form-control"  maxlength="15"/> <br>
-                    Descripción: <form:input required="required" path="description" type="text" class="form-control"  maxlength="25"/> <br>
+                </label>
+            </div>
 
+            <div>
+                <label>
+                    Descripción: <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
                 </label>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Modificar</button>
