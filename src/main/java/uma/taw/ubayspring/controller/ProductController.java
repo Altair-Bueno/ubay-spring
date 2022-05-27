@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.products.*;
+import uma.taw.ubayspring.dto.products.index.FavOwnedDTO;
+import uma.taw.ubayspring.dto.products.index.ListsDTO;
+import uma.taw.ubayspring.dto.products.index.ParamsDTO;
+import uma.taw.ubayspring.dto.products.index.ProductIndexDTO;
+import uma.taw.ubayspring.keys.ProductKeys;
 import uma.taw.ubayspring.service.AuthService;
 import uma.taw.ubayspring.service.products.ProductService;
 import uma.taw.ubayspring.types.KindEnum;
@@ -21,9 +26,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/product")
@@ -56,32 +59,21 @@ public class ProductController {
         return cliente;
     }
 
-    @GetMapping("")
-    @PostMapping("")
-    public String processIndex(Model model,
-                               @RequestParam Optional<String> page,
-                               @RequestParam Optional<String> category,
-                               @RequestParam Optional<String> name,
-                               @RequestParam Optional<String> favOwnedFilter) {
+    @GetMapping
+    public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel) {
+        ListsDTO listas = new ListsDTO();
+        listas.setCategoryList(productService.categories());
+        listas.setProductList(productService.getProductsList(productModel, getSession()).getProductsList());
+        listas.setFavOwnedFilterOptions(List.of(new FavOwnedDTO[]{
+                new FavOwnedDTO("favFilter", "Favoritos"),
+                new FavOwnedDTO("ownedFilter", "Mis productos")
+        }));
 
-        ProductClientDTO cliente = getSession();
-
-        String productName = name.isPresent() ? name.get() : "";
-        String categoryParam = (category.isEmpty() || (category.isPresent() && category.get().equals("--"))) ? "0" : category.get();
-        String pageParam = page.isPresent() ? page.get() : "1";
-        String favOwnedFilterParam = favOwnedFilter.isPresent() ? favOwnedFilter.get() : "";
-
-        ProductsDTO productDTOS = productService.getProductsList(cliente, productName, categoryParam, favOwnedFilterParam, pageParam);
-
-        model.addAttribute("category-list", productService.categories());
-        model.addAttribute("categoryFilter", Integer.parseInt(categoryParam));
-        model.addAttribute("nameFilter", productName);
-        model.addAttribute("product-tam", productDTOS.getSize());
-        model.addAttribute("product-list", productDTOS.getProductsList());
-        model.addAttribute("user", cliente != null);
-        model.addAttribute("page", pageParam);
-
-        return "product/index";
+        model.addAttribute("client", getSession());
+        model.addAttribute("pageLimit", (int) Math.ceil((double) listas.getProductList().size() / ProductKeys.productsPerPageLimit));
+        model.addAttribute("listas", listas);
+        model.addAttribute("productModel", productModel);
+        return "product";
     }
 
     @GetMapping("/new")

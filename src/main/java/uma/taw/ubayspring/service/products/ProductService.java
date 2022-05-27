@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.products.*;
+import uma.taw.ubayspring.dto.products.index.ParamsDTO;
 import uma.taw.ubayspring.entity.*;
 import uma.taw.ubayspring.repository.*;
 import uma.taw.ubayspring.service.AuthService;
@@ -15,12 +16,14 @@ import uma.taw.ubayspring.wrapper.MinioWrapperService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,43 +64,28 @@ public class ProductService {
     AuthService authService;
 
 
-    public ProductsDTO getProductsList(ProductClientDTO sesionClient, String productName, String category, String favOwnedFilter, String page) {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> ptr;
-        CategoryEntity cat = null;
+    public ProductsDTO getProductsList(ParamsDTO paramsDTO, ProductClientDTO sesionClient) {
+        String favOwnedFilter = paramsDTO.getFavOwnedFilter() == null ? "" : paramsDTO.getFavOwnedFilter(), productName = paramsDTO.getName() == null ? "" : paramsDTO.getName();
+        int category = paramsDTO.getCategory(), page = paramsDTO.getPage();
+
+        boolean favFilter = favOwnedFilter.equals("favFilter"), ownedFilter = favOwnedFilter.equals("ownedFilter");
         ClientEntity clientEntity = null;
-        String name = null;
-        boolean favFilter = false, ownedFilter = false;
-        int pageParam = Integer.parseInt(page) - 1;
-
-        // Set fav / owned filters
-        if(favOwnedFilter.equals("favFilter")){
-            favFilter = true;
-        } else if(favOwnedFilter.equals("ownedFilter")){
-            ownedFilter = true;
-        }
-
-        // Set category
-        if (!category.equals("0")) {
-            int catId = Integer.parseInt(category);
-            cat = categoryRepository.findById(catId).get();
-        }
+        ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> ptr;
+        List<ProductDTO> productDTOS = new ArrayList<>();
 
         // Set client
         if(sesionClient != null) {
             clientEntity = clientRepository.findById(sesionClient.getId()).get();
         }
 
-        // Set name
-        if(!productName.equals("")){
-            name = productName;
-        }
+        Optional<CategoryEntity> optCategory = categoryRepository.findById(category);
+        CategoryEntity categoryEntity = optCategory.isPresent() ? optCategory.get() : null;
 
         // Filters:
         if(favFilter){
-            ptr = productFavouritesRepositoryCustom.getClientFavouriteProductsFiltered(clientEntity, name, cat, pageParam);
+            ptr = productFavouritesRepositoryCustom.getClientFavouriteProductsFiltered(clientEntity, productName, categoryEntity, page);
         } else {
-            ptr = productRepositoryCustom.filterAndGetByPage(clientEntity, name, cat, ownedFilter, pageParam);
+            ptr = productRepositoryCustom.filterAndGetByPage(clientEntity, productName, categoryEntity, ownedFilter, page);
         }
 
         for (ProductEntity p : ptr.getProductEntities()) {

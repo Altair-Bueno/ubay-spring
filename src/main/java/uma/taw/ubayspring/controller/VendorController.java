@@ -18,8 +18,8 @@ import uma.taw.ubayspring.types.KindEnum;
 import java.util.List;
 
 @Controller
-@RequestMapping("/vendor/bids")
-public class BidsController {
+@RequestMapping("/vendor")
+public class VendorController {
     @Autowired
     BidService bidService;
 
@@ -38,8 +38,8 @@ public class BidsController {
         }
     }
 
-    @GetMapping("")
-    @PostMapping("")
+    @GetMapping("/bids")
+    @PostMapping("/bids")
     public String getIndex(Model model,
                            @RequestParam(required = false) String startDate,
                            @RequestParam(required = false) String endDate,
@@ -48,7 +48,7 @@ public class BidsController {
                            @RequestParam(required = false) String page,
                            @RequestParam(required = false) String orderBy,
                            @RequestParam(required = false) String asc
-                           ){
+    ){
 
         List<ReceivedBidsDTO> bidList = bidService.getReceivedBids(
                 getSession(),

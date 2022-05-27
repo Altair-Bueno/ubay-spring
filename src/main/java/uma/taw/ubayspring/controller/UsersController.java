@@ -169,7 +169,7 @@ public class UsersController {
                 asc
         );
         model.addAttribute("bidsByUser", bidList);
-        return "/users/bids/index";
+        return "/users/bids";
     }
 
     @PostMapping("/bids/new")

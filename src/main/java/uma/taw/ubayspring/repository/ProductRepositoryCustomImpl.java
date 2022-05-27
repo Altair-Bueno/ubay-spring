@@ -27,7 +27,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 
     @Override
     public ProductTupleResult filterAndGetByPage(ClientEntity vendedor, String title, CategoryEntity category, boolean owned, int page){
-        int beginning = ProductKeys.productsPerPageLimit * page, end = (ProductKeys.productsPerPageLimit * (page + 1) + 1);
+        if(page == 0) page = 1;
+        int beginning = ProductKeys.productsPerPageLimit * (page - 1), end = (ProductKeys.productsPerPageLimit * page + 1);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
