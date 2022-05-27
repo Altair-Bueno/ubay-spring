@@ -28,8 +28,8 @@
                 <label>
                     <form:hidden path="id" class="form-control" name="id"/>
                     <br>
-                    Nombre: <form:input required="" path="name" type="text" class="form-control"  maxlength="15"/> <br>
-                    Descripción: <form:input required="" path="description" type="text" class="form-control"  maxlength="25"/> <br>
+                    Nombre: <form:input required="required" path="name" type="text" class="form-control"  maxlength="15"/> <br>
+                    Descripción: <form:input required="required" path="description" type="text" class="form-control"  maxlength="25"/> <br>
 
                 </label>
             </div>

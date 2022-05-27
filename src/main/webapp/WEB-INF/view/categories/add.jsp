@@ -21,13 +21,13 @@
 <div class="d-flex flex-column align-items-center">
     <h1>Datos</h1>
     <div class="d-flex flex-column">
-
-        <%--@elvariable id="categoryDTO" type="uma.taw.ubayspring.dto.categories.CategoryDTO"--%>
+        
+        <%--@elvariable id="addCategoryDTO" type="uma.taw.ubayspring.dto.categories.AddCategoryDTO"--%>
         <form:form action="add" method="post" modelAttribute="addCategoryDTO">
             <div class="form col">
                 <label>
-                    Nombre: <form:input path="name" type="text" class="form-control" /> <br>
-                    Descripción: <form:input path="description" type="text" class="form-control" /> <br>
+                    Nombre: <form:input path="name" required="required" type="text" maxlength="15" class="form-control" /> <br>
+                    Descripción: <form:input path="description" required="required" type="text" maxlength="25" class="form-control" /> <br>
                 </label>
             </div>
             <div class="d-flex justify-content-center">
