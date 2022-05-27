@@ -59,6 +59,7 @@
                         <button type="submit" class="btn btn-primary mt-2">
                             Buscar
                         </button>
+                        <a class="btn btn-secondary mt-2" href="<%=request.getContextPath()%>/users">Limpiar</a>
                     </div>
                 </form:form>
             </div>
