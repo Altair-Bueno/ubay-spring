@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Cambiar mi contraseña</title>
+    <title><spring:message key="changePassword.title"/></title>
 </head>
 <style>
     html,
@@ -64,7 +65,7 @@
     <form:form method="post"
                action="/auth/changePassword"
                modelAttribute="changePasswordDTO">
-        <h1 class="h3 mb-3 fw-normal">Cambiar mi contraseña</h1>
+        <h1 class="h3 mb-3 fw-normal"><spring:message key="changePassword.header"/></h1>
         <div class="form-floating">
             <form:input type="password"
                         class="form-control"
@@ -72,7 +73,7 @@
                         placeholder="Old Password"
                         pattern="${AuthKeys.PASSWORD_REGEX}"
                         required="" path="oldPassword"/>
-            <label for="floatingInput">Contraseña actual</label>
+            <label for="floatingInput"><spring:message key="changePassword.form.current_password"/></label>
         </div>
         <div class="form-floating">
             <form:input
@@ -82,8 +83,8 @@
                     placeholder="New Password"
                     pattern="${AuthKeys.PASSWORD_REGEX}" required=""
                     aria-describedby="passwordHelp" path="password"/>
-            <label for="floatingPassword">Nueva contraseña</label>
-            <div id="passwordHelp" class="form-text">8 caracteres mínimo</div>
+            <label for="floatingPassword"><spring:message key="changePassword.form.new_password"/></label>
+            <div id="passwordHelp" class="form-text"><spring:message key="changePassword.form.new_password.help"/></div>
         </div>
         <div class="form-floating last">
             <form:input
@@ -93,10 +94,10 @@
                     placeholder="Repeat New Password"
                     pattern="${AuthKeys.PASSWORD_REGEX}" required=""
                     path="repeatPassword"/>
-            <label for="floatingRepeat">Repetir nueva contraseña</label>
+            <label for="floatingRepeat"><spring:message key="changePassword.form.repeat_password"/></label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Cambiar
-            contraseña
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+            <spring:message key="changePassword.form.submit"/>
         </button>
     </form:form>
 </main>
