@@ -3,9 +3,11 @@ package uma.taw.ubayspring.service.products;
 import com.jlefebure.spring.boot.minio.MinioException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uma.taw.ubayspring.dto.products.*;
+import uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO;
 import uma.taw.ubayspring.dto.products.index.ParamsDTO;
 import uma.taw.ubayspring.entity.*;
 import uma.taw.ubayspring.repository.*;
@@ -98,7 +100,7 @@ public class ProductService {
     }
 
     @NonNull
-    public boolean isProductUserFavourite(ProductClientDTO client, int id) {
+    public boolean isProductUserFavourite(ProductClientDTO client, Integer id) {
         ClientEntity user = clientRepository.findById(client.getId()).get();
 
         if (user != null) {
@@ -115,26 +117,40 @@ public class ProductService {
         return categoryEntityToDTO(categoryRepository.findById(id).get());
     }
 
-    public ProductDTO createProduct(String title, String description, double outPrice, String image, java.util.Date publishDate, int vendedorId, int categoryId) {
-        ClientEntity vendedorEntity = clientRepository.findById(vendedorId).get();
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).get();
+    public Integer createProduct(ProductFormParamsDTO paramsDTO, ProductClientDTO sesionClient) throws IOException, ServletException {
+        ClientEntity vendedorEntity = clientRepository.findById(sesionClient.getId()).get();
+        CategoryEntity categoryEntity = categoryRepository.findById(paramsDTO.getCategory()).get();
+        var file = paramsDTO.getImage();
+        String imgName = null;
+
+        // IMAGEN
+        if (!file.isEmpty()) {
+            InputStream inputStream = file.getInputStream();
+
+
+            try {
+                imgName = minioWrapperService.uploadObject(inputStream);
+            } catch (Exception e) {
+                throw new ServletException(e.getStackTrace().toString());
+            }
+        }
 
         ProductEntity p = ProductEntity
                 .builder()
-                .title(title)
-                .description(description)
-                .outPrice(outPrice)
-                .image(image)
+                .title(paramsDTO.getTitle())
+                .description(paramsDTO.getDescription())
+                .outPrice(paramsDTO.getPrice())
+                .image(imgName)
                 .closeDate(null)
-                .publishDate(new Timestamp(publishDate.getTime()))
+                .publishDate(new Timestamp(new java.util.Date().getTime()))
                 .categoryId(categoryEntity)
                 .vendedor(vendedorEntity)
                 .build();
 
         productRepository.save(p);
-        p = productRepository.findById(p.getId()).get();
+        p = productRepository.findOne(Example.of(p)).get();
 
-        return productEntityToDTO(p);
+        return p.getId();
     }
 
     public ProductDTO findByIdProduct(int id) {

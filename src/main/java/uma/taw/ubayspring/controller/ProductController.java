@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.products.*;
+import uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO;
 import uma.taw.ubayspring.dto.products.index.FavOwnedDTO;
 import uma.taw.ubayspring.dto.products.index.ListsDTO;
 import uma.taw.ubayspring.dto.products.index.ParamsDTO;
@@ -77,76 +78,37 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public String getNew(Model model) {
-        List<ProductCategoryDTO> cats = productService.categories();
-        ProductClientDTO cliente = getSession();
+    public String getNew(@ModelAttribute("productModel") ProductFormParamsDTO productModel, Model model) {
+        List<ProductCategoryDTO> categoryList = productService.categories();
+        ProductClientDTO client = getSession();
 
-        model.addAttribute("cats", cats);
-        model.addAttribute("user", cliente);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("client", client);
         return "product/new";
     }
 
-    @PostMapping("/new")
-    public String postNew(Model model,
-                          RedirectAttributes redirectAttributes,
-                          @RequestParam Integer category,
-                          @RequestParam String vendor,
-                          @RequestParam String title,
-                          @RequestParam Optional<String> description,
-                          @RequestParam String price,
-                          @RequestPart Optional<Part> img
-    ) throws IOException, ServletException {
+    @PostMapping(path = "/new", consumes = {"multipart/form-data"})
+    public String postNew(@ModelAttribute("productModel") ProductFormParamsDTO productModel, RedirectAttributes redirectAttributes) throws ServletException, IOException {
 
-        int categoryId = category;
-        if (vendor.isEmpty()) throw new RuntimeException("ERROR: Intentelo de nuevo.");
-        int vendorId = Integer.parseInt(vendor);
-        String descriptionParam = description.get();
-        String titleParam = title;
-        Double outprice = Double.parseDouble(price);
-        Part file = img.get();
-        String imgName = "";
+        Integer id = productService.createProduct(productModel, getSession());
 
-        // IMAGEN
-        if (!file.getSubmittedFileName().equals("")) {
-            InputStream inputStream = file.getInputStream();
-
-
-            try {
-                imgName = minioWrapperService.uploadObject(inputStream);
-            } catch (Exception e) {
-                throw new ServletException(e.getStackTrace().toString());
-            }
-        }
-
-        ProductDTO p = productService.createProduct(
-                titleParam,
-                descriptionParam,
-                outprice,
-                imgName,
-                new Timestamp(new Date().getTime()),
-                vendorId,
-                categoryId
-        );
-
-        redirectAttributes.addAttribute("id", p.getId());
+        redirectAttributes.addAttribute("id", id);
         return "redirect:item";
     }
 
     @GetMapping("/item")
-    @PostMapping("/item")
     public String processItem(Model model,
-                              @RequestParam String id
+                              @RequestParam Integer id
     ) {
         ProductClientDTO cliente = getSession();
 
-        Integer idParam = Integer.parseInt(id);
-        ProductDTO productDTO = productService.findByIdProduct(idParam);
-        ProductBidDTO highestBid = productService.getHighestBid(idParam);
+        ProductDTO productDTO = productService.findByIdProduct(id);
+        ProductBidDTO highestBid = productService.getHighestBid(id);
 
         if (cliente == null) {
             model.addAttribute("isFav", null);
         } else {
-            boolean isUserFav = productService.isProductUserFavourite(cliente, idParam);
+            boolean isUserFav = productService.isProductUserFavourite(cliente, id);
             model.addAttribute("isFav", isUserFav);
         }
 

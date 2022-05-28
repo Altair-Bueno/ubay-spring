@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductCategoryDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
@@ -20,13 +21,18 @@ Created by IntelliJ IDEA.
 <body>
 
 <%
-    List<ProductCategoryDTO> cats = (List<ProductCategoryDTO>) request.getAttribute("cats");
-    ProductClientDTO user = ((ProductClientDTO) request.getAttribute("user"));
+    List<ProductCategoryDTO> categoryList = (List<ProductCategoryDTO>) request.getAttribute("categoryList");
 %>
 
 <jsp:include page="../../components/navbar.jsp"/>
 
-<form method="post" enctype="multipart/form-data">
+<%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO"--%>
+<form:form 
+        method="post" 
+        enctype="multipart/form-data"
+        action="${pageContext.request.contextPath}/product/new"
+        modelAttribute="productModel"
+>
     <div class="d-flex flex-row m-auto" style="width: 1000px">
 
         <%-- BLOQUE I - Imagen --%>
@@ -36,8 +42,13 @@ Created by IntelliJ IDEA.
             </div>
             <div class="form-group mb-3 w-75 p-2">
                 <label for="img" class="form-label">Subir imagen: </label>
-                <input type="file" accept="image/*" class="form-control" id="img" name="img"
-                       onchange="loadFile(event)"/>
+                <form:input
+                        type="file"
+                        accept="image/*"
+                        class="form-control"
+                        id="img"
+                        onchange="loadFile(event)"
+                        path="image"/>
             </div>
 
         </div>
@@ -47,46 +58,55 @@ Created by IntelliJ IDEA.
             <%-- Titulo --%>
             <div class="form-group w-75 p-2">
                 <label for="tit">Título: </label>
-                <input type="text" id="tit" class="form-control" name="title" required/>
+                <form:input
+                        type="text"
+                        id="tit"
+                        class="form-control"
+                        path="title"
+                        required="true"
+                />
             </div>
 
             <%-- Descripcion --%>
             <div class="p-2">
                 <label for="desc">Descripcion: </label>
-                <textarea id="desc" class="form-control" name="description" rows="4" cols="50"></textarea>
+                <form:textarea
+                        id="desc"
+                        class="form-control"
+                        rows="4"
+                        cols="50"
+                        path="description"
+                />
             </div>
 
             <%-- Precio --%>
             <div class="p-2">
                 <label for="precio">Precio: </label>
-                <input type="number" id="precio" class="form-control" name="price" required/>
+                <form:input
+                        type="number"
+                        id="precio"
+                        class="form-control"
+                        path="price"
+                        required="true"/>
             </div>
 
             <%-- Categoria --%>
             <div class="p-2">
                 <label>Categoria: </label>
-                <select name="category" required>
-                    <%
-                        for (ProductCategoryDTO c : cats) {
-                    %>
-                    <option value="<%=c.getId()%>"><%=c.getName()%>
-                    </option>
-                    <%
-                        }
-                    %>
-                </select>
+                <form:select name="category" path="category">
+                    <form:options items="<%=categoryList%>" itemValue="id" itemLabel="name"/>
+                </form:select>
             </div>
 
             <%-- Submit --%>
             <div class="p-2">
                 <div class="d-flex flex-row p-2">
                     <div class="p-2">
-                        <input type="text" name="vendor" hidden value="<%=user.getId()%>">
-                        <input class="btn btn-primary p-2" type="submit" value="Confirmar">
+                        <input class="btn btn-primary p-2" type="submit" value="Confirmar"/>
                     </div>
                     <div class="p-2">
                         <input class="btn btn-secondary p-2" type="submit" value="Cancelar"
-                               formaction="<%=request.getHeader("Referer")%>" formnovalidate>
+                               formaction="${pageContext.request.contextPath}/product" formnovalidate="true"/>
                     </div>
                 </div>
 
@@ -94,7 +114,7 @@ Created by IntelliJ IDEA.
         </div>
     </div>
 
-</form>
+</form:form>
 </body>
 <script>
     var loadFile = function (event) {

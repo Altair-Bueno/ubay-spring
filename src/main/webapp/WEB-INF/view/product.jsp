@@ -116,9 +116,14 @@
                     </thead>
                     <tbody>
                     <c:forEach items="<%=listas.getProductList()%>" var="p">
+
                         <tr onclick="window.location='${pageContext.request.contextPath}/product/item?id=${p.id}'">
-                            <td><img src="${p.images}" class="img-thumbnail" alt="${p.title}" style="width: 200px">
-                        </td>
+                            <%
+                                ProductDTO p = (ProductDTO) pageContext.getAttribute("p");
+                                String imgSrc = p.getImages() == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode(p.getImages(), StandardCharsets.UTF_8);
+                            %>
+                            <td><img src="<%=imgSrc%>" class="img-thumbnail" alt="${p.title}" style="width: 200px"></td>
+
                             <td class="align-middle"><h3>${p.title}</h3></td>
                             <c:choose>
                                 <c:when test="${p.closeDate eq null}">
