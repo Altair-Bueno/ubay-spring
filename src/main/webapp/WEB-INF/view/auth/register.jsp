@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page import="uma.taw.ubayspring.types.GenderEnum" %><%--
   Created by IntelliJ IDEA.
@@ -106,7 +107,11 @@
             <form:select id="gender" class="form-select"
                          required=""
                          path="gender">
-                <form:options items="${GenderEnum.values()}"/>
+                <c:forEach items="${GenderEnum.values()}" var="enumValue">
+                    <form:option value="${enumValue}">
+                        <spring:message key="genderenum.${enumValue}"/>
+                    </form:option>
+                </c:forEach>
             </form:select>
         </div>
         <div class="row-1">
