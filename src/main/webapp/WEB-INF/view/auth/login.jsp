@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%--
@@ -14,7 +15,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Login</title>
+    <title><spring:message key="login.title"/></title>
 </head>
 <style>
     html,
@@ -61,12 +62,11 @@
 <main class="form-signin">
     <% if (request.getParameter("error") != null) { %>
         <div class="alert alert-danger" role="alert">
-            Error: Usuario y/o contraseña no encontrados
+            <spring:message key="login.error.invalid_username_or_password"/>
         </div>
     <%}%>
     <form method="post" action="${pageContext.request.contextPath}/auth/login">
-        <%--        <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">--%>
-        <h1 class="h3 mb-3 fw-normal">Por favor, inicie sesión</h1>
+        <h1 class="h3 mb-3 fw-normal"><spring:message key="login.header"/></h1>
         <div class="form-floating">
             <input
                     type="text"
@@ -76,7 +76,7 @@
                     name="<%=AuthKeys.USERNAME_PARAMETER%>"
                     pattern="<%=AuthKeys.USERNAME_REGEX%>" required
             >
-            <label for="floatingInput">Usuario</label>
+            <label for="floatingInput"><spring:message key="login.form.username"/></label>
         </div>
         <div class="form-floating">
             <input
@@ -87,16 +87,16 @@
                     name="<%=AuthKeys.PASSWORD_PARAMETER%>"
                     pattern="<%=AuthKeys.PASSWORD_REGEX%>" required
             >
-            <label for="floatingPassword">Contraseña</label>
+            <label for="floatingPassword"><spring:message key="login.form.password"/></label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar
-            sesión
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+            <spring:message key="login.form.submit"/>
         </button>
     </form>
     <small>
         <a class="link-primary"
            href="${pageContext.request.contextPath}/auth/register">
-            Crear una cuenta
+            <spring:message key="login.link.register"/>
         </a>
     </small>
 </main>
