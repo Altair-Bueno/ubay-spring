@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="uma.taw.ubayspring.keys.AuthKeys" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Reset my password</title>
+    <title><spring:message key="resetPassword.title"/></title>
 </head>
 <style>
     html,
@@ -64,7 +65,7 @@
     <form:form method="post"
                modelAttribute="resetPasswordDTO"
                action="${pageContext.request.contextPath}/auth/resetPassword">
-        <h1 class="h3 mb-3 fw-normal">Reesstablecer contraseña</h1>
+        <h1 class="h3 mb-3 fw-normal"><spring:message key="resetPassword.header"/></h1>
         <div class="form-floating">
             <form:input
                     type="password"
@@ -73,8 +74,8 @@
                     placeholder="New Password"
                     pattern="${AuthKeys.PASSWORD_REGEX}" required=""
                     aria-describedby="passwordHelp" path="newPassword"/>
-            <label for="floatingPassword">Nueva contraseña</label>
-            <div id="passwordHelp" class="form-text">8 caracteres mínimo</div>
+            <label for="floatingPassword"><spring:message key="resetPassword.form.new_password"/></label>
+            <div id="passwordHelp" class="form-text"><spring:message key="resetPassword.form.new_password.help"/></div>
         </div>
         <div class="form-floating last">
             <form:input
@@ -84,10 +85,10 @@
                     placeholder="Repeat New Password"
                     pattern="${AuthKeys.PASSWORD_REGEX}" required=""
                     path="repeatPassword"/>
-            <label for="floatingRepeat">Repetir nueva contraseña</label>
+            <label for="floatingRepeat"><spring:message key="resetPassword.form.repeat_password"/></label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Cambiar
-            contraseña
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+            <spring:message key="resetPassword.form.submit"/>
         </button>
         <form:hidden path="loginID"/>
         <form:hidden path="requestID"/>
