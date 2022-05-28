@@ -1,10 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.List" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.net.URLEncoder" %>
-<%@ page import="uma.taw.ubayspring.keys.ProductKeys" %>
-<%@ page import="uma.taw.ubayspring.dto.products.ProductCategoryDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.index.ListsDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
@@ -22,6 +19,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Ubay | Productos</title>
 </head>
 
@@ -84,6 +82,7 @@
                             <form:radiobuttons
                                     path="favOwnedFilter"
                                     items="<%=listas.getFavOwnedFilterOptions()%>"
+                                    class="no-wrapper"
                                     itemValue="value"
                                     itemLabel="label"
                                     element="br"
@@ -189,4 +188,17 @@
 </div>
 
 </body>
+
+<script>
+    $('input[type=radio].no-wrapper').on('mousedown', function(e){
+        var wasChecked = $(this).prop('checked');
+        this.turnOff = wasChecked;
+        $(this).prop('checked', !wasChecked);
+    });
+
+    $('input[type=radio].no-wrapper').on('click', function(e){
+        $(this).prop('checked', !this.turnOff);
+        this['turning-off'] = !this.turnOff;
+    });
+</script>
 </html>
