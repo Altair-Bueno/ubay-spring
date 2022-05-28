@@ -20,6 +20,8 @@
         crossorigin="anonymous">
 </script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
 <style>
     .dropdown-toggle {
         outline: none !important;
@@ -68,6 +70,36 @@
             <%}%>
         </ul>
 
+        <%-- LANGUAGE SELECTOR --%>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="languageDropdown">
+            <ul class="navbar-nav ms-auto me-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"
+                       id="languageDropdownLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-translate"></i> Idioma
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2"
+                        aria-labelledby="languageDropdownLink">
+                        <li><a class="dropdown-item"
+                               href="">🇬🇧 English</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                               href="">🇪🇸 Español</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <%-- USER DROPDOWN --%>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false"
