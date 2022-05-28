@@ -1,8 +1,10 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductCategoryDTO" %>
+<%@ page import="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO" %>
 <%--
   Created by IntelliJ IDEA.
   Author: Francisco Javier Hernández
@@ -21,13 +23,17 @@
 </head>
 <body>
 <%
-    ProductDTO p = (ProductDTO) request.getAttribute("product");
-    List<ProductCategoryDTO> cats = (List<ProductCategoryDTO>) request.getAttribute("cats");
-    String imgSrc = p.getImages() == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode(p.getImages(), StandardCharsets.UTF_8);
+    List<ProductCategoryDTO> categoryList = (List<ProductCategoryDTO>) request.getAttribute("categoryList");
+    String imgSrc = request.getContextPath() + "/image?id=" + URLEncoder.encode((String)request.getAttribute("imageId"), StandardCharsets.UTF_8);
 %>
 <jsp:include page="../../components/navbar.jsp"/>
 
-<form method="post" enctype="multipart/form-data">
+<%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO"--%>
+<form:form
+        method="post"
+        action="${pageContext.request.contextPath}/product/update"
+        enctype="multipart/form-data"
+        modelAttribute="productModel">
     <div class="d-flex flex-row m-auto" style="width: 1000px">
 
         <%-- BLOQUE I - Imagen --%>
@@ -37,8 +43,13 @@
             </div>
             <div class="form-group mb-3 w-75 p-2">
                 <label for="img" class="form-label">Cambiar imagen: </label>
-                <input type="file" accept="image/*" onchange="loadFile(event)" class="form-control" id="img"
-                       name="img"/>
+                <form:input
+                        type="file"
+                        accept="image/*"
+                        onchange="loadFile(event)"
+                        class="form-control"
+                        id="img"
+                        path="image"/>
             </div>
 
         </div>
@@ -48,43 +59,53 @@
             <%-- Titulo --%>
             <div class="form-group w-75 p-2">
                 <label for="tit">Título: </label>
-                <input type="text" id="tit" class="form-control" name="title" value="<%=p.getTitle()%>" required maxlength="20"/>
+                <form:input
+                        type="text"
+                        id="tit"
+                        class="form-control"
+                        path="title"
+                        required="true"
+                        maxlength="20"/>
             </div>
 
             <%-- Descripcion --%>
             <div class="p-2">
                 <label for="desc">Descripcion: </label>
-                <textarea id="desc" class="form-control" name="description" rows="4"
-                          cols="50"><%=p.getDescription()%></textarea>
+                <form:textarea
+                        id="desc"
+                        class="form-control"
+                        rows="4"
+                        cols="50"
+                        path="description"/>
             </div>
 
             <%-- Precio --%>
             <div class="p-2">
                 <label for="precio">Precio: </label>
-                <input type="number" id="precio" class="form-control" name="price" value="<%=p.getOutPrice()%>"
-                       required maxlength="6"/>
+                <form:input
+                        type="number"
+                        id="precio"
+                        class="form-control"
+                        path="price"
+                        required="true"
+                        maxlength="6"/>
             </div>
 
             <%-- Categoria --%>
             <div class="p-2">
                 <label>Categoria: </label>
 
-                <select name="category" required>
-                    <%
-                        for (ProductCategoryDTO c : cats) {
-
-                    %>
-                    <option value="<%=c.getId()%>" <%=p.getCategory().equals(c) ? "selected" : ""%> ><%=c.getName()%>
-                    </option>
-                    <%
-                        }
-                    %>
-                </select>
+                <form:select path="category" required="true">
+                    <form:options items="<%=categoryList%>" itemValue="id" itemLabel="name"/>
+                </form:select>
             </div>
 
             <%-- Submit --%>
             <div class="p-2">
-                <input type="hidden" name="productId" id="id" value="<%=p.getId()%>"/>
+                <form:hidden
+                        name="productId"
+                        path="productId"
+                />
                 <div class="d-flex flex-row p-2">
                     <div class="p-2">
                         <input class="btn btn-primary p-2" type="submit" value="Confirmar">
@@ -99,7 +120,7 @@
         </div>
     </div>
 
-</form>
+</form:form>
 
 </body>
 <script>

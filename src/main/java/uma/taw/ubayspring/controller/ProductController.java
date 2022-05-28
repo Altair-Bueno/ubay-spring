@@ -88,7 +88,9 @@ public class ProductController {
     }
 
     @PostMapping(path = "/new", consumes = {"multipart/form-data"})
-    public String postNew(@ModelAttribute("productModel") ProductFormParamsDTO productModel, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+    public String postNew(@ModelAttribute("productModel") ProductFormParamsDTO productModel,
+                          RedirectAttributes redirectAttributes
+    ) throws ServletException, IOException {
 
         Integer id = productService.createProduct(productModel, getSession());
 
@@ -122,38 +124,32 @@ public class ProductController {
 
     @GetMapping("/update")
     public String getUpdate(Model model,
+                            @ModelAttribute("productModel") ProductFormParamsDTO productModel,
                             @RequestParam String id
     ) {
-        model.addAttribute("product", productService.findByIdProduct(Integer.parseInt(id)));
-        model.addAttribute("cats", productService.categories());
+        ProductDTO product = productService.findByIdProduct(Integer.parseInt(id));
+
+        productModel.setProductId(product.getId());
+        productModel.setCategory(product.getCategory().getId());
+        productModel.setTitle(product.getTitle());
+        productModel.setDescription(product.getDescription());
+        productModel.setPrice(product.getOutPrice());
+        productModel.setStatus(product.getCloseDate() == null ? "Activo" : "Cerrado");
+
+        model.addAttribute("productModel", productModel);
+        model.addAttribute("imageId", product.getImages());
+        model.addAttribute("categoryList", productService.categories());
         return "product/update";
     }
 
-    @PostMapping("/update")
-    public String postUpdate(Model model,
-                             RedirectAttributes redirectAttributes,
-                             @RequestParam String productId,
-                             @RequestParam String category,
-                             @RequestParam String title,
-                             @RequestParam Optional<String> description,
-                             @RequestParam Optional<String> status,
-                             @RequestParam String price,
-                             @RequestPart Optional<Part> img
+    @PostMapping(path = "/update", consumes = {"multipart/form-data"})
+    public String postUpdate(RedirectAttributes redirectAttributes,
+                             @ModelAttribute("productModel") ProductFormParamsDTO productModel
     ) throws ServletException, IOException {
 
-        int categoria = Integer.parseInt(category);
-        int idParam = Integer.parseInt(productId);
+        productService.updateProduct(productModel);
 
-        String estado = status.isEmpty() ? null : status.get();
-        String desc = description.isEmpty() ? "" : description.get();
-        String titulo = title;
-        Double precio = Double.parseDouble(price);
-        Part file = img.isEmpty() ? null : img.get();
-
-        productService.updateProduct(idParam, categoria, estado, desc, titulo, precio, file);
-
-        redirectAttributes.addAttribute("id", idParam);
-
+        redirectAttributes.addAttribute("id", productModel.getProductId());
         return "redirect:item";
     }
 

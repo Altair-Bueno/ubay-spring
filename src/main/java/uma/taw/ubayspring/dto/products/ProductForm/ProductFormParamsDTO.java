@@ -16,4 +16,6 @@ public class ProductFormParamsDTO {
     double price;
     int category;
     MultipartFile image;
+    int productId;
+    String status;
 }

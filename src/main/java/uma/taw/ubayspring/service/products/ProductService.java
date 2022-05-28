@@ -124,7 +124,7 @@ public class ProductService {
         String imgName = null;
 
         // IMAGEN
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             InputStream inputStream = file.getInputStream();
 
 
@@ -196,45 +196,46 @@ public class ProductService {
         productRepository.delete(p);
     }
 
-    public void updateProduct(int producto, int categoria, String estado, String desc, String titulo, Double precio, Part file) throws IOException, ServletException {
-        CategoryEntity cat = categoryRepository.findById(categoria).get();
-        ProductEntity p = productRepository.findById(producto).get();
+    public void updateProduct(ProductFormParamsDTO paramsDTO) throws IOException, ServletException {
+        CategoryEntity cat = categoryRepository.findById(paramsDTO.getCategory()).get();
+        ProductEntity p = productRepository.findById(paramsDTO.getProductId()).get();
+        var file = paramsDTO.getImage();
 
 
         // IMAGEN
-        if (file != null && !file.getSubmittedFileName().equals("")) {
+        if (file != null && !file.isEmpty()) {
             InputStream inputStream = file.getInputStream();
-            String img = "";
+            String imgName = null;
 
             try {
-                img = minioWrapperService.uploadObject(inputStream);
-                if (!img.equals(p.getImage())) {
+                imgName = minioWrapperService.uploadObject(inputStream);
+                if (!imgName.equals(p.getImage())) {
                     minioWrapperService.removeObject(p.getImage());
                 }
             } catch (Exception e) {
                 throw new ServletException(e.getStackTrace().toString());
             }
 
-            p.setImage(img);
+            p.setImage(imgName);
         }
 
         // ESTADO
-        if(estado != null){
-            if (estado.equals("Cerrado")) {
+        if(paramsDTO.getStatus() != null){
+            if (paramsDTO.getStatus().equals("Cerrado")) {
                 if (p.getCloseDate() == null) {
                     p.setCloseDate(new Date(new java.util.Date().getTime()));
                 }
-            } else if (estado.equals("Activo")) {
+            } else if (paramsDTO.getStatus().equals("Activo")) {
                 if (p.getCloseDate() != null) {
                     p.setCloseDate(null);
                 }
             }
         }
 
-        p.setTitle(titulo);
-        p.setDescription(desc);
+        p.setTitle(paramsDTO.getTitle());
+        p.setDescription(paramsDTO.getDescription());
         p.setCategoryId(cat);
-        p.setOutPrice(precio);
+        p.setOutPrice(paramsDTO.getPrice());
 
         productRepository.save(p);
     }
