@@ -43,11 +43,11 @@
     }
 
     Map<String, String> navbar = new LinkedHashMap<>();
-    navbar.put("Productos", "/product");
+    navbar.put("navbar.navlinktext.products", "/product");
     if (isAuthenticated) {
-        navbar.put("Categorías", "/categories");
+        navbar.put("navbar.navlinktext.categories", "/categories");
         if (((UserDetails) principal).getAuthorities().contains(KindEnum.admin))
-            navbar.put("Usuarios", "/users");
+            navbar.put("navbar.navlinktext.users", "/users");
     }
 %>
 
@@ -64,13 +64,14 @@
             <li class="nav-item">
                 <a class="nav-link <%=route.equals(request.getRequestURI()) ? "active" : ""%>"
                    aria-current="page"
-                   href="<%=route%>"><%=name%>
+                   href="<%=route%>">
+                    <spring:message key="<%=name%>"/>
                 </a>
             </li>
             <%}%>
         </ul>
 
-        <%-- LANGUAGE SELECTOR --%>
+        <%-- LANGUAGE SELECTOR
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false"
@@ -97,6 +98,7 @@
                 </li>
             </ul>
         </div>
+        --%>
 
         <%-- USER DROPDOWN --%>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -111,7 +113,11 @@
                     <a class="nav-link dropdown-toggle" href="#"
                        id="navbarDarkDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if(isAuthenticated) {%>
                         <%=username%>
+                        <% } else { %>
+                        <spring:message key="navbar.userdropdown.newuser.header"/>
+                        <%}%>
                     </a>
                     <%
                         if (isAuthenticated) {
@@ -120,29 +126,35 @@
                         aria-labelledby="navbarDarkDropdownMenuLink">
                         <% if (authentication.getAuthorities().contains(KindEnum.client)) { %>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/users/bids">Mis
-                            pujas</a>
+                               href="${pageContext.request.contextPath}/users/bids">
+                            <spring:message key="navbar.userdropdown.user.bidsmade"/>
+                        </a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/vendor/bids">Pujas
-                            recibidas</a></li>
+                               href="${pageContext.request.contextPath}/vendor/bids">
+                            <spring:message key="navbar.userdropdown.user.receivedbids"/>
+                        </a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/users/products">Productos
-                            favoritos</a></li>
+                               href="${pageContext.request.contextPath}/users/products">
+                            <spring:message key="navbar.userdropdown.user.favproducts"/>
+                        </a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/users/notifications">Notificaciones</a>
+                               href="${pageContext.request.contextPath}/users/notifications">
+                            <spring:message key="navbar.userdropdown.user.notifications"/>
+                        </a>
                         </li>
 
                         <% } %>
 
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/auth/changePassword">Cambiar
-                            mi contraseña</a></li>
+                               href="${pageContext.request.contextPath}/auth/changePassword">
+                            <spring:message key="navbar.userdropdown.changepassword"/>
+                        </a></li>
                         <li>
                             <form method="post"
                                   action="${pageContext.request.contextPath}/auth/signoff">
                                 <input type="submit" class="dropdown-item"
-                                       value="Cerrar sesión">
+                                       value="<spring:message key='navbar.userdropdown.signoff'/>"/>
                             </form>
                         </li>
                     </ul>
@@ -151,10 +163,13 @@
                     <ul class="dropdown-menu dropdown-menu-end mt-2"
                         aria-labelledby="navbarDarkDropdownMenuLink">
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/auth/login">Iniciar
-                            sesión</a></li>
+                               href="${pageContext.request.contextPath}/auth/login">
+                                <spring:message key="navbar.userdropdown.newuser.login"/>
+                        </a></li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/auth/register">Registrarse</a>
+                               href="${pageContext.request.contextPath}/auth/register">
+                                <spring:message key="navbar.userdropdown.newuser.register"/>
+                        </a>
                         </li>
                     </ul>
                     <% } %>
