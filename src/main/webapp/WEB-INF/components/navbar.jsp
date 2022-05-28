@@ -1,7 +1,7 @@
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="uma.taw.ubayspring.types.KindEnum" %>
-<%@ page import="org.springframework.security.core.userdetails.User" %>
 <%@ page
         import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.userdetails.UserDetails" %>
@@ -29,7 +29,7 @@
 </style>
 
 <%
-    Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     Object principal = authentication.getPrincipal();
 
     boolean isAuthenticated = false;
@@ -37,7 +37,7 @@
 
     if (principal instanceof UserDetails) {
         isAuthenticated = true;
-        username = ((UserDetails)principal).getUsername();
+        username = ((UserDetails) principal).getUsername();
     } else {
         username = principal.toString();
     }
@@ -84,15 +84,14 @@
                     <a class="nav-link dropdown-toggle" href="#"
                        id="languageDropdownLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-translate"></i> Idioma
+                        <i class="bi bi-translate"></i> <spring:message key="languagelabel"/>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end mt-2"
                         aria-labelledby="languageDropdownLink">
-                        <li><a class="dropdown-item"
-                               href="">🇬🇧 English</a>
-                        </li>
-                        <li><a class="dropdown-item"
-                               href="">🇪🇸 Español</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/language?code=en">🇬🇧
+                            English</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/language?code=es">🇪🇸
+                            Español</a></li>
 
                     </ul>
                 </li>
