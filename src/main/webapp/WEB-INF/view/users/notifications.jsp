@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="uma.taw.ubayspring.dto.notifications.BidsDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.notifications.ProductDTO" %>
@@ -17,7 +18,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Notificaciones</title>
+    <title><spring:message key="notifications.header"/></title>
 </head>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
@@ -29,7 +30,7 @@
         if (notificaciones.size() == 0) {
     %>
     <div class="m-auto w-50 h-75 d-flex justify-content-center align-items-center">
-        <h1>No tiene ninguna notificación.</h1>
+        <h1><spring:message key="notifications.nonotificationstext"/></h1>
     </div>
 
     <%
@@ -39,10 +40,10 @@
     <table class="table table-bordered text-center">
         <thead>
         <tr>
-            <th scope="col">Imagen</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Fecha de cierre</th>
-            <th scope="col">Resultado</th>
+            <th scope="col"><spring:message key="product.image"/></th>
+            <th scope="col"><spring:message key="product.title"/></th>
+            <th scope="col"><spring:message key="closedate"/></th>
+            <th scope="col"><spring:message key="notifications.resolutionheader"/></th>
         </tr>
         </thead>
         <tbody>

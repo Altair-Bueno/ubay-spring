@@ -8,10 +8,7 @@ import uma.taw.ubayspring.entity.ProductEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,17 +118,16 @@ public class BidRepositoryCustomImpl implements BidRepositoryCustom{
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<BidEntity> query = builder.createQuery(BidEntity.class);
         Root<BidEntity> bidTable = query.from(BidEntity.class);
-        Root<ProductEntity> productTable = query.from(ProductEntity.class);
+        Join<BidEntity, ProductEntity> join = bidTable.join("product", JoinType.INNER);
 
         List<Predicate> predicateList = new ArrayList<>();
-        predicateList.add(builder.equal(bidTable.get("client"), sesion.getId()));
-        predicateList.add(builder.isNotNull(productTable.get("closeDate")));
-        predicateList.add(builder.lessThanOrEqualTo(productTable.get("closeDate"), new java.util.Date()));
-        predicateList.add(builder.equal(bidTable.get("client"), productTable.get("vendedor").get("id")));
+        predicateList.add(builder.equal(bidTable.get("client"), sesion));
+        predicateList.add(builder.isNotNull(join.get("closeDate")));
+        predicateList.add(builder.lessThanOrEqualTo(join.get("closeDate"), new java.util.Date()));
 
         query.select(bidTable)
                 .where(predicateList.toArray(new Predicate[0]))
-                .orderBy(builder.desc(productTable.get("closeDate")));
+                .orderBy(builder.desc(join.get("closeDate")));
 
         return em.createQuery(query)
                 .getResultList();

@@ -140,7 +140,6 @@ public class UsersController {
      *
      */
     @GetMapping("/notifications")
-    @PostMapping("/notifications")
     public String processNotifications(Model model){
         var client = getProductSession();
 
