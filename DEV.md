@@ -1,14 +1,12 @@
-# Development set up
+# How to create a development environment for `Ubay`
 
-### Requisites
+## Required software
 
-The following software is required:
+- Docker with `docker compose` installed
+- Java JDK 17 or later
+- Maven
 
-- Docker with `docker compose`
-- Java JDK 17+
-
-### Start the required services
-
+## Creating the development environment
 Run the development Docker compose to spin up a Postgres database and Minio
 container
 
@@ -20,8 +18,11 @@ docker compose -f docker-compose-dev.yml up -d
 docker compose -f docker-compose-dev.yml down
 ```
 
-### Run the Spring application
+## Running `Ubay`
+
+This project uses `mvnw` to start the application.
 
 ```shell
+# Inside the project root directory
 ./mvnw spring-boot:run
 ```
