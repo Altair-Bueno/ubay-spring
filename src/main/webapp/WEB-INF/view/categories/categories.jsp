@@ -55,7 +55,7 @@
                     <td>
                         <button type="button" class="btn btn-primary"
                                 data-bs-toggle="modal"
-                                data-bs-target="#deleteModal<%=c.getId()%>"><spring:message key="category.deleteModal.header"/>
+                                data-bs-target="#deleteModal<%=c.getId()%>"><spring:message key="product.item.deletemodal.delete"/>
                         </button>
 
                         <!-- Delete Modal -->
@@ -82,8 +82,8 @@
                                         <form method="GET"
                                               action="/categories/delete">
                                             <input hidden name='id' value="<%=c.getId()%>"/>
-                                            <input class="btn btn-danger" type="submit"
-                                                   value="Eliminar">
+                                            <button class="btn btn-danger" type="submit"
+                                                   ><spring:message key="product.item.delete.label"/></button>
                                         </form>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 <%@ page import="uma.taw.ubayspring.dto.users.ClientDTO" %>
 <%@ page import="uma.taw.ubayspring.types.GenderEnum" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
@@ -23,17 +24,15 @@
     </script>
     --%>
 
-    <title>Ubay | Usuarios</title>
+    <title>Ubay | <spring:message key="navbar.navlinktext.users"/></title>
 </head>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
 <div>
     <div class="container">
-        <h1>Buscar usuarios</h1>
         <a class="btn btn-primary"
            href="/auth/register"
-           role="button">Registrar
-            a un usuario nuevo</a>
+           role="button"><spring:message key="users.registernewuser"/></a>
         <div class="row">
             <div class="col-3">
                 <%--@elvariable id="filterUsersDTO" type="uma.taw.ubayspring.dto.users.FilterUsersDTO"--%>
@@ -41,25 +40,25 @@
                     <div class="form col">
                         ID: <form:input path="id" type="number" class="form-control" id="id"
                                     maxlength="5"/>
-                        Nombre: <form:input type="text" path="name" class="form-control"
+                        <spring:message key="name"/>: <form:input type="text" path="name" class="form-control"
                                        id="name"  maxlength="10"/>
-                        Apellidos: <form:input type="text" path="lastName" class="form-control"
+                        <spring:message key="register.form.last_name"/>: <form:input type="text" path="lastName" class="form-control"
                                           id="lastName"
                                           maxlength="10"/>
-                        Dirección: <form:input type="text" path="address" class="form-control"
+                        <spring:message key="register.form.address"/>: <form:input type="text" path="address" class="form-control"
                                           id="address"
                                           maxlength="15"/>
-                        Ciudad: <form:input type="text" path="city" class="form-control"
+                        <spring:message key="register.form.city"/>: <form:input type="text" path="city" class="form-control"
                                        id="city"
                                        aria-describedby="city" maxlength="10"/>
-                        Género: <form:select class="form-select" path="gender" id="gender">
+                        <spring:message key="register.form.gender"/>: <form:select class="form-select" path="gender" id="gender">
                                     <form:option value=""/>
                                     <form:options items="${GenderEnum.values()}"/>
                                 </form:select>
                         <button type="submit" class="btn btn-primary mt-2">
-                            Buscar
+                            <spring:message key="filter"/>
                         </button>
-                        <a class="btn btn-secondary mt-2" href="<%=request.getContextPath()%>/users">Limpiar</a>
+                        <a class="btn btn-secondary mt-2" href="<%=request.getContextPath()%>/users"><spring:message key="clean"/></a>
                     </div>
                 </form:form>
             </div>
@@ -69,15 +68,12 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Género</th>
-                        <th>Dirección</th>
-                        <th>Ciudad</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Eliminar usuario</th>
-                        <th>Modificar user</th>
-                        <th>Reestablecer contraseña</th>
+                        <th><spring:message key="name"/></th>
+                        <th><spring:message key="register.form.last_name"/></th>
+                        <th><spring:message key="register.form.gender"/></th>
+                        <th><spring:message key="register.form.address"/></th>
+                        <th><spring:message key="register.form.city"/></th>
+                        <th><spring:message key="register.form.birth_date"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,8 +102,7 @@
                         <td>
                             <button type="button" class="btn btn-primary"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal<%=c.getId()%>">Eliminar
-                                usuario
+                                    data-bs-target="#deleteModal<%=c.getId()%>"><spring:message key="product.item.delete.label"/>
                             </button>
 
 
@@ -120,24 +115,23 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title"
-                                                id="staticBackdropLabel">Eliminar
-                                                usuario</h5>
+                                                id="staticBackdropLabel"><spring:message key="product.item.delete.label"/></h5>
                                             <button type="button" class="btn-close"
                                                     data-bs-dismiss="modal"
                                                     aria-label="Cerrar"></button>
                                         </div>
                                         <div class="modal-body">
-                                            ¿Está seguro de que quiere eliminar el usuario con ID = <%=c.getId()%>?
+                                            <spring:message key="users.delete.text"/> <%=c.getId()%> ?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cancelar
+                                                    data-bs-dismiss="modal"><spring:message key="cancel"/>
                                             </button>
                                             <form method="GET"
                                                   action="/users/delete">
                                                 <input hidden name='id' value="<%=c.getId()%>"/>
-                                                <input class="btn btn-danger" type="submit"
-                                                       value="Eliminar">
+                                                <button class="btn btn-danger" type="submit"
+                                                       ><spring:message key="product.item.delete.label"/></button>
                                             </form>
                                         </div>
                                     </div>
@@ -147,10 +141,9 @@
                         </td>
 
                         <td>
-                            <a href="/users/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">Modificar
-                                usuario</a></td>
-                        <td><a href="/users/passwordChangeLink?id=<%=c.getId()%>">Reestablecer
-                            contraseña</a></td>
+                            <a href="/users/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">
+                                <spring:message key="modify"/></a></td>
+                        <td><a href="/users/passwordChangeLink?id=<%=c.getId()%>"><spring:message key="navbar.userdropdown.changepassword"/></a></td>
                     </tr>
                     <%
                             }
