@@ -2,9 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductCategoryDTO" %>
-<%@ page import="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO" %>
 <%--
   Created by IntelliJ IDEA.
   Author: Francisco Javier Hernández
