@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import uma.taw.ubayspring.dto.products.ProductClientDTO;
 
 @Data
 @AllArgsConstructor
@@ -18,4 +19,5 @@ public class ProductFormParamsDTO {
     MultipartFile image;
     int productId;
     String status;
+    ProductClientDTO vendor;
 }
