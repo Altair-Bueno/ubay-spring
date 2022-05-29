@@ -15,7 +15,6 @@ import uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO;
 import uma.taw.ubayspring.dto.products.index.FavOwnedDTO;
 import uma.taw.ubayspring.dto.products.index.ListsDTO;
 import uma.taw.ubayspring.dto.products.index.ParamsDTO;
-import uma.taw.ubayspring.dto.products.index.ProductIndexDTO;
 import uma.taw.ubayspring.keys.ProductKeys;
 import uma.taw.ubayspring.service.AuthService;
 import uma.taw.ubayspring.service.products.ProductService;
@@ -23,10 +22,8 @@ import uma.taw.ubayspring.types.KindEnum;
 import uma.taw.ubayspring.wrapper.MinioWrapperService;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Controller
@@ -41,6 +38,11 @@ public class ProductController {
 
     @Autowired
     MinioWrapperService minioWrapperService;
+
+    private String localizedString(HttpServletRequest request, String key){
+        ResourceBundle bundle = ResourceBundle.getBundle("messages", request.getLocale());
+        return bundle.getString(key);
+    }
 
     private ProductClientDTO getSession() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -100,12 +102,21 @@ public class ProductController {
 
     @GetMapping("/item")
     public String processItem(Model model,
-                              @RequestParam Integer id
+                              @ModelAttribute("productModel") ProductFormParamsDTO productModel,
+                              @RequestParam Integer id,
+                              HttpServletRequest request
     ) {
         ProductClientDTO cliente = getSession();
-
-        ProductDTO productDTO = productService.findByIdProduct(id);
+        ProductDTO product = productService.findByIdProduct(id);
         ProductBidDTO highestBid = productService.getHighestBid(id);
+
+        productModel.setCategory(product.getCategory().getId());
+        productModel.setProductId(id);
+        productModel.setTitle(product.getTitle());
+        productModel.setDescription(product.getDescription());
+        productModel.setPrice(product.getOutPrice());
+        productModel.setStatus(product.getCloseDate() == null ? localizedString(request, "activeStatus") : localizedString(request, "closedStatus"));
+        productModel.setVendor(product.getVendor());
 
         if (cliente == null) {
             model.addAttribute("isFav", null);
@@ -114,10 +125,10 @@ public class ProductController {
             model.addAttribute("isFav", isUserFav);
         }
 
-        model.addAttribute("user", cliente);
-        model.addAttribute("product", productDTO);
+        model.addAttribute("productModel", productModel);
+        model.addAttribute("client", cliente);
         model.addAttribute("highestBid", highestBid);
-        model.addAttribute("isAdmin", cliente != null && cliente.getKind().equals(KindEnum.admin));
+        model.addAttribute("imgId", product.getImages());
 
         return "product/item";
     }
@@ -125,7 +136,8 @@ public class ProductController {
     @GetMapping("/update")
     public String getUpdate(Model model,
                             @ModelAttribute("productModel") ProductFormParamsDTO productModel,
-                            @RequestParam String id
+                            @RequestParam String id,
+                            HttpServletRequest request
     ) {
         ProductDTO product = productService.findByIdProduct(Integer.parseInt(id));
 
@@ -134,7 +146,7 @@ public class ProductController {
         productModel.setTitle(product.getTitle());
         productModel.setDescription(product.getDescription());
         productModel.setPrice(product.getOutPrice());
-        productModel.setStatus(product.getCloseDate() == null ? "Activo" : "Cerrado");
+        productModel.setStatus(product.getCloseDate() == null ? localizedString(request, "activeStatus") : localizedString(request, "closedStatus"));
 
         model.addAttribute("productModel", productModel);
         model.addAttribute("imageId", product.getImages());
@@ -155,9 +167,7 @@ public class ProductController {
 
     @GetMapping("/delete")
     @PostMapping("/delete")
-    public String processDelete(Model model,
-                                @RequestParam String id
-    ) throws MinioException {
+    public String processDelete(@RequestParam String id) throws MinioException {
         int idParam = Integer.parseInt(id);
         productService.deleteProduct(idParam);
         return "redirect:";

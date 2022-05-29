@@ -1,9 +1,13 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
 <%@ page import="uma.taw.ubayspring.keys.UsersKeys" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductBidDTO" %>
+<%@ page import="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO" %>
+<%@ page import="uma.taw.ubayspring.types.KindEnum" %>
+<%@ page import="java.util.ResourceBundle" %>
 <%--
 Created by IntelliJ IDEA.
   Author: Francisco Javier Hernández
@@ -29,41 +33,42 @@ Created by IntelliJ IDEA.
 </head>
 <body>
 <%
-    Object userParameter = request.getAttribute("user");
-    ProductDTO p = (ProductDTO) request.getAttribute("product");
+    Object clientParameter = request.getAttribute("client");
     Object isFavParameter = request.getAttribute("isFav");
     Object highestBidParameter = request.getAttribute("highestBid");
-    Object isAdminParameter = request.getAttribute("isAdmin");
-    boolean isAdmin = isAdminParameter != null && (boolean) isAdminParameter;
+    ProductFormParamsDTO productModel = (ProductFormParamsDTO) request.getAttribute("productModel");
+    boolean isAdmin = clientParameter != null && ((ProductClientDTO) clientParameter).getKind().equals(KindEnum.admin), isFav = isFavParameter != null && (boolean) isFavParameter;
     double minBid;
-    boolean cerrado = p.getCloseDate() != null;
-    String imgSrc = p.getImages() == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode(p.getImages(), StandardCharsets.UTF_8);
+    String closed = ResourceBundle.getBundle("messages", request.getLocale()).getString("closedStatus");
+    boolean cerrado = productModel.getStatus().equals(closed);
+    Object imgId = request.getAttribute("imgId");
+    String imgSrc = imgId == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode((String) imgId, StandardCharsets.UTF_8);
 %>
 
-<script>document.title = "Ubay | <%= p.getTitle()%>"</script>
+<script>document.title = "Ubay | <%= productModel.getTitle()%>"</script>
 <jsp:include page="../../components/navbar.jsp"/>
 
 <div class="d-flex flex-column">
     <div class="d-flex flex-row m-auto p-2">
-        <div class="p-2"><img src="<%=imgSrc%>" class="rounded" alt="<%=p.getTitle()%>"
+        <div class="p-2"><img src="<%=imgSrc%>" class="rounded" alt="<%=productModel.getTitle()%>"
                               style="height: 500px; width: 500px;"></div>
         <div class="d-flex flex-column p-2">
-            <div class="p-2"><h1><%=p.getTitle()%>
+            <div class="p-2"><h1>${productModel.title}
             </h1></div>
-            <div class="p-2"><h1><%=p.getOutPrice()%> €</h1></div>
+            <div class="p-2"><h1>${productModel.price} €</h1></div>
             <div class="p-2">
                 <h2>Estado: </h2>
-                <h4><%= !cerrado ? "Activo" : "Cerrado"%>
+                <h4>${productModel.status}
                 </h4>
             </div>
             <div class="p-2">
                 <h2>Descripcion: </h2>
-                <h6><%=p.getDescription()%>
+                <h6>${productModel.description}
                 </h6>
             </div>
             <%
-                if (userParameter != null || isAdmin) {
-                    if (isAdmin || (userParameter != null && ((ProductClientDTO) userParameter).equals(p.getVendor()))) {
+                if (clientParameter != null || isAdmin) {
+                    if (isAdmin || (clientParameter != null && clientParameter.equals(productModel.getVendor()))) {
             %>
 
             <div class="d-flex flex-row">
@@ -74,7 +79,7 @@ Created by IntelliJ IDEA.
                 %>
                 <!-- EDITAR -->
                 <form method="get" action="${pageContext.request.contextPath}/product/update">
-                    <input type='hidden' name='id' value="<%=p.getId()%>"/>
+                    <input type='hidden' name='id' value="${productModel.productId}"/>
                     <input class="btn btn-secondary btn-block me-2" type="submit" value="Editar">
                 </form>
                 <%
@@ -117,7 +122,7 @@ Created by IntelliJ IDEA.
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <form method="get" action="${pageContext.request.contextPath}/product/delete">
-                                <input type='hidden' name='id' value="<%=p.getId()%>"/>
+                                <input type='hidden' name='id' value="${productModel.productId}"/>
                                 <input class="btn btn-danger" type="submit" value="Eliminar">
                             </form>
                         </div>
@@ -140,15 +145,20 @@ Created by IntelliJ IDEA.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <form method="post" action="${pageContext.request.contextPath}/product/update">
-                                <input type='hidden' name='productId' value="<%=p.getId()%>"/>
-                                <input type='hidden' name='category' value="<%=p.getCategory().getId()%>"/>
-                                <input type='hidden' name='status' value="Cerrado"/>
-                                <input type='hidden' name='description' value="<%=p.getDescription()%>"/>
-                                <input type='hidden' name='title' value="<%=p.getTitle()%>"/>
-                                <input type='hidden' name='price' value="<%=p.getOutPrice()%>"/>
+                            <%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO"--%>
+                            <form:form 
+                                    method="post" 
+                                    action="${pageContext.request.contextPath}/product/update"
+                                    enctype="multipart/form-data"
+                                    modelAttribute="productModel">
+                                <form:hidden path="title"/>
+                                <form:hidden path="description"/>
+                                <form:hidden path="price"/>
+                                <form:hidden path="category"/>
+                                <form:hidden path="productId"/>
+                                <form:hidden path="status" value="<%=closed%>"/>
                                 <input class="btn btn-warning" type="submit" value="Cerrar">
-                            </form>
+                            </form:form>
                         </div>
                     </div>
                 </div>
@@ -158,11 +168,11 @@ Created by IntelliJ IDEA.
             } else {
                 if (!cerrado) {
                     if (highestBidParameter == null) {
-                        minBid = p.getOutPrice();
+                        minBid = productModel.getPrice();
             %>
             <div class="row">
                 <h2>Este producto no ha recibido todavía ninguna puja</h2>
-                <h2>Precio de puja mínima: <%=p.getOutPrice()%>
+                <h2>Precio de puja mínima: ${productModel.price}
                 </h2>
             </div>
             <%
@@ -186,7 +196,7 @@ Created by IntelliJ IDEA.
                     </div>
                     <div class="col-auto">
                         <input type='hidden' name="<%=UsersKeys.BID_PRODUCT_ID_PARAMETER%>" id='id-compra'
-                               value="<%=p.getId()%>"/>
+                               value="${productModel.productId}"/>
                         <input class="btn btn-primary" type="submit" value="Pujar"/>
                     </div>
                 </form>
@@ -195,15 +205,15 @@ Created by IntelliJ IDEA.
         <div class="p-4">
             <%
                 }
-                if (userParameter != null) {
-                    ProductClientDTO user = (ProductClientDTO) userParameter;
-                    if(isFavParameter != null && (boolean) isFavParameter){
+                if (clientParameter != null) {
+                    ProductClientDTO client = (ProductClientDTO) clientParameter;
+                    if(isFav){
             %>
 
             <div class="d-flex flex-row">
                 <form method="get" action="${pageContext.request.contextPath}/users/deleteFavourite">
-                    <input type='hidden' name='productID' value="<%=p.getId()%>"/>
-                    <input type='hidden' name='clientID' value="<%=user.getId()%>"/>
+                    <input type='hidden' name='productID' value="${productModel.productId}"/>
+                    <input type='hidden' name='clientID' value="<%=client.getId()%>"/>
                     <button class="btn btn btn-outline-danger btn-labeled" type="submit">
                         <span><i class="bi bi-star-fill"></i></span>Eliminar de favoritos
                     </button>
@@ -216,8 +226,8 @@ Created by IntelliJ IDEA.
             %>
 
             <form method="get" action="${pageContext.request.contextPath}/users/addFavourite">
-                <input type='hidden' name='productID' value="<%=p.getId()%>"/>
-                <input type='hidden' name='clientID' value="<%=user.getId()%>"/>
+                <input type='hidden' name='productID' value="${productModel.productId}"/>
+                <input type='hidden' name='clientID' value="<%=client.getId()%>"/>
                 <button class="btn btn btn-outline-warning btn-labeled" type="submit">
                     <span><i class="bi bi-star-fill"></i></span>Añadir a favoritos
                 </button>

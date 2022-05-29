@@ -1,49 +1,1 @@
-# Author: Altair Bueno
-version: '3.1'
-services:
-  # username: postgres
-  # password: mysecretpassword
-  # Database: UBAY
-  postgres:
-    container_name: 'orange-fleet'
-    image: postgres
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: UBAY
-    volumes:
-      - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql
-      - ./sql/sample-data.sql:/docker-entrypoint-initdb.d/2.sql
-      - postgres-data:/var/lib/postgresql/data
-
-  minio:
-    container_name: 'green-bird'
-    image: minio/minio
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    ports:
-      # Admin console
-      - '127.0.0.1:9001:9001'
-      # Actual server
-      - '9000:9000'
-    volumes:
-      - minio-data:/data
-    entrypoint: sh
-    command: -c 'mkdir -p /data/ubay && /usr/bin/docker-entrypoint.sh server /data --console-address ":9001"'
-
-  ubay-spring:
-    container_name: 'purple-plant'
-    image: 'ghcr.io/altair-bueno/ubay-spring'
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    ports:
-      - '8080:8080'
-    depends_on:
-      - minio
-      - postgres
-
-volumes:
-  postgres-data:
-  minio-data:
+# Author: Altair Buenoversion: '3.1'services:  # username: postgres  # password: mysecretpassword  # Database: UBAY  postgres:    container_name: 'orange-fleet'    image: postgres    ports:      - '5432:5432'    environment:      POSTGRES_PASSWORD: mysecretpassword      POSTGRES_DB: UBAY    volumes:      - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql      - ./sql/sample-data.sql:/docker-entrypoint-initdb.d/2.sql      - postgres-data:/var/lib/postgresql/data  minio:    container_name: 'green-bird'    image: minio/minio    environment:      MINIO_ROOT_USER: minioadmin      MINIO_ROOT_PASSWORD: minioadmin    ports:      # Admin console      - '127.0.0.1:9001:9001'      # Actual server      - '9000:9000'    volumes:      - minio-data:/data    entrypoint: sh    command: -c 'mkdir -p /data/ubay && /usr/bin/docker-entrypoint.sh server /data --console-address ":9001"'  ubay-spring:    container_name: 'purple-plant'    image: 'ghcr.io/altair-bueno/ubay-spring'    ports:      - '8080:8080'    depends_on:      - minio      - postgresvolumes:  postgres-data:  minio-data:
