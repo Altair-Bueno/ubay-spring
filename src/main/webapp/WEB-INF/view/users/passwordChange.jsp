@@ -1,4 +1,5 @@
 <%@ page import="java.net.URLEncoder" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.nio.charset.StandardCharsets" %><%--
   Created by IntelliJ IDEA.
   User: jota
@@ -13,7 +14,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Cambiar contrasena</title>
+    <title><spring:message key="changePassword.title"/></title>
 </head>
 <body>
 <%
@@ -23,9 +24,9 @@
 <jsp:include page="../../components/navbar.jsp"/>
 
 <div class="col-6 position-absolute top-50 start-50 translate-middle">
-    <h1>Enlace de reseteo de contraseña:</h1>
+    <h1></h1>
     <input type="text" size="80" id="linkReseteo" value="${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/auth/resetPassword?passwordChangeID=<%=URLEncoder.encode(passwordChangeID,StandardCharsets.UTF_8)%>&username=<%=URLEncoder.encode(usernamepwc,StandardCharsets.UTF_8)%>"/>
-    <button class="btn btn-primary mt-2" onclick="copyToClipboard()">Copiar link al portapapeles</button>
+    <button class="btn btn-primary mt-2" onclick="copyToClipboard()"><spring:message key="users.passwordchangelink.copytoclipboard.label"/></button>
 </div>
 
 <%--

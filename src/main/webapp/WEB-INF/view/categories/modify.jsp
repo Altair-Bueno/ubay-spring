@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: jota
@@ -13,7 +14,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Modificar categoria</title>
+    <title>Ubay | <spring:message key="modify"/></title>
 </head>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
@@ -28,17 +29,17 @@
                 <label>
                     <form:hidden path="id" class="form-control" name="id"/>
                     <br>
-                    Nombre: <form:input required="required" path="name" type="text" class="form-control"  maxlength="15"/> <br>
+                    <spring:message key="name"/> <form:input required="required" path="name" type="text" class="form-control"  maxlength="15"/> <br>
                 </label>
             </div>
 
             <div>
                 <label>
-                    Descripción: <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
+                    <spring:message key="description"/> <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Modificar</button>
-            <button type="button" class="btn btn-secondary mt-2" onclick="goBack()">Cancelar</button>
+            <button type="submit" class="btn btn-primary mt-2"><spring:message key="modify"/></button>
+            <button type="button" class="btn btn-secondary mt-2" onclick="goBack()"><spring:message key="cancel"/></button>
         </form:form>
     </div>
 </div>
