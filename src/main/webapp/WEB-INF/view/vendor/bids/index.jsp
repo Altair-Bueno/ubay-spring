@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="uma.taw.ubayspring.keys.VendorKeys" %>
 <%@ page import="java.util.List" %>
 <%@ page import="uma.taw.ubayspring.dto.bids.ReceivedBidsDTO" %>
@@ -30,14 +31,14 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Received Bids</title>
+    <title><spring:message key="vendorbids.header"/></title>
 </head>
 <body>
 <jsp:include page="../../../components/navbar.jsp"/>
 
 <div class="container mt-4">
     <div class="row">
-        <h1>Pujas recibidas</h1>
+        <h1><spring:message key="vendorbids.title"/></h1>
     </div>
     <div class="row">
 
@@ -48,24 +49,24 @@
                     modelAttribute="bidsModel"
                     action="${pageContext.request.contextPath}/vendor/bids">
                 <div class="mb-3">
-                    <label for="startDate" class="form-label">Fecha de publicación</label>
+                    <label for="startDate" class="form-label"><spring:message key="publicationdate"/>:</label>
                     <form:input type="date" class="form-control" id="startDate" path="startDate"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="endDate" class="form-label">Fecha de cierre</label>
+                    <label for="endDate" class="form-label"><spring:message key="closedate"/>:</label>
                     <form:input type="date" class="form-control" id="endDate" path="endDate"/>
                 </div>
                 <div class="mb-3">
-                    <label for="productTitle" class="form-label">Título del producto</label>
+                    <label for="productTitle" class="form-label"><spring:message key="bids.producttitle"/>:</label>
                     <form:input type="text" class="form-control" id="productTitle" path="productTitle"/>
                 </div>
                 <div class="mb-3">
-                    <label for="clientName" class="form-label">Nombre del cliente</label>
+                    <label for="clientName" class="form-label"><spring:message key="clientname"/>:</label>
                     <form:input type="text" class="form-control" id="clientName" path="clientName"/>
                 </div>
                 <div class="mb-3">
-                    <label for="pageNumber" class="form-label">Página</label>
+                    <label for="pageNumber" class="form-label"><spring:message key="page"/>:</label>
                     <form:input type="number" class="form-control" id="pageNumber" path="page"/>
                 </div>
                 <form:select
@@ -82,11 +83,11 @@
                             path="asc"
                     />
                     <label class="form-check-label" for="flexCheckDefault">
-                        Ordenar ascendentemente
+                        <spring:message key="ordertext"/>
                     </label>
                 </div>
-                <form:button type="submit" class="btn btn-primary">Filtrar</form:button>
-                <a class="btn btn-secondary" href="<%=request.getContextPath()%>/vendor/bids">Limpiar</a>
+                <form:button type="submit" class="btn btn-primary"><spring:message key="filter"/></form:button>
+                <a class="btn btn-secondary" href="<%=request.getContextPath()%>/vendor/bids"><spring:message key="clean"/></a>
             </form:form>
         </aside>
         <main class="table-responsive col">
@@ -94,10 +95,10 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Fecha de publicación</th>
-                    <th scope="col">Valor</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Nombre del cliente</th>
+                    <th scope="col"><spring:message key="publicationdate"/></th>
+                    <th scope="col"><spring:message key="amount"/></th>
+                    <th scope="col"><spring:message key="bids.producttitle"/></th>
+                    <th scope="col"><spring:message key="clientname"/></th>
                 </tr>
                 </thead>
                 <tbody>

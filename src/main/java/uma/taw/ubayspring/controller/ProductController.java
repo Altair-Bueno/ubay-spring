@@ -64,13 +64,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel) {
+    public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel, HttpServletRequest request) {
         ListsDTO listas = new ListsDTO();
         listas.setCategoryList(productService.categories());
         listas.setProductList(productService.getProductsList(productModel, getSession()).getProductsList());
         listas.setFavOwnedFilterOptions(List.of(new FavOwnedDTO[]{
-                new FavOwnedDTO("favFilter", "Favoritos"),
-                new FavOwnedDTO("ownedFilter", "Mis productos")
+                new FavOwnedDTO("favFilter", localizedString(request, "product.index.filter.favourites")),
+                new FavOwnedDTO("ownedFilter", localizedString(request, "product.index.filter.owned"))
         }));
 
         model.addAttribute("client", getSession());

@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
@@ -17,12 +18,12 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Actualizar producto</title>
+    <title>Ubay | <spring:message key="product.update"/></title>
 </head>
 <body>
 <%
     List<ProductCategoryDTO> categoryList = (List<ProductCategoryDTO>) request.getAttribute("categoryList");
-    String imgSrc = request.getContextPath() + "/image?id=" + URLEncoder.encode((String)request.getAttribute("imageId"), StandardCharsets.UTF_8);
+    String imgSrc = request.getAttribute("imageId") == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode((String)request.getAttribute("imageId"), StandardCharsets.UTF_8);
 %>
 <jsp:include page="../../components/navbar.jsp"/>
 
@@ -32,6 +33,7 @@
         action="${pageContext.request.contextPath}/product/update"
         enctype="multipart/form-data"
         modelAttribute="productModel">
+    <script>document.title = "Ubay | " + <spring:message key="product.update"/>  + "${productModel.title}"</script>
     <div class="d-flex flex-row m-auto" style="width: 1000px">
 
         <%-- BLOQUE I - Imagen --%>
@@ -40,7 +42,7 @@
                 <img src="<%=imgSrc%>" id="output" style="height: auto; width: 500px;"/>
             </div>
             <div class="form-group mb-3 w-75 p-2">
-                <label for="img" class="form-label">Cambiar imagen: </label>
+                <label for="img" class="form-label"><spring:message key="product.update.changeimg"/></label>
                 <form:input
                         type="file"
                         accept="image/*"
@@ -56,7 +58,7 @@
         <div class="d-flex flex-column p-2">
             <%-- Titulo --%>
             <div class="form-group w-75 p-2">
-                <label for="tit">Título: </label>
+                <label for="tit"><spring:message key="product.title"/></label>
                 <form:input
                         type="text"
                         id="tit"
@@ -68,7 +70,7 @@
 
             <%-- Descripcion --%>
             <div class="p-2">
-                <label for="desc">Descripcion: </label>
+                <label for="desc"><spring:message key="description"/>:</label>
                 <form:textarea
                         id="desc"
                         class="form-control"
@@ -79,7 +81,7 @@
 
             <%-- Precio --%>
             <div class="p-2">
-                <label for="precio">Precio: </label>
+                <label for="precio"><spring:message key="product.update.price"/></label>
                 <form:input
                         type="number"
                         id="precio"
@@ -91,7 +93,7 @@
 
             <%-- Categoria --%>
             <div class="p-2">
-                <label>Categoria: </label>
+                <label><spring:message key="product.index.filter.category"/></label>
 
                 <form:select path="category" required="true">
                     <form:options items="<%=categoryList%>" itemValue="id" itemLabel="name"/>
@@ -106,11 +108,14 @@
                 />
                 <div class="d-flex flex-row p-2">
                     <div class="p-2">
-                        <input class="btn btn-primary p-2" type="submit" value="Confirmar">
+                        <form:button class="btn btn-primary p-2" type="submit">
+                            <spring:message key="confirm"/>
+                        </form:button>
                     </div>
                     <div class="p-2">
-                        <input class="btn btn-secondary p-2" type="submit" value="Cancelar"
-                               formaction="item" formnovalidate>
+                        <a href="${pageContext.request.contextPath}/product/item?id=${productModel.productId}" class="btn btn-secondary p-2">
+                            <spring:message key="cancel"/>
+                        </a>
                     </div>
                 </div>
 
