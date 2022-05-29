@@ -14,6 +14,7 @@ public class BidsParamsDTO {
     String endDate;
     String productTitle;
     String clientName;
+    String vendorName;
     int page;
     String orderBy;
     boolean asc;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.BidsParamsDTO;
 import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
@@ -150,34 +151,16 @@ public class UsersController {
     }
 
     @GetMapping("/bids")
-    public String bidsIndex(Model model,
-                            @RequestParam(required = false) String startDate,
-                            @RequestParam(required = false) String endDate,
-                            @RequestParam(required = false) String productTitle,
-                            @RequestParam(required = false) String vendorName,
-                            @RequestParam(required = false) String page,
-                            @RequestParam(required = false) String orderBy,
-                            @RequestParam(required = false) String asc
-    ) {
+    public String bidsIndex(Model model, @ModelAttribute("sentBidsModel") BidsParamsDTO sentBidsModel) {
+        var bidList = bidService.getSentBids(sentBidsModel, getSession());
 
-        var bidList = bidService.getSentBids(
-                getSession(),
-                startDate,
-                endDate,
-                productTitle,
-                vendorName,
-                page,
-                orderBy,
-                asc
-        );
-        model.addAttribute("bidsByUser", bidList);
+        model.addAttribute("sentBidsModel", sentBidsModel);
+        model.addAttribute("bidsList", bidList);
         return "/users/bids";
     }
 
     @PostMapping("/bids/new")
-    public String newBid(HttpServletRequest request,
-                         @ModelAttribute("newBidModel") NewBidsDTO newBidModel
-    ){
+    public String newBid(HttpServletRequest request, @ModelAttribute("newBidModel") NewBidsDTO newBidModel){
         bidService.createBid(newBidModel, getSession());
         String referer = request.getHeader("Referer");
 
