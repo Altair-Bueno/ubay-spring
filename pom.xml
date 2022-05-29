@@ -14,6 +14,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ubay-spring</name>
     <description>ubay-spring</description>
+    <packaging>war</packaging>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -84,7 +85,10 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/webapp</directory>
+                <directory>src/main/resources/</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
