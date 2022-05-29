@@ -6,11 +6,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.BidsParamsDTO;
 import uma.taw.ubayspring.dto.bids.ReceivedBidsDTO;
 import uma.taw.ubayspring.service.BidService;
 import uma.taw.ubayspring.types.KindEnum;
@@ -39,29 +37,13 @@ public class VendorController {
     }
 
     @GetMapping("/bids")
-    @PostMapping("/bids")
     public String getIndex(Model model,
-                           @RequestParam(required = false) String startDate,
-                           @RequestParam(required = false) String endDate,
-                           @RequestParam(required = false) String productTitle,
-                           @RequestParam(required = false) String clientName,
-                           @RequestParam(required = false) String page,
-                           @RequestParam(required = false) String orderBy,
-                           @RequestParam(required = false) String asc
+                           @ModelAttribute("bidsModel") BidsParamsDTO bidsModel
     ){
-
-        List<ReceivedBidsDTO> bidList = bidService.getReceivedBids(
-                getSession(),
-                startDate,
-                endDate,
-                productTitle,
-                clientName,
-                page,
-                orderBy,
-                asc);
+        List<ReceivedBidsDTO> bidList = bidService.getReceivedBids(bidsModel, getSession());
 
         model.addAttribute("bidsByVendor", bidList);
-
+        model.addAttribute("bidsModel", bidsModel);
         return "/vendor/bids/index";
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
@@ -22,6 +23,7 @@ import uma.taw.ubayspring.service.products.ProductService;
 import uma.taw.ubayspring.types.GenderEnum;
 import uma.taw.ubayspring.types.KindEnum;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -173,13 +175,13 @@ public class UsersController {
     }
 
     @PostMapping("/bids/new")
-    public String newBid(@RequestHeader("referer") Optional<String> referer,
-                         @RequestParam String amount,
-                         @RequestParam String productID
+    public String newBid(HttpServletRequest request,
+                         @ModelAttribute("newBidModel") NewBidsDTO newBidModel
     ){
-        bidService.createBid(getSession(), amount, productID);
+        bidService.createBid(newBidModel, getSession());
+        String referer = request.getHeader("Referer");
 
-        return referer.get();
+        return "redirect:" + referer;
     }
 
 }
