@@ -85,7 +85,10 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/webapp</directory>
+                <directory>src/main/resources/</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
