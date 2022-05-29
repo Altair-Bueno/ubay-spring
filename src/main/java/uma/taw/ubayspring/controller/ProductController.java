@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.products.*;
 import uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO;
 import uma.taw.ubayspring.dto.products.index.FavOwnedDTO;
@@ -103,6 +104,7 @@ public class ProductController {
     @GetMapping("/item")
     public String processItem(Model model,
                               @ModelAttribute("productModel") ProductFormParamsDTO productModel,
+                              @ModelAttribute("newBidModel") NewBidsDTO newBidModel,
                               @RequestParam Integer id,
                               HttpServletRequest request
     ) {

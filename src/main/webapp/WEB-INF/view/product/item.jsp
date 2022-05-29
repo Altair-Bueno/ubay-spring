@@ -189,17 +189,29 @@ Created by IntelliJ IDEA.
             %>
 
             <div class="row align-items-center p-2">
-                <form method="post" action="${pageContext.request.contextPath}/users/bids/new">
+                <%--@elvariable id="newBidModel" type="uma.taw.ubayspring.dto.bids.NewBidsDTO"--%>
+                <form:form
+                        method="post"
+                        modelAttribute="newBidModel"
+                        action="${pageContext.request.contextPath}/users/bids/new">
                     <div class="col-auto w-25">
-                        <input type="number" min="<%=minBid%>" step="0.01" name="<%=UsersKeys.BID_AMOUNT_PARAMETER%>"
-                               class="form-control" placeholder="Cantidad a pujar..." required>
+                        <form:input
+                                type="number"
+                                min="<%=minBid%>"
+                                step="0.01"
+                                class="form-control"
+                                placeholder="Cantidad a pujar..."
+                                path="amount"
+                                required="true"/>
                     </div>
                     <div class="col-auto">
-                        <input type='hidden' name="<%=UsersKeys.BID_PRODUCT_ID_PARAMETER%>" id='id-compra'
-                               value="${productModel.productId}"/>
+                        <form:hidden
+                                id='id-compra'
+                                value="${productModel.productId}"
+                                path="productID"/>
                         <input class="btn btn-primary" type="submit" value="Pujar"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
         <div class="p-4">
