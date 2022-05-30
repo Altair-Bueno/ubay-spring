@@ -170,7 +170,7 @@
                     <nav aria-label="Pagination">
                         <ul class="pagination justify-content-center">
                             <c:forEach begin="1" end="<%=pageLimit%>" var="pageNum">
-                                <li class="page-item ${(pageNum eq 1 and page == null) or (pageNum eq productModel.page)? 'active' : ''}">
+                                <li class="page-item ${(pageNum eq 1 and productModel.page == null) or (pageNum eq productModel.page) ? 'active' : ''}">
                                     <form:input
                                             type="submit"
                                             class="page-link"
