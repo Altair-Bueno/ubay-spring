@@ -61,7 +61,7 @@ public class UsersService {
     @Autowired
     FavouritesRepositoryCustom favouritesRepositoryCustom;
 
-    @Autowired // TODO application crash
+    @Autowired
     ProductFavouritesRepositoryCustom productFavouritesRepositoryCustom;
 
     @Autowired
@@ -206,7 +206,7 @@ public class UsersService {
             passwordResetEntity.setRequestId(passwordChangeID);
             passwordResetRepository.save(passwordResetEntity);
 
-            return new PasswordChangeDTO(passwordChangeID, loginCredentialsEntity.getUsername());
+            return new PasswordChangeDTO(loginCredentialsEntity.getId(), passwordChangeID);
         }
         return null;
     }

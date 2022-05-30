@@ -18,14 +18,14 @@
 </head>
 <body>
 <%
-    String passwordChangeID = (String) request.getAttribute("passwordChangeID");
-    String usernamepwc = (String) request.getAttribute("username");
+    Integer loginID = (Integer) request.getAttribute("loginID");
+    String requestID = (String) request.getAttribute("requestID");
 %>
 <jsp:include page="../../components/navbar.jsp"/>
 
 <div class="col-6 position-absolute top-50 start-50 translate-middle">
     <h1></h1>
-    <input type="text" size="80" id="linkReseteo" value="${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/auth/resetPassword?passwordChangeID=<%=URLEncoder.encode(passwordChangeID,StandardCharsets.UTF_8)%>&username=<%=URLEncoder.encode(usernamepwc,StandardCharsets.UTF_8)%>"/>
+    <input type="text" size="80" id="linkReseteo" value="${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/auth/resetPassword?loginID=<%=loginID%>&requestID=<%=requestID%>"/>
     <button class="btn btn-primary mt-2" onclick="copyToClipboard()"><spring:message key="users.passwordchangelink.copytoclipboard.label"/></button>
 </div>
 

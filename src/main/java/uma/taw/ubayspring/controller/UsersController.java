@@ -126,10 +126,11 @@ public class UsersController {
 
     @GetMapping("/passwordChangeLink")
     public String passwordChangeLink(Model model, @RequestParam String id){
+
         PasswordChangeDTO passwordChangeDTO = usersService.passwordChange(id);
 
-        model.addAttribute("passwordChangeID", passwordChangeDTO.getPasswordChangeID());
-        model.addAttribute("username", passwordChangeDTO.getUsername());
+        model.addAttribute("loginID", passwordChangeDTO.getLoginID());
+        model.addAttribute("requestID", passwordChangeDTO.getRequestID());
 
         return "users/passwordChange";
     }
