@@ -21,7 +21,7 @@
 <jsp:include page="../../components/navbar.jsp"/>
 <div class="d-flex flex-column align-items-center">
     <div>
-        <h1>Datos</h1>
+        <h1><spring:message key="dataheader"/></h1>
     </div>
 
     <div class="d-flex flex-column">
