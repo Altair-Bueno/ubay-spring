@@ -1,4 +1,6 @@
 <%@ page import="uma.taw.ubayspring.dto.users.ProductDTO" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: jota
@@ -13,13 +15,13 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Productos favoritos</title>
+    <title>Ubay | <spring:message key="navbar.userdropdown.user.favproducts"/></title>
 </head>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
 <div class="container mt-4">
     <div class="row">
-        <h1>Productos favoritos</h1>
+        <h1><spring:message key="navbar.userdropdown.user.favproducts"/></h1>
     </div>
     <div class="row">
         <%
@@ -29,41 +31,43 @@
         <table class="table table-bordered text-center">
             <thead>
             <tr>
-                <th scope="col">Imagen</th>
-                <th scope="col">Título</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Eliminar</th>
+                <th scope="col"><spring:message key="product.image"/></th>
+                <th scope="col"><spring:message key="product.title"/></th>
+                <th scope="col"><spring:message key="product.status.label"/></th>
+                <th scope="col"><spring:message key="description"/></th>
+                <th scope="col"><spring:message key="product.item.delete.label"/></th>
             </tr>
             </thead>
             <tbody>
-            <%
-                for (ProductDTO p : l) {
-            %>
-            <tr onclick="window.location='${pageContext.request.contextPath}/product/item?id=' + <%=p.getId()%>">
-                <td><img src="<%=p.getImages()%>" class="img-thumbnail" alt="<%=p.getTitle()%>" style="width: 200px">
+            <c:forEach items="<%=l%>" var="p">
+            <tr onclick="window.location='${pageContext.request.contextPath}/product/item?id=' + ${p.id}">
+                <td><img src="${p.images}" class="img-thumbnail" alt="${p.title}" style="width: 200px">
                 </td>
-                <td class="align-middle"><h3><%=p.getTitle()%>
+                <td class="align-middle"><h3>${p.title}
                 </h3></td>
-                <td class="align-middle"><%=p.getCloseDate() == null ? "Abierto" : "Cerrado"%>
-                </td>
-                <td class="align-middle"><%=p.getDescription()%>
+                <c:choose>
+                    <c:when test="${p.closeDate eq null}">
+                        <td class="align-middle"><spring:message key="activeStatus"/></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td class="align-middle"><spring:message key="closedStatus"/></td>
+                    </c:otherwise>
+                </c:choose>
+                <td class="align-middle">${p.description}
                 </td>
 
                 <td class="align-middle">
                     <form method="get" action="${pageContext.request.contextPath}/users/deleteFavourite">
-                        <input type='hidden' name='productID' value="<%=p.getId()%>"/>
+                        <input type='hidden' name='productID' value="${p.id}"/>
                         <input type='hidden' name='clientID' value="<%=request.getAttribute("clientID")%>"/>
                         <button class="btn btn btn-outline-danger btn-labeled" type="submit">
-                            <span><i class="bi bi-star-fill"></i></span>Eliminar de favoritos
+                            <span><i class="bi bi-star-fill"></i></span><spring:message key="removeFavourites"/>
                         </button>
                     </form>
                 </td>
 
             </tr>
-            <%
-                }
-            %>
+            </c:forEach>
             </tbody>
         </table>
     </div>
