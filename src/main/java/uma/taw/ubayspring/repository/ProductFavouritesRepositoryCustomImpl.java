@@ -2,6 +2,7 @@ package uma.taw.ubayspring.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.CategoryEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
@@ -47,13 +48,17 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
      */
     public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsFiltered(ClientEntity client, String title, CategoryEntity category, int page) {
 
+        ExampleMatcher matcher = ExampleMatcher
+                .matchingAll()
+                .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
         List<ProductEntity> productEntityList = new ArrayList<>();
         ProductEntity productExample = ProductEntity
                 .builder()
                 .title(title)
                 .categoryId(category)
                 .build();
-        List<ProductEntity> productsFound = productRepository.findAll(Example.of(productExample));
+        List<ProductEntity> productsFound = productRepository.findAll(Example.of(productExample, matcher));
 
         int cont = 0;
         for(ProductEntity p : productsFound){
