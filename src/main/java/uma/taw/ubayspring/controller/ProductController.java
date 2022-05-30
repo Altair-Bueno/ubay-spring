@@ -41,6 +41,7 @@ public class ProductController {
     MinioWrapperService minioWrapperService;
 
     private String localizedString(HttpServletRequest request, String key){
+        Locale.setDefault(Locale.ENGLISH);
         ResourceBundle bundle = ResourceBundle.getBundle("messages", request.getLocale());
         return bundle.getString(key);
     }
