@@ -23,7 +23,7 @@
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
 <div class="container">
-    <h1>Notificaciones</h1>
+    <h1><spring:message key="notifications"/></h1>
     <%
         HashMap<BidsDTO, Boolean> notificaciones = (HashMap<BidsDTO, Boolean>) request.getAttribute("notifications");
 

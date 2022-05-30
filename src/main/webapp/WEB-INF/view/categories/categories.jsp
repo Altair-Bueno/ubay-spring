@@ -25,7 +25,7 @@
     if (login != null && login.getKind().equals(KindEnum.admin)) {
 %>
 <div class="container">
-    <h1><spring:message key="description"/> <a class="btn btn-primary m-2" href="/categories/add" role="button"><spring:message key="categories.addnew.label"/></a></h1>
+    <h1><spring:message key="navbar.navlinktext.categories"/> <a class="btn btn-primary m-2" href="/categories/add" role="button"><spring:message key="categories.addnew.label"/></a></h1>
 
     <div class="row">
         <div class="col">
@@ -35,8 +35,8 @@
                     <th>ID</th>
                     <th><spring:message key="name"/></th>
                     <th><spring:message key="description"/></th>
-                    <th><spring:message key="product.item.delete.label"/></th>
-                    <th><spring:message key="modify"/></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
