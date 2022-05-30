@@ -143,7 +143,7 @@
                         <td>
                             <a href="/users/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&lastName=<%=c.getLastName()%>&gender=<%=c.getGender()%>&address=<%=c.getAddress()%>&city=<%=c.getCity()%>&birthDate=<%=c.getBirthDate()%>">
                                 <spring:message key="modify"/></a></td>
-                        <td><a href="/users/passwordChangeLink?id=<%=c.getId()%>"><spring:message key="navbar.userdropdown.changepassword"/></a></td>
+                        <td><a href="/users/passwordChangeLink?id=<%=c.getId()%>"><spring:message key="resetPassword"/></a></td>
                     </tr>
                     <%
                             }
