@@ -61,14 +61,18 @@ public class BidService {
         );
     }
 
-    public List<ReceivedBidsDTO> getReceivedBids(@NonNull LoginDTO loginDTO, String startDateParameter, String endDateParameter, String productTitleParameter, String clientNameParameter, String pageParameter, String orderByParameter, String ascParameter) {
+    public List<ReceivedBidsDTO> getReceivedBids(BidsParamsDTO bidsParams, LoginDTO loginDTO) {
+        var startDateParameter = bidsParams.getStartDate(); var endDateParameter = bidsParams.getEndDate();
+        var productTitleParameter = bidsParams.getProductTitle(); var clientNameParameter = bidsParams.getClientName();
+        var orderByParameter = bidsParams.getOrderBy(); var asc = bidsParams.isAsc(); var pageParameter = bidsParams.getPage();
+
+
         Date startDate = "".equals(startDateParameter) || startDateParameter == null ? null : Date.valueOf(startDateParameter);
         Date endDate = "".equals(endDateParameter) || endDateParameter == null ? null : Date.valueOf(endDateParameter);
         String productTitle = "".equals(productTitleParameter) ? null : productTitleParameter;
         String clientName = "".equals(clientNameParameter) ? null : clientNameParameter;
         var orderBy = orderByParameter == null || orderByParameter.equals("") ? "publishDate" : orderByParameter;
-        var asc = ascParameter != null;
-        int page = "".equals(pageParameter) || pageParameter == null ? 0 : Integer.parseInt(pageParameter);
+        int page = bidsParams.getPage();
         if (page < 0) throw new IllegalArgumentException("Negative page index");
 
         var vendor = loginCredentialsRepository.findLoginCredentialsEntityByUsername(loginDTO.getUsername()).getClient();
@@ -77,27 +81,30 @@ public class BidService {
         return bidEntityStream.map(this::entityBidToReceivedBid).collect(Collectors.toList());
     }
 
-    public List<SentBidsDTO> getSentBids(@NonNull LoginDTO loginDTO, String startDateParameter, String endDateParameter, String productTitleParameter, String vendorNameParameter, String pageParameter, String orderByParameter, String ascParameter) {
+    public List<SentBidsDTO> getSentBids(BidsParamsDTO bidsParams, LoginDTO loginDTO) {
+        var startDateParameter = bidsParams.getStartDate(); var endDateParameter = bidsParams.getEndDate();
+        var productTitleParameter = bidsParams.getProductTitle(); var vendorNameParameter = bidsParams.getVendorName();
+        var orderByParameter = bidsParams.getOrderBy(); var asc = bidsParams.isAsc();
+
         Date startDate = "".equals(startDateParameter) || startDateParameter == null ? null : Date.valueOf(startDateParameter);
         Date endDate = "".equals(endDateParameter) || endDateParameter == null ? null : Date.valueOf(endDateParameter);
         String productTitle = "".equals(productTitleParameter) ? null : productTitleParameter;
         String vendorName = "".equals(vendorNameParameter) ? null : vendorNameParameter;
         var orderBy = orderByParameter == null || orderByParameter.equals("") ? "publishDate" : orderByParameter;
-        var asc = ascParameter != null;
-        int page = "".equals(pageParameter) || pageParameter == null ? 0 : Integer.parseInt(pageParameter);
+        int page = bidsParams.getPage();
         if (page < 0) throw new IllegalArgumentException("Negative page index");
 
-        var vendor = loginCredentialsRepository.findLoginCredentialsEntityByUsername(loginDTO.getUsername()).getClient();
-        Stream<BidEntity> bidEntityStream = bidRepositoryCustom.getFilteredBidsFromUser(vendor, page, startDate, endDate, productTitle, vendorName, orderBy, asc);
+        var client = loginCredentialsRepository.findLoginCredentialsEntityByUsername(loginDTO.getUsername()).getClient();
+        Stream<BidEntity> bidEntityStream = bidRepositoryCustom.getFilteredBidsFromUser(client, page, startDate, endDate, productTitle, vendorName, orderBy, asc);
         return bidEntityStream.map(this::entityBidToSentBid).collect(Collectors.toList());
     }
 
-    public void createBid(@NonNull LoginDTO loginDTO, @NonNull String amountParameter, @NonNull String productIDParameter) {
+    public void createBid(NewBidsDTO newBidsDTO, @NonNull LoginDTO loginDTO) {
         var vendor = loginCredentialsRepository.findLoginCredentialsEntityByUsername(loginDTO.getUsername()).getClient();
         var timestamp = new Timestamp(new java.util.Date().getTime());
 
-        var amount = Double.parseDouble(amountParameter);
-        var productId = Integer.parseInt(productIDParameter);
+        var amount = newBidsDTO.getAmount();
+        var productId = newBidsDTO.getProductID();
         var product = productRepository.findById(productId).get();
 
         if (product == null) throw new IllegalArgumentException("The given product ID doesn't exist");

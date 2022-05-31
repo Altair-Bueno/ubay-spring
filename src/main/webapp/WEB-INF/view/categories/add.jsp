@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: jota
@@ -13,7 +14,7 @@
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Add categoria</title>
+    <title>Ubay | <spring:message key="categories.addnew.label"/></title>
 </head>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
@@ -26,18 +27,19 @@
         <form:form action="add" method="post" modelAttribute="addCategoryDTO">
             <div class="form col">
                 <label>
-                    Nombre: <form:input path="name" required="required" type="text" maxlength="15" size="15" class="form-control" /> <br>
+                    <spring:message key="name"/>
+                    <form:input path="name" required="required" type="text" maxlength="15" size="15" class="form-control" /> <br>
                 </label>
             </div>
 
             <div class="form col">
                  <label>
-                      <%-- <form:input path="description" required="required" type="text" maxlength="50" size="50" class="form-control" /> --%> <br>
-                      Descripción: <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
+
+                      <spring:message key="description"/> <form:textarea path="description" rows = "4" cols = "30" required="required" maxlength="150" class="form-control"/>
                  </label>
             </div>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary mt-2">Crear</button>
+                <button type="submit" class="btn btn-primary mt-2"><spring:message key="create"/></button>
             </div>
         </form:form>
     </div>

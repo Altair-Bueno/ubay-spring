@@ -8,6 +8,6 @@ import lombok.Value;
 
 @Value
 public class PasswordChangeDTO {
-    String passwordChangeID;
-    String username;
+    Integer loginID;
+    String requestID;
 }

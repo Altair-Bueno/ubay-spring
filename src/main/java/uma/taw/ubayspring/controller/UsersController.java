@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.BidsParamsDTO;
+import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
 import uma.taw.ubayspring.dto.users.ClientDTO;
@@ -22,6 +24,7 @@ import uma.taw.ubayspring.service.products.ProductService;
 import uma.taw.ubayspring.types.GenderEnum;
 import uma.taw.ubayspring.types.KindEnum;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -123,10 +126,11 @@ public class UsersController {
 
     @GetMapping("/passwordChangeLink")
     public String passwordChangeLink(Model model, @RequestParam String id){
+
         PasswordChangeDTO passwordChangeDTO = usersService.passwordChange(id);
 
-        model.addAttribute("passwordChangeID", passwordChangeDTO.getPasswordChangeID());
-        model.addAttribute("username", passwordChangeDTO.getUsername());
+        model.addAttribute("loginID", passwordChangeDTO.getLoginID());
+        model.addAttribute("requestID", passwordChangeDTO.getRequestID());
 
         return "users/passwordChange";
     }
@@ -137,7 +141,6 @@ public class UsersController {
      *
      */
     @GetMapping("/notifications")
-    @PostMapping("/notifications")
     public String processNotifications(Model model){
         var client = getProductSession();
 
@@ -148,38 +151,20 @@ public class UsersController {
     }
 
     @GetMapping("/bids")
-    public String bidsIndex(Model model,
-                            @RequestParam(required = false) String startDate,
-                            @RequestParam(required = false) String endDate,
-                            @RequestParam(required = false) String productTitle,
-                            @RequestParam(required = false) String vendorName,
-                            @RequestParam(required = false) String page,
-                            @RequestParam(required = false) String orderBy,
-                            @RequestParam(required = false) String asc
-    ) {
+    public String bidsIndex(Model model, @ModelAttribute("sentBidsModel") BidsParamsDTO sentBidsModel) {
+        var bidList = bidService.getSentBids(sentBidsModel, getSession());
 
-        var bidList = bidService.getSentBids(
-                getSession(),
-                startDate,
-                endDate,
-                productTitle,
-                vendorName,
-                page,
-                orderBy,
-                asc
-        );
-        model.addAttribute("bidsByUser", bidList);
+        model.addAttribute("sentBidsModel", sentBidsModel);
+        model.addAttribute("bidsList", bidList);
         return "/users/bids";
     }
 
     @PostMapping("/bids/new")
-    public String newBid(@RequestHeader("referer") Optional<String> referer,
-                         @RequestParam String amount,
-                         @RequestParam String productID
-    ){
-        bidService.createBid(getSession(), amount, productID);
+    public String newBid(HttpServletRequest request, @ModelAttribute("newBidModel") NewBidsDTO newBidModel){
+        bidService.createBid(newBidModel, getSession());
+        String referer = request.getHeader("Referer");
 
-        return referer.get();
+        return "redirect:" + referer;
     }
 
 }

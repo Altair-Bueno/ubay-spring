@@ -1,9 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
-<%@ page import="uma.taw.ubayspring.keys.UsersKeys" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductBidDTO" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO" %>
 <%@ page import="uma.taw.ubayspring.types.KindEnum" %>
@@ -29,7 +28,7 @@ Created by IntelliJ IDEA.
     />
 
 
-    <title>Ubay | Producto</title>
+    <title>Ubay | </title>
 </head>
 <body>
 <%
@@ -57,12 +56,12 @@ Created by IntelliJ IDEA.
             </h1></div>
             <div class="p-2"><h1>${productModel.price} €</h1></div>
             <div class="p-2">
-                <h2>Estado: </h2>
+                <h2><spring:message key="product.status.label"/>:</h2>
                 <h4>${productModel.status}
                 </h4>
             </div>
             <div class="p-2">
-                <h2>Descripcion: </h2>
+                <h2><spring:message key="description"/>: </h2>
                 <h6>${productModel.description}
                 </h6>
             </div>
@@ -78,9 +77,10 @@ Created by IntelliJ IDEA.
 
                 %>
                 <!-- EDITAR -->
+                <spring:message key="product.item.edit.label" var="edit"/>
                 <form method="get" action="${pageContext.request.contextPath}/product/update">
                     <input type='hidden' name='id' value="${productModel.productId}"/>
-                    <input class="btn btn-secondary btn-block me-2" type="submit" value="Editar">
+                    <input class="btn btn-secondary btn-block me-2" type="submit" value="${edit}">
                 </form>
                 <%
                     }
@@ -88,18 +88,18 @@ Created by IntelliJ IDEA.
 
 
                 <!-- BORRAR: Button trigger modal -->
-                <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal"
+                <button type="button" class="btn btn-danger btn-block me-2" data-bs-toggle="modal"
                         data-bs-target="#deleteModal">
-                    Eliminar
+                    <spring:message key="product.item.delete.label"/>
                 </button>
 
                 <%
                     if(!cerrado){
 
                 %>
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
                         data-bs-target="#closeProductModal">
-                    Cerrar
+                    <spring:message key="product.item.close.label"/>
                 </button>
                 <%
                     }
@@ -112,18 +112,19 @@ Created by IntelliJ IDEA.
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Eliminar producto</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel"><spring:message key="product.item.deletemodal.header"/></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            ¿Está seguro de que quiere eliminar el producto?
+                            <spring:message key="product.item.deletemodal.body"/>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message key="cancel"/></button>
                             <form method="get" action="${pageContext.request.contextPath}/product/delete">
                                 <input type='hidden' name='id' value="${productModel.productId}"/>
-                                <input class="btn btn-danger" type="submit" value="Eliminar">
+                                <spring:message key="product.item.delete.label" var="delete"/>
+                                <input class="btn btn-danger" type="submit" value="${delete}">
                             </form>
                         </div>
                     </div>
@@ -136,15 +137,15 @@ Created by IntelliJ IDEA.
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel2">Eliminar producto</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel2"><spring:message key="product.item.closemodal.header"/></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            ¿Está seguro de que quiere cerrar el producto?
+                            <spring:message key="product.item.closemodal.body"/>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message key="cancel"/></button>
                             <%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO"--%>
                             <form:form 
                                     method="post" 
@@ -157,7 +158,8 @@ Created by IntelliJ IDEA.
                                 <form:hidden path="category"/>
                                 <form:hidden path="productId"/>
                                 <form:hidden path="status" value="<%=closed%>"/>
-                                <input class="btn btn-warning" type="submit" value="Cerrar">
+                                <spring:message key="product.item.close.label" var="close"/>
+                                <input class="btn btn-warning" type="submit" value="${close}">
                             </form:form>
                         </div>
                     </div>
@@ -171,8 +173,8 @@ Created by IntelliJ IDEA.
                         minBid = productModel.getPrice();
             %>
             <div class="row">
-                <h2>Este producto no ha recibido todavía ninguna puja</h2>
-                <h2>Precio de puja mínima: ${productModel.price}
+                <h2><spring:message key="product.item.nobidsyettext"/></h2>
+                <h2><spring:message key="product.item.minimumbidtext"/> ${productModel.price}
                 </h2>
             </div>
             <%
@@ -181,7 +183,7 @@ Created by IntelliJ IDEA.
                 minBid = highestBid.getAmount();
             %>
             <div class="row">
-                <h2>Puja más alta actual: <%=highestBid.getAmount()%>
+                <h2><spring:message key="product.item.highestbidtext"/> <%=highestBid.getAmount()%>
                 </h2>
             </div>
             <%
@@ -189,17 +191,31 @@ Created by IntelliJ IDEA.
             %>
 
             <div class="row align-items-center p-2">
-                <form method="post" action="${pageContext.request.contextPath}/users/bids/new">
+                <%--@elvariable id="newBidModel" type="uma.taw.ubayspring.dto.bids.NewBidsDTO"--%>
+                <form:form
+                        method="post"
+                        modelAttribute="newBidModel"
+                        action="${pageContext.request.contextPath}/users/bids/new">
+                    <spring:message key="product.item.bidamount.placeholder" var="amount"/>
                     <div class="col-auto w-25">
-                        <input type="number" min="<%=minBid%>" step="0.01" name="<%=UsersKeys.BID_AMOUNT_PARAMETER%>"
-                               class="form-control" placeholder="Cantidad a pujar..." required>
+                        <form:input
+                                type="number"
+                                min="<%=minBid%>"
+                                step="0.01"
+                                class="form-control"
+                                placeholder="${amount}"
+                                path="amount"
+                                required="true"/>
                     </div>
+                    <spring:message key="product.item.makebid.label" var="makebid"/>
                     <div class="col-auto">
-                        <input type='hidden' name="<%=UsersKeys.BID_PRODUCT_ID_PARAMETER%>" id='id-compra'
-                               value="${productModel.productId}"/>
-                        <input class="btn btn-primary" type="submit" value="Pujar"/>
+                        <form:hidden
+                                id='id-compra'
+                                value="${productModel.productId}"
+                                path="productID"/>
+                        <input class="btn btn-primary" type="submit" value="${makebid}"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
         <div class="p-4">
@@ -215,7 +231,7 @@ Created by IntelliJ IDEA.
                     <input type='hidden' name='productID' value="${productModel.productId}"/>
                     <input type='hidden' name='clientID' value="<%=client.getId()%>"/>
                     <button class="btn btn btn-outline-danger btn-labeled" type="submit">
-                        <span><i class="bi bi-star-fill"></i></span>Eliminar de favoritos
+                        <span><i class="bi bi-star-fill"></i></span><spring:message key="removeFavourites"/>
                     </button>
                 </form>
             </div>
@@ -229,7 +245,7 @@ Created by IntelliJ IDEA.
                 <input type='hidden' name='productID' value="${productModel.productId}"/>
                 <input type='hidden' name='clientID' value="<%=client.getId()%>"/>
                 <button class="btn btn btn-outline-warning btn-labeled" type="submit">
-                    <span><i class="bi bi-star-fill"></i></span>Añadir a favoritos
+                    <span><i class="bi bi-star-fill"></i></span><spring:message key="addFavourites"/>
                 </button>
             </form>
 

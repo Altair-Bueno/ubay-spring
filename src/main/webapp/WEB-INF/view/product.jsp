@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductDTO" %>
@@ -20,7 +21,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Ubay | Productos</title>
+    <title><spring:message key="product.header.title"/></title>
 </head>
 
 <style>
@@ -50,20 +51,20 @@
     <div class="container">
         <div class="row">
             <div class="col-3">
-                <h2>Filtros:</h2>
+                <h2><spring:message key="product.index.filter.header"/></h2>
                 <%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.index.ParamsDTO"--%>
                 <form:form
                         modelAttribute="productModel"
                         method="get"
                         action="${pageContext.request.contextPath}/product">
                     <div class="form col">
-                        Nombre del producto:
+                        <spring:message key="product.index.filter.name"/>
                         <form:input
                                 type="text"
                                 class="form-control"
                                 maxlength="20"
                                 path="name"/>
-                        Categoría:
+                        <spring:message key="product.index.filter.category"/>
                         <form:select
                                 class="form-select"
                                 path="category">
@@ -89,8 +90,8 @@
                             />
                         </c:if>
 
-                        <form:button type="submit" class="btn btn-primary mt-2">Buscar</form:button>
-                        <a class="btn btn-secondary mt-2" href="<%=request.getContextPath()%>/product">Limpiar</a>
+                        <form:button type="submit" class="btn btn-primary mt-2"><spring:message key="search"/></form:button>
+                        <a class="btn btn-secondary mt-2" href="<%=request.getContextPath()%>/product"><spring:message key="clean"/></a>
                     </div>
                 </form:form>
             </div>
@@ -99,7 +100,7 @@
                 <c:if test="<%=client != null%>">
                     <form:form method="get" action="${pageContext.request.contextPath}/product/new">
                         <div class="py-3" style="width: max-content; float: left">
-                            <button type="submit" class="btn btn-primary">Subir producto</button>
+                            <button type="submit" class="btn btn-primary"><spring:message key="product.index.createproduct.label"/></button>
                         </div>
                     </form:form>
                 </c:if>
@@ -107,10 +108,10 @@
                 <table class="table table-bordered text-center">
                     <thead>
                     <tr>
-                        <th scope="col">Imagen</th>
-                        <th scope="col">Titulo</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col"><spring:message key="product.image"/></th>
+                        <th scope="col"><spring:message key="product.title"/></th>
+                        <th scope="col"><spring:message key="product.status.label"/></th>
+                        <th scope="col"><spring:message key="description"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -126,10 +127,10 @@
                             <td class="align-middle"><h3>${p.title}</h3></td>
                             <c:choose>
                                 <c:when test="${p.closeDate eq null}">
-                                    <td class="align-middle">Abierto</td>
+                                    <td class="align-middle"><spring:message key="activeStatus"/></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td class="align-middle">Cerrado</td>
+                                    <td class="align-middle"><spring:message key="closedStatus"/></td>
                                 </c:otherwise>
                             </c:choose>
 
@@ -169,7 +170,7 @@
                     <nav aria-label="Pagination">
                         <ul class="pagination justify-content-center">
                             <c:forEach begin="1" end="<%=pageLimit%>" var="pageNum">
-                                <li class="page-item ${(pageNum eq 1 and page == null) or (pageNum eq productModel.page)? 'active' : ''}">
+                                <li class="page-item ${(pageNum eq 1 and productModel.page == null) or (pageNum eq productModel.page) ? 'active' : ''}">
                                     <form:input
                                             type="submit"
                                             class="page-link"

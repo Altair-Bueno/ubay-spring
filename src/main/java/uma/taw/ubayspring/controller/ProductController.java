@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uma.taw.ubayspring.dto.LoginDTO;
+import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.products.*;
 import uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO;
 import uma.taw.ubayspring.dto.products.index.FavOwnedDTO;
@@ -40,6 +41,7 @@ public class ProductController {
     MinioWrapperService minioWrapperService;
 
     private String localizedString(HttpServletRequest request, String key){
+        Locale.setDefault(Locale.ENGLISH);
         ResourceBundle bundle = ResourceBundle.getBundle("messages", request.getLocale());
         return bundle.getString(key);
     }
@@ -63,13 +65,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel) {
+    public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel, HttpServletRequest request) {
         ListsDTO listas = new ListsDTO();
         listas.setCategoryList(productService.categories());
         listas.setProductList(productService.getProductsList(productModel, getSession()).getProductsList());
         listas.setFavOwnedFilterOptions(List.of(new FavOwnedDTO[]{
-                new FavOwnedDTO("favFilter", "Favoritos"),
-                new FavOwnedDTO("ownedFilter", "Mis productos")
+                new FavOwnedDTO("favFilter", localizedString(request, "product.index.filter.favourites")),
+                new FavOwnedDTO("ownedFilter", localizedString(request, "product.index.filter.owned"))
         }));
 
         model.addAttribute("client", getSession());
@@ -103,6 +105,7 @@ public class ProductController {
     @GetMapping("/item")
     public String processItem(Model model,
                               @ModelAttribute("productModel") ProductFormParamsDTO productModel,
+                              @ModelAttribute("newBidModel") NewBidsDTO newBidModel,
                               @RequestParam Integer id,
                               HttpServletRequest request
     ) {

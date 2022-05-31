@@ -1,3 +1,4 @@
+# @author Altair Bueno
 FROM openjdk:17-alpine
 ENV SPRING_PROFILES_ACTIVE=docker
 RUN addgroup -S spring && adduser -S spring -G spring

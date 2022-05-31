@@ -1,6 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="org.springframework.security.core.userdetails.User" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="uma.taw.ubayspring.dto.categories.CategoryDTO" %>
 <%@ page import="uma.taw.ubayspring.types.KindEnum" %>
 <%@ page import="uma.taw.ubayspring.entity.LoginCredentialsEntity" %><%--
@@ -18,7 +17,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
 </head>
-<title>Ubay | Categorias</title>
+<title>Ubay | <spring:message key="navbar.navlinktext.categories"/></title>
 <body>
 <jsp:include page="../../components/navbar.jsp"/>
 <%
@@ -26,7 +25,7 @@
     if (login != null && login.getKind().equals(KindEnum.admin)) {
 %>
 <div class="container">
-    <h1>Categorías <a class="btn btn-primary m-2" href="/categories/add" role="button">Añadir una nueva categoría</a></h1>
+    <h1><spring:message key="navbar.navlinktext.categories"/> <a class="btn btn-primary m-2" href="/categories/add" role="button"><spring:message key="categories.addnew.label"/></a></h1>
 
     <div class="row">
         <div class="col">
@@ -34,10 +33,10 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Borrar categoría</th>
-                    <th>Modificar categoría</th>
+                    <th><spring:message key="name"/></th>
+                    <th><spring:message key="description"/></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,8 +55,7 @@
                     <td>
                         <button type="button" class="btn btn-primary"
                                 data-bs-toggle="modal"
-                                data-bs-target="#deleteModal<%=c.getId()%>">Eliminar
-                            categoría
+                                data-bs-target="#deleteModal<%=c.getId()%>"><spring:message key="product.item.deletemodal.delete"/>
                         </button>
 
                         <!-- Delete Modal -->
@@ -69,24 +67,23 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title"
-                                            id="staticBackdropLabel">Eliminar
-                                            usuario</h5>
+                                            id="staticBackdropLabel"><spring:message key="category.deleteModal.header"/></h5>
                                         <button type="button" class="btn-close"
                                                 data-bs-dismiss="modal"
                                                 aria-label="Cerrar"></button>
                                     </div>
                                     <div class="modal-body">
-                                        ¿Está seguro de que quiere eliminar la categoría con ID = <%=c.getId()%>?
+                                        <spring:message key="category.delete.text"/> <%=c.getId()%> ?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancelar
+                                                data-bs-dismiss="modal"><spring:message key="cancel"/>
                                         </button>
                                         <form method="GET"
                                               action="/categories/delete">
                                             <input hidden name='id' value="<%=c.getId()%>"/>
-                                            <input class="btn btn-danger" type="submit"
-                                                   value="Eliminar">
+                                            <button class="btn btn-danger" type="submit"
+                                                   ><spring:message key="product.item.delete.label"/></button>
                                         </form>
                                     </div>
                                 </div>
@@ -95,8 +92,7 @@
 
 
                     </td>
-                    <td><a href="/categories/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&description=<%=c.getDescription()%>">Modificar
-                        categoría</a></td>
+                    <td><a href="/categories/modify?id=<%=c.getId()%>&name=<%=c.getName()%>&description=<%=c.getDescription()%>"><spring:message key="modify"/></a></td>
                 </tr>
                 <%
                         }
@@ -116,17 +112,17 @@
 %>
 
 <div class="container">
-    <h1>Categorías</h1>
+    <h1><spring:message key="navbar.navlinktext.categories"/></h1>
     <div class="row">
         <div class="col">
             <table class="table table-responsive">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
+                    <th><spring:message key="name"/></th>
+                    <th><spring:message key="description"/></th>
                     <% if (login != null) { %>
-                    <th>Favorita</th>
+                    <th></th>
                     <%}%>
 
 
@@ -158,8 +154,7 @@
                         </td>
 
                         <td>
-                            <a href="/categories/deleteFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Eliminar
-                                de favoritos</a>
+                            <a href="/categories/deleteFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>"><spring:message key="removeFavourites"/></a>
                         </td>
                     </tr>
 
@@ -180,8 +175,7 @@
                         </td>
 
                         <td>
-                            <a href="/categories/addFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>">Añadir
-                                a favoritos</a>
+                            <a href="/categories/addFavourite?categoryID=<%=c.getId()%>&clientID=<%=request.getAttribute("client-id")%>"><spring:message key="addFavourites"/></a>
                         </td>
                     </tr>
                 <%

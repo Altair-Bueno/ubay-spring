@@ -1,7 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductCategoryDTO" %>
-<%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
 <%--
 Created by IntelliJ IDEA.
   Author: Francisco Javier Hernández
@@ -16,7 +16,7 @@ Created by IntelliJ IDEA.
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
-    <title>Ubay | Nuevo producto</title>
+    <title><spring:message key="product.new.header"/></title>
 </head>
 <body>
 
@@ -41,7 +41,7 @@ Created by IntelliJ IDEA.
                 <img id="output" style="height: auto; width: 500px;"/>
             </div>
             <div class="form-group mb-3 w-75 p-2">
-                <label for="img" class="form-label">Subir imagen: </label>
+                <label for="img" class="form-label"><spring:message key="product.new.uploadimage"/></label>
                 <form:input
                         type="file"
                         accept="image/*"
@@ -57,7 +57,7 @@ Created by IntelliJ IDEA.
         <div class="d-flex flex-column p-2">
             <%-- Titulo --%>
             <div class="form-group w-75 p-2">
-                <label for="tit">Título: </label>
+                <label for="tit"><spring:message key="product.title"/>:</label>
                 <form:input
                         type="text"
                         id="tit"
@@ -69,7 +69,7 @@ Created by IntelliJ IDEA.
 
             <%-- Descripcion --%>
             <div class="p-2">
-                <label for="desc">Descripcion: </label>
+                <label for="desc"><spring:message key="description"/>:</label>
                 <form:textarea
                         id="desc"
                         class="form-control"
@@ -81,7 +81,7 @@ Created by IntelliJ IDEA.
 
             <%-- Precio --%>
             <div class="p-2">
-                <label for="precio">Precio: </label>
+                <label for="precio"><spring:message key="product.update.price"/></label>
                 <form:input
                         type="number"
                         id="precio"
@@ -92,7 +92,7 @@ Created by IntelliJ IDEA.
 
             <%-- Categoria --%>
             <div class="p-2">
-                <label>Categoria: </label>
+                <label><spring:message key="product.index.filter.category"/></label>
                 <form:select name="category" path="category">
                     <form:options items="<%=categoryList%>" itemValue="id" itemLabel="name"/>
                 </form:select>
@@ -102,11 +102,12 @@ Created by IntelliJ IDEA.
             <div class="p-2">
                 <div class="d-flex flex-row p-2">
                     <div class="p-2">
-                        <input class="btn btn-primary p-2" type="submit" value="Confirmar"/>
+                        <spring:message key="confirm" var="confirm"/>
+
+                        <input class="btn btn-primary p-2" type="submit" value="${confirm}"/>
                     </div>
                     <div class="p-2">
-                        <input class="btn btn-secondary p-2" type="submit" value="Cancelar"
-                               formaction="${pageContext.request.contextPath}/product" formnovalidate="true"/>
+                        <a href="${pageContext.request.contextPath}/product" class="btn btn-secondary p-2"><spring:message key="cancel"/></a>
                     </div>
                 </div>
 
