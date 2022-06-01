@@ -9,7 +9,7 @@ Created by IntelliJ IDEA.
   Time: 19:44
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -84,6 +84,7 @@ Created by IntelliJ IDEA.
                 <label for="precio"><spring:message key="product.update.price"/></label>
                 <form:input
                         type="number"
+                        min="0"
                         id="precio"
                         class="form-control"
                         path="price"
@@ -121,6 +122,7 @@ Created by IntelliJ IDEA.
     var loadFile = function (event) {
         var image = document.getElementById('output');
         image.src = URL.createObjectURL(event.target.files[0]);
+        image.alt = event.target.files[0].name
     };
 </script>
 </html>
