@@ -28,7 +28,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
     @Override
     public ProductTupleResult filterAndGetByPage(ClientEntity vendedor, String title, CategoryEntity category, boolean owned, int page){
         if(page == 0) page = 1;
-        int beginning = ProductKeys.productsPerPageLimit * (page - 1), end = (ProductKeys.productsPerPageLimit * page + 1);
+        int beginning = ProductKeys.productsPerPageLimit * (page - 1), end = (ProductKeys.productsPerPageLimit * page);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
@@ -42,7 +42,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 
         List<ProductEntity> productEntities = productRepository.findAll(Example.of(example, matcher));
         int size = productEntities.size();
-        if(end > productEntities.size()) end = productEntities.size();
+        if(end > size) end = size;
         productEntities = productEntities.subList(beginning, end);
 
         return new ProductTupleResult(productEntities, size);

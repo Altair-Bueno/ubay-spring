@@ -64,14 +64,17 @@ public class ProductController {
     public String getIndex(Model model, @ModelAttribute("productModel") ParamsDTO productModel, HttpServletRequest request) {
         ListsDTO listas = new ListsDTO();
         listas.setCategoryList(productService.categories());
-        listas.setProductList(productService.getProductsList(productModel, getSession()).getProductsList());
+        ProductsDTO productsDTO = productService.getProductsList(productModel, getSession());
+        listas.setProductList(productsDTO.getProductsList());
         listas.setFavOwnedFilterOptions(List.of(new FavOwnedDTO[]{
                 new FavOwnedDTO("favFilter", localizedString(request, "product.index.filter.favourites")),
                 new FavOwnedDTO("ownedFilter", localizedString(request, "product.index.filter.owned"))
         }));
 
+        int pageLimit = (int) Math.ceil((double) productsDTO.getSize() / ProductKeys.productsPerPageLimit);
+
         model.addAttribute("client", getSession());
-        model.addAttribute("pageLimit", (int) Math.ceil((double) listas.getProductList().size() / ProductKeys.productsPerPageLimit));
+        model.addAttribute("pageLimit", pageLimit);
         model.addAttribute("listas", listas);
         model.addAttribute("productModel", productModel);
         return "product";
