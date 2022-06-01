@@ -1,6 +1,5 @@
 package uma.taw.ubayspring.controller;
 
-import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uma.taw.ubayspring.dto.LoginDTO;
 import uma.taw.ubayspring.dto.bids.BidsParamsDTO;
+import uma.taw.ubayspring.dto.bids.BidsSortingOptions;
 import uma.taw.ubayspring.dto.bids.NewBidsDTO;
 import uma.taw.ubayspring.dto.notifications.BidsDTO;
 import uma.taw.ubayspring.dto.products.ProductClientDTO;
@@ -18,17 +18,18 @@ import uma.taw.ubayspring.dto.users.ClientDTO;
 import uma.taw.ubayspring.dto.users.FilterUsersDTO;
 import uma.taw.ubayspring.dto.users.PasswordChangeDTO;
 import uma.taw.ubayspring.dto.users.ProductDTO;
+import uma.taw.ubayspring.keys.UsersKeys;
 import uma.taw.ubayspring.service.BidService;
 import uma.taw.ubayspring.service.UsersService;
 import uma.taw.ubayspring.service.products.ProductService;
-import uma.taw.ubayspring.types.GenderEnum;
 import uma.taw.ubayspring.types.KindEnum;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+
+import static uma.taw.ubayspring.keys.ProductKeys.localizedString;
 
 @Controller
 @RequestMapping("/users")
@@ -151,9 +152,15 @@ public class UsersController {
     }
 
     @GetMapping("/bids")
-    public String bidsIndex(Model model, @ModelAttribute("sentBidsModel") BidsParamsDTO sentBidsModel) {
+    public String bidsIndex(Model model,
+                            HttpServletRequest request,
+                            @ModelAttribute("sentBidsModel") BidsParamsDTO sentBidsModel) {
         var bidList = bidService.getSentBids(sentBidsModel, getSession());
+        List<BidsSortingOptions> sortingOptions = Arrays.stream(UsersKeys.ORDER_BY_LIST)
+                .map((x) -> new BidsSortingOptions(x, localizedString(request, x)))
+                .toList();
 
+        model.addAttribute("sortingOptions", sortingOptions);
         model.addAttribute("sentBidsModel", sentBidsModel);
         model.addAttribute("bidsList", bidList);
         return "/users/bids";

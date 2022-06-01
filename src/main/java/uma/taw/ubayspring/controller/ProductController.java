@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
+import static uma.taw.ubayspring.keys.ProductKeys.localizedString;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -39,12 +41,6 @@ public class ProductController {
 
     @Autowired
     MinioWrapperService minioWrapperService;
-
-    private String localizedString(HttpServletRequest request, String key){
-        Locale.setDefault(Locale.ENGLISH);
-        ResourceBundle bundle = ResourceBundle.getBundle("messages", request.getLocale());
-        return bundle.getString(key);
-    }
 
     private ProductClientDTO getSession() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

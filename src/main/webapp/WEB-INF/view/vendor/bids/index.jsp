@@ -6,6 +6,7 @@
 <%@ page import="uma.taw.ubayspring.dto.bids.ProductDTO" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="uma.taw.ubayspring.dto.bids.BidsParamsDTO" %>
+<%@ page import="uma.taw.ubayspring.dto.bids.BidsSortingOptions" %>
 <%--
   Created by IntelliJ IDEA.
   Author: Altair Bueno 90% Francisco Javier Hernández 10%
@@ -17,6 +18,8 @@
 <%
     List<ReceivedBidsDTO> bidsList = (List<ReceivedBidsDTO>) request.getAttribute(VendorKeys.BID_LIST);
     BidsParamsDTO bidsModel = (BidsParamsDTO) request.getAttribute("bidsModel");
+    List<BidsSortingOptions> sortingOptions = (List<BidsSortingOptions>) request.getAttribute("sortingOptions");
+
     int pageNumber = 0;
     try {
         pageNumber = bidsModel.getPage();
@@ -49,7 +52,7 @@
                     modelAttribute="bidsModel"
                     action="${pageContext.request.contextPath}/vendor/bids">
                 <div class="mb-3">
-                    <label for="startDate" class="form-label"><spring:message key="publicationdate"/>:</label>
+                    <label for="startDate" class="form-label"><spring:message key="publishDate"/>:</label>
                     <form:input type="date" class="form-control" id="startDate" path="startDate"/>
 
                 </div>
@@ -74,7 +77,7 @@
                         id="orderBy"
                         path="orderBy"
                 >
-                    <form:options items="<%=VendorKeys.ORDER_BY_LIST%>"/>
+                    <form:options items="<%=sortingOptions%>" itemValue="value" itemLabel="label"/>
                 </form:select>
                 <div class="form-check mb-3">
                     <form:checkbox
@@ -95,7 +98,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col"><spring:message key="publicationdate"/></th>
+                    <th scope="col"><spring:message key="publishDate"/></th>
                     <th scope="col"><spring:message key="amount"/></th>
                     <th scope="col"><spring:message key="bids.producttitle"/></th>
                     <th scope="col"><spring:message key="clientname"/></th>
