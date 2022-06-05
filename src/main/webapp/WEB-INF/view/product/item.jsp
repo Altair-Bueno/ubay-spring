@@ -14,7 +14,7 @@ Created by IntelliJ IDEA.
   Time: 10:08
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -200,7 +200,7 @@ Created by IntelliJ IDEA.
                     <div class="col-auto w-25">
                         <form:input
                                 type="number"
-                                min="<%=minBid%>"
+                                min="<%=minBid >= 0 ? minBid : 0%>"
                                 step="0.01"
                                 class="form-control"
                                 placeholder="${amount}"

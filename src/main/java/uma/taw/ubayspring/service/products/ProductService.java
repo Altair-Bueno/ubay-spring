@@ -67,7 +67,8 @@ public class ProductService {
 
 
     public ProductsDTO getProductsList(ParamsDTO paramsDTO, ProductClientDTO sesionClient) {
-        String favOwnedFilter = paramsDTO.getFavOwnedFilter() == null ? "" : paramsDTO.getFavOwnedFilter(), productName = paramsDTO.getName() == null ? "" : paramsDTO.getName();
+        String favOwnedFilter = paramsDTO.getFavOwnedFilter() == null ? "" : paramsDTO.getFavOwnedFilter(),
+                productName = paramsDTO.getName() == null ? "" : paramsDTO.getName();
         int category = paramsDTO.getCategory(), page = paramsDTO.getPage();
 
         boolean favFilter = favOwnedFilter.equals("favFilter"), ownedFilter = favOwnedFilter.equals("ownedFilter");
@@ -122,6 +123,7 @@ public class ProductService {
         CategoryEntity categoryEntity = categoryRepository.findById(paramsDTO.getCategory()).get();
         var file = paramsDTO.getImage();
         String imgName = null;
+        if(paramsDTO.getPrice() < 0) throw new IllegalArgumentException("Can't create product with negative price");
 
         // IMAGEN
         if (file != null && !file.isEmpty()) {

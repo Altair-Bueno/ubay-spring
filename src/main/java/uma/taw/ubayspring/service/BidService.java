@@ -107,6 +107,7 @@ public class BidService {
         var productId = newBidsDTO.getProductID();
         var product = productRepository.findById(productId).get();
 
+        if(amount < 0 ) throw new IllegalArgumentException("Can't make a bid with negative amount");
         if (product == null) throw new IllegalArgumentException("The given product ID doesn't exist");
         if (product.getCloseDate() != null)
             throw new IllegalArgumentException("The given product is no longer available");

@@ -47,6 +47,8 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
      * @author Francisco Javier Hernández
      */
     public ProductRepositoryCustomImpl.ProductTupleResult<ProductEntity> getClientFavouriteProductsFiltered(ClientEntity client, String title, CategoryEntity category, int page) {
+        if(page == 0) page = 1;
+        int beginning = ProductKeys.productsPerPageLimit * (page - 1), end = (ProductKeys.productsPerPageLimit * page);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
@@ -60,7 +62,6 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
                 .build();
         List<ProductEntity> productsFound = productRepository.findAll(Example.of(productExample, matcher));
 
-        int cont = 0;
         for(ProductEntity p : productsFound){
             ProductFavouritesEntity example = ProductFavouritesEntity
                     .builder()
@@ -68,13 +69,16 @@ public class ProductFavouritesRepositoryCustomImpl implements ProductFavouritesR
                     .product(p)
                     .build();
             Optional<ProductFavouritesEntity> queryResult = productFavouritesRepository.findOne(Example.of(example));
-            if(queryResult.isPresent() && cont < ProductKeys.productsPerPageLimit){
+            if(queryResult.isPresent()){
                 productEntityList.add(p);
             }
-            cont++;
         }
 
-        return new ProductRepositoryCustomImpl.ProductTupleResult<>(productEntityList, cont);
+        int size = productEntityList.size();
+        if(end > size) end = size;
+        productEntityList = productEntityList.subList(beginning, end);
+
+        return new ProductRepositoryCustomImpl.ProductTupleResult<>(productEntityList, size);
     }
 
     /**
