@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="uma.taw.ubayspring.dto.products.ProductClientDTO" %>
@@ -38,8 +39,8 @@ Created by IntelliJ IDEA.
     ProductFormParamsDTO productModel = (ProductFormParamsDTO) request.getAttribute("productModel");
     boolean isAdmin = clientParameter != null && ((ProductClientDTO) clientParameter).getKind().equals(KindEnum.admin), isFav = isFavParameter != null && (boolean) isFavParameter;
     double minBid;
-    String closed = ResourceBundle.getBundle("messages", request.getLocale()).getString("closedStatus");
-    boolean cerrado = productModel.getStatus().equals(closed);
+    String closedLabel = ResourceBundle.getBundle("messages", request.getLocale()).getString("closedStatus");
+    boolean cerrado = productModel.getStatus().equals("clo");
     Object imgId = request.getAttribute("imgId");
     String imgSrc = imgId == null ? "" : request.getContextPath() + "/image?id=" + URLEncoder.encode((String) imgId, StandardCharsets.UTF_8);
 %>
@@ -57,7 +58,15 @@ Created by IntelliJ IDEA.
             <div class="p-2"><h1>${productModel.price} €</h1></div>
             <div class="p-2">
                 <h2><spring:message key="product.status.label"/>:</h2>
-                <h4>${productModel.status}
+                <h4>
+                    <c:choose>
+                        <c:when test="${productModel.status eq 'clo'}">
+                            <spring:message key="closedStatus"/>
+                        </c:when>
+                        <c:when test="${productModel.status eq 'act'}">
+                            <spring:message key="activeStatus"/>
+                        </c:when>
+                    </c:choose>
                 </h4>
             </div>
             <div class="p-2">
@@ -157,7 +166,7 @@ Created by IntelliJ IDEA.
                                 <form:hidden path="price"/>
                                 <form:hidden path="category"/>
                                 <form:hidden path="productId"/>
-                                <form:hidden path="status" value="<%=closed%>"/>
+                                <form:hidden path="status" value="clo"/>
                                 <spring:message key="product.item.close.label" var="close"/>
                                 <input class="btn btn-warning" type="submit" value="${close}">
                             </form:form>
