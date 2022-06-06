@@ -1,13 +1,32 @@
 # [Altair Bueno](https://github.com/Altair-Bueno/ubay-spring/commits?author=Altair-Bueno)
 
+- JSP
+  - [navbar.jsp](src/main/webapp/WEB-INF/components/navbar.jsp)
+  - [changePassword.jsp](src/main/webapp/WEB-INF/view/auth/changePassword.jsp)
+  - [login.jsp](src/main/webapp/WEB-INF/view/auth/login.jsp)
+  - [register.jsp](src/main/webapp/WEB-INF/view/auth/register.jsp)
+  - [resetPasswoird.jsp](src/main/webapp/WEB-INF/view/auth/resetPassword.jsp)
+  - [404.jsp](src/main/webapp/WEB-INF/view/error/404.jsp)
+- Service
+  - [AuthService](src/main/java/uma/taw/ubayspring/service/AuthService.java)
+  - [MinioWrapperService](src/main/java/uma/taw/ubayspring/wrapper/MinioWrapperService.java)
+- DTO
+  - [LoginDTO](src/main/java/uma/taw/ubayspring/dto/LoginDTO.java)
+  - [ChangePasswordDTO](src/main/java/uma/taw/ubayspring/dto/auth/ChangePasswordDTO.java)
+  - [RegisterDTO](src/main/java/uma/taw/ubayspring/dto/auth/RegisterDTO.java)
+  - [ResetPasswordDTO](src/main/java/uma/taw/ubayspring/dto/auth/ResetPasswordDTO.java)
+- Controller
+  - [AuthController](src/main/java/uma/taw/ubayspring/controller/AuthController.java)
+  - [ImageController](src/main/java/uma/taw/ubayspring/controller/ImageController.java)
 - Docker
   - [docker-compose.yml](docker-compose.yml)
   - [docker-compose-dev.yml](docker-compose-dev.yml)
-- Otros
+- Other
   - DB ORM
   - Project setup (README.md,DEV.md)
-  - Entity generation.
-  - Repository creation.
+  - Entity generation
+  - Repository creation
+  - Solved multiple Hibernate & Spring Boot errors
 
 # [Francisco Javier Hernández Martín](https://github.com/Altair-Bueno/ubay-spring/commits?author=fran1215)
 
