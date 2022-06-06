@@ -117,7 +117,7 @@ public class ProductController {
         productModel.setTitle(product.getTitle());
         productModel.setDescription(product.getDescription());
         productModel.setPrice(product.getOutPrice());
-        productModel.setStatus(product.getCloseDate() == null ? localizedString(request, "activeStatus") : localizedString(request, "closedStatus"));
+        productModel.setStatus(product.getCloseDate() == null ? "act" : "clo");
         productModel.setVendor(product.getVendor());
 
         if (cliente == null) {
@@ -148,7 +148,7 @@ public class ProductController {
         productModel.setTitle(product.getTitle());
         productModel.setDescription(product.getDescription());
         productModel.setPrice(product.getOutPrice());
-        productModel.setStatus(product.getCloseDate() == null ? localizedString(request, "activeStatus") : localizedString(request, "closedStatus"));
+        productModel.setStatus(product.getCloseDate() == null ? "act" : "clo");
 
         model.addAttribute("productModel", productModel);
         model.addAttribute("imageId", product.getImages());

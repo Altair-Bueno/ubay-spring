@@ -223,11 +223,11 @@ public class ProductService {
 
         // ESTADO
         if(paramsDTO.getStatus() != null){
-            if (paramsDTO.getStatus().equals("Cerrado")) {
+            if (paramsDTO.getStatus().equals("clo")) {
                 if (p.getCloseDate() == null) {
                     p.setCloseDate(new Date(new java.util.Date().getTime()));
                 }
-            } else if (paramsDTO.getStatus().equals("Activo")) {
+            } else if (paramsDTO.getStatus().equals("act")) {
                 if (p.getCloseDate() != null) {
                     p.setCloseDate(null);
                 }
