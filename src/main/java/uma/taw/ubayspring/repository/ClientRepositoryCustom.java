@@ -5,6 +5,10 @@ import uma.taw.ubayspring.types.GenderEnum;
 
 import java.util.List;
 
+/**
+ * @author: José Luis Bueno Pachón
+ */
+
 public interface ClientRepositoryCustom {
     List<ClientEntity> filterClients(String name, String lastName, GenderEnum gender, String address, String city, Integer id);
 }

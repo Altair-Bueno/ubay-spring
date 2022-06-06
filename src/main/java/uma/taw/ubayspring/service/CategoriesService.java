@@ -39,6 +39,11 @@ public class CategoriesService {
     @Autowired
     AuthService authService;
 
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     public void addCategory(String name, String description) {
         if (name != null && description != null) {
             CategoryEntity category = new CategoryEntity();
@@ -47,6 +52,10 @@ public class CategoriesService {
             categoryRepository.save(category);
         }
     }
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     public void addFavouriteCategory(String clientID, String categoryID) {
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
@@ -57,6 +66,10 @@ public class CategoriesService {
         favourite.setClient(client);
         favouritesRepository.save(favourite);
     }
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     @NotNull
     private List<CategoryDTO> userFavouriteCategories(User user) {
@@ -69,6 +82,10 @@ public class CategoriesService {
         }
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     @NotNull
     private List<CategoryDTO> categories() {
         var listaCategorias = (List<CategoryEntity>) categoryRepository.findAll();
@@ -77,13 +94,25 @@ public class CategoriesService {
         //return categoryRepository.findAll().stream().map(this::categoryEntityToDTO).collect(Collectors.toList());
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     private CategoryDTO categoryEntityToDTO(CategoryEntity category) {
         return new CategoryDTO(category.getId(), category.getName(), category.getDescription());
     }
 
+    /**
+     * @author José Luis Bueno Pachón
+     */
+
     private ClientEntity getClientEntity(User user) {
         return authService.getCredentialsEntity(user).getClient();
     }
+
+    /**
+     * @author José Luis Bueno Pachón
+     */
 
     public void deleteCategory(String id) throws UbayException {
         if (id != null) {
@@ -96,6 +125,10 @@ public class CategoriesService {
         }
     }
 
+    /**
+     * @author José Luis Bueno Pachón
+     */
+
     public void deleteFavourite(String clientID, String categoryID) {
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
         CategoryEntity category = categoryRepository.findById(Integer.parseInt(categoryID)).get();
@@ -106,6 +139,9 @@ public class CategoriesService {
         favouritesRepository.delete(favourite);
     }
 
+    /**
+     * @author José Luis Bueno Pachón
+     */
     public void modify(CategoryDTO categoryDTO) {
         CategoryEntity category = categoryRepository.findById(categoryDTO.getId()).get();
 
@@ -115,6 +151,9 @@ public class CategoriesService {
         categoryRepository.save(category);
     }
 
+    /**
+     * @author José Luis Bueno Pachón
+     */
     @NotNull
     public CategoriesDTO processCategories(User user) {
         List<CategoryDTO> userFavouriteCategories = new ArrayList<>();

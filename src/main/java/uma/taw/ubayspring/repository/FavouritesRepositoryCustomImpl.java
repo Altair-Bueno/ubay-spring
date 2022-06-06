@@ -11,6 +11,10 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author: José Luis Bueno Pachón
+ */
+
 @Repository
 public class FavouritesRepositoryCustomImpl implements FavouritesRepositoryCustom{
 

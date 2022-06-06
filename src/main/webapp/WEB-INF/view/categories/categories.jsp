@@ -4,7 +4,7 @@
 <%@ page import="uma.taw.ubayspring.types.KindEnum" %>
 <%@ page import="uma.taw.ubayspring.entity.LoginCredentialsEntity" %><%--
   Created by IntelliJ IDEA.
-  User: jota
+  User: José Luis Bueno Pachón
   Date: 5/4/22
   Time: 11:59
   To change this template use File | Settings | File Templates.

@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.nio.charset.StandardCharsets" %><%--
   Created by IntelliJ IDEA.
-  User: jota
+  User: José Luis Bueno Pachón
   Date: 22/5/22
   Time: 18:16
   To change this template use File | Settings | File Templates.

@@ -68,6 +68,10 @@ public class UsersService {
     ProductFavouritesRepository productFavouritesRepository;
 
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     public void addFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
         ClientEntity client = clientRepository.findById(Integer.parseInt(clientID)).get();
@@ -82,12 +86,20 @@ public class UsersService {
     }
 
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     public void deleteUser(String id) {
         if(clientRepository.findById(Integer.parseInt(id)).isPresent()){
             clientRepository.delete(clientRepository.findById(Integer.parseInt(id)).get());
         }
     }
 
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     public void deleteFavProduct(String productID, String clientID) {
         ProductEntity product = productRepository.findById(Integer.parseInt(productID)).get();
@@ -96,6 +108,10 @@ public class UsersService {
         ProductFavouritesEntity fav = productFavouritesRepositoryCustom.getTuple(client, product);
         productFavouritesRepository.delete(fav);
     }
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     public void modifyUser(ClientDTO clientDTO) {
         ClientEntity client = clientRepository.findById(clientDTO.getId()).get();
         client.setName(clientDTO.getName());
@@ -108,6 +124,10 @@ public class UsersService {
     }
 
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     public List<ProductDTO> products(User client) {
         ClientEntity user = authService.getCredentialsEntity(client).getClient();
 
@@ -115,6 +135,10 @@ public class UsersService {
         return favouriteProducts;
     }
 
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     private ProductDTO productEntityToDTO(ProductEntity productEntity) {
         return new ProductDTO(productEntity.getId(),
@@ -124,47 +148,19 @@ public class UsersService {
                 productEntity.getCloseDate());
     }
 
-    /*
-    private uma.taw.ubay.dto.notifications.ProductDTO notificationsProductEntityToDTO(ProductEntity productEntity) {
-        return new uma.taw.ubay.dto.notifications.ProductDTO(productEntity.getId(),
-                productEntity.getTitle(),
-                productEntity.getDescription(),
-                productEntity.getImages(),
-                productEntity.getCloseDate());
-    }
 
+    /**
+     * @author: José Luis Bueno Pachón
      */
-
 
     public int getClientID(User user) {
         return authService.getCredentialsEntity(user).getClient().getId();
     }
 
 
-
-    /*
-    private BidsDTO bidEntityToDto(BidEntity bidEntity) {
-        return new BidsDTO(bidEntity.getPublishDate(),
-                bidEntity.getAmount(),
-                notificationsProductEntityToDTO(bidEntity.getProduct())
-        );
-    }
-
-    public HashMap<BidsDTO, Boolean> getNotifications(LoginDTO login) {
-        var user = authService.getCredentialsEntity(login).getUser();
-        HashMap<BidsDTO, Boolean> notifications = new LinkedHashMap(); // Key: Bid; Value: Is the client the bid winner
-        List<BidEntity> closedBidsByClient = bidRepository.productsBiddedClosedProducts(user);
-
-        for (BidEntity b : closedBidsByClient) {
-            BidsDTO bidDto = bidEntityToDto(b);
-            notifications.put(bidDto, bidRepository.isWinnerBid(user, b));
-        }
-
-        return notifications;
-    }
-
-    */
-
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     public List<ClientDTO> users(FilterUsersDTO filterUsersDTO) {
         List<ClientEntity> filtrados = clientRepositoryCustom.filterClients(
@@ -178,10 +174,17 @@ public class UsersService {
     }
 
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     private ClientDTO clientEntityToDTO(ClientEntity client) {
         return new ClientDTO(client.getId(), client.getName(), client.getLastName(), client.getGender(), client.getAddress(), client.getCity(), client.getBirthDate());
     }
 
+    /**
+     * @author: Altair Bueno
+     */
     private String generateRandomString(int size, Random random) {
         char[] chars = "abcdefghijklmnopqrstuvwxyz1234567890".toCharArray();
         StringBuilder sb = new StringBuilder(size);
@@ -191,6 +194,11 @@ public class UsersService {
         }
         return sb.toString();
     }
+
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     @NotNull
     public PasswordChangeDTO passwordChange(String id) {

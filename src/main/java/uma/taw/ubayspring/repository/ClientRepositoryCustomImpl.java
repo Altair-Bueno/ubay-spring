@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author: José Luis Bueno Pachón
+ */
+
 @Repository
 public class ClientRepositoryCustomImpl implements ClientRepositoryCustom {
     @PersistenceContext

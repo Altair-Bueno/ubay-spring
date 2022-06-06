@@ -76,6 +76,11 @@ public class UsersController {
             return null;
         }
     }
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     @GetMapping
     public String getUsers(Model model, @ModelAttribute FilterUsersDTO filterUsersDTO) {
         List<ClientDTO> clientDTOList = usersService.users(filterUsersDTO);
@@ -84,16 +89,31 @@ public class UsersController {
         return "users/users";
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
+
     @GetMapping("/delete")
     public String delete(@RequestParam String id) {
         usersService.deleteUser(id);
         return "redirect:";
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
+
     @GetMapping("/modify")
     public ClientDTO getModify(@ModelAttribute ClientDTO clientDTO){
         return clientDTO;
     }
+
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     @PostMapping("/modify")
     public String postModify(@ModelAttribute ClientDTO clientDTO){
@@ -101,17 +121,29 @@ public class UsersController {
         return "redirect:";
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     @GetMapping("/addFavourite")
     public String addFavourite(@RequestParam String productID, @RequestParam String clientID){
         usersService.addFavProduct(productID, clientID);
         return "redirect:products";
     }
 
+    /**
+     * @author: José Luis Bueno Pachón
+     */
+
     @GetMapping("/deleteFavourite")
     public String deleteFavourite(@RequestParam String productID, @RequestParam String clientID){
         usersService.deleteFavProduct(productID, clientID);
         return "redirect:products";
     }
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     @GetMapping("/products")
     public String products(Model model){
@@ -124,6 +156,10 @@ public class UsersController {
 
         return "users/products";
     }
+
+    /**
+     * @author: José Luis Bueno Pachón
+     */
 
     @GetMapping("/passwordChangeLink")
     public String passwordChangeLink(Model model, @RequestParam String id){

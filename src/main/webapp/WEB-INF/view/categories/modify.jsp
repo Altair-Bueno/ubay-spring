@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
-  User: jota
+  User: José Luis Bueno Pachón
   Date: 5/4/22
   Time: 12:18
   To change this template use File | Settings | File Templates.

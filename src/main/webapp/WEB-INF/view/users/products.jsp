@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
-  User: jota
+  User: José Luis Bueno Pachón
   Date: 21/5/22
   Time: 18:49
   To change this template use File | Settings | File Templates.

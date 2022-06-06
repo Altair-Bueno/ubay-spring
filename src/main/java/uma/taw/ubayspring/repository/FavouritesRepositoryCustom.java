@@ -9,6 +9,10 @@ import uma.taw.ubayspring.entity.ProductFavouritesEntity;
 
 import java.util.List;
 
+/**
+ * @author: José Luis Bueno Pachón
+ */
+
 public interface FavouritesRepositoryCustom {
     public List<CategoryEntity> getClientFavouriteCategories(ClientEntity client);
 }

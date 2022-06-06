@@ -13,6 +13,10 @@ import uma.taw.ubayspring.dto.categories.ModifyCategoryDTO;
 import uma.taw.ubayspring.exception.UbayException;
 import uma.taw.ubayspring.service.CategoriesService;
 
+/**
+ * @author: José Luis Bueno Pachón
+ */
+
 @Controller
 @RequestMapping("/categories")
 public class CategoriesController {
@@ -34,9 +38,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/add")
-    public AddCategoryDTO getAdd(@ModelAttribute AddCategoryDTO addCategoryDTO){
-        return addCategoryDTO;
-    }
+    public AddCategoryDTO getAdd(@ModelAttribute AddCategoryDTO addCategoryDTO){ return addCategoryDTO; }
 
     @PostMapping("/add")
     public String postAdd(@ModelAttribute AddCategoryDTO addCategoryDTO){
