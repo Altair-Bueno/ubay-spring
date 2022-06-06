@@ -5,7 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import uma.taw.ubayspring.entity.ProductEntity;
 
 /**
- * @author Altair Bueno
+ * @author Francisco Javier Hernández
  */
 
 public interface ProductRepository extends PagingAndSortingRepository<ProductEntity, Integer>, JpaRepository<ProductEntity, Integer> {

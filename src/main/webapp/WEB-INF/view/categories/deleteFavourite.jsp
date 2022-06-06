@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: José Luis Bueno Pachón
@@ -20,8 +21,8 @@
     <div class="container">
         <div class="col-6 position-absolute top-50 start-50 translate-middle">
             <form class="form" action="../categories" method="get">
-                <h1>¿Está seguro de que quiere eliminar la categoría de favoritos?</h1>
-                <button type="submit" class="btn btn-danger mt-2">Confirmar</button>
+                <h1><spring:message key="categories.deleteFavourite.text"/></h1>
+                <button type="submit" class="btn btn-danger mt-2"><spring:message key="confirm"/></button>
             </form>
 
         </div>

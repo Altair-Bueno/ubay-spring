@@ -6,7 +6,7 @@ import uma.taw.ubayspring.entity.ProductFavouritesEntity;
 import uma.taw.ubayspring.entity.ProductFavouritesEntityPK;
 
 /**
- * @author Altair Bueno
+ * @author Francisco Javier Hernández
  */
 
 public interface ProductFavouritesRepository

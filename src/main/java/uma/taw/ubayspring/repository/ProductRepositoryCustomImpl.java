@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.repository;
 
+/**
+ * @author Francisco Javier Hernández
+ */
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -18,9 +22,6 @@ import java.util.List;
 
 @Repository
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
-
-    @PersistenceContext
-    EntityManager em;
 
     @Autowired
     ProductRepository productRepository;

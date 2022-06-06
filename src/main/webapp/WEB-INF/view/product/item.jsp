@@ -154,7 +154,7 @@ Created by IntelliJ IDEA.
                             <spring:message key="product.item.closemodal.body"/>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message key="cancel"/></button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message key="product.item.closemodal.close"/></button>
                             <%--@elvariable id="productModel" type="uma.taw.ubayspring.dto.products.ProductForm.ProductFormParamsDTO"--%>
                             <form:form 
                                     method="post" 

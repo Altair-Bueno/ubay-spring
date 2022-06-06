@@ -11,14 +11,60 @@
 
 # [Francisco Javier Hernández Martín](https://github.com/Altair-Bueno/ubay-spring/commits?author=fran1215)
 
-- Spring Configuration
-  - Website Localization (Language Translation)
-    - [Localization](src/main/java/uma/taw/ubayspring/springconfig/Localization.java)
-    - [MessageConfig](src/main/java/uma/taw/ubayspring/springconfig/MessageConfig.java)
-    - [SecurityConfig](src/main/java/uma/taw/ubayspring/springconfig/SecurityConfig.java)
+- [Contribution to Spring Configuration](src/main/resources/application.properties)
 - Translation of the whole page via Messages bundle
   - [English strings (default)](src/main/resources/messages.properties)
   - [Spanish strings (translation)](src/main/resources/messages_es.properties)
+- JSP
+  - [Navbar](src/main/webapp/WEB-INF/components/navbar.jsp)
+  - [product.jsp (index)](src/main/webapp/WEB-INF/view/product.jsp)
+  - [item.jsp](src/main/webapp/WEB-INF/view/product/item.jsp)
+  - [new.jsp](src/main/webapp/WEB-INF/view/product/new.jsp)
+  - [update.jsp](src/main/webapp/WEB-INF/view/product/update.jsp)
+  - [notifications.jsp](src/main/webapp/WEB-INF/view/users/notifications.jsp)
+  - [bids.jsp (User bids)](src/main/webapp/WEB-INF/view/users/bids.jsp)
+  - [index.jsp (Received bids)](src/main/webapp/WEB-INF/view/vendor/bids/index.jsp)
+- Controllers
+  - [ProductController](src/main/java/uma/taw/ubayspring/controller/ProductController.java)
+  - [VendorController](src/main/java/uma/taw/ubayspring/controller/VendorController.java)
+  - [UsersController (Bids related methods)](src/main/java/uma/taw/ubayspring/controller/UsersController.java)
+- DTO
+  - [ProductCategoryDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductCategoryDTO.java)
+  - [ProductClientDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductClientDTO.java)
+  - [ProductDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductDTO.java)
+  - [ProductFavouritesDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductFavouritesDTO.java)
+  - [ProductLoginDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductLoginDTO.java)
+  - [ProductsDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductsDTO.java)
+  - [ProductBidDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductBidDTO.java)
+  - [FavOwnedDTO](src/main/java/uma/taw/ubayspring/dto/products/index/FavOwnedDTO.java)
+  - [ListsDTO](src/main/java/uma/taw/ubayspring/dto/products/index/ListsDTO.java)
+  - [ParamsDTO](src/main/java/uma/taw/ubayspring/dto/products/index/ParamsDTO.java)
+  - [ProductFormParamsDTO](src/main/java/uma/taw/ubayspring/dto/products/ProductForm/ProductFormParamsDTO.java)
+  - [BidsParamsDTO](src/main/java/uma/taw/ubayspring/dto/bids/BidsParamsDTO.java)
+  - [BidsSortingOptions](src/main/java/uma/taw/ubayspring/dto/bids/BidsSortingOptions.java)
+  - [NewBidsDTO](src/main/java/uma/taw/ubayspring/dto/bids/NewBidsDTO.java)
+- Repositories
+  - [BidRepositoryCustom](src/main/java/uma/taw/ubayspring/repository/BidRepositoryCustom.java)
+  - [BidRepositoryCustomImpl](src/main/java/uma/taw/ubayspring/repository/BidRepositoryCustomImpl.java)
+  - [ProductFavouritesRepository](src/main/java/uma/taw/ubayspring/repository/ProductFavouritesRepository.java)
+  - [ProductFavouritesRepositoryCustom](src/main/java/uma/taw/ubayspring/repository/ProductFavouritesRepositoryCustom.java)
+  - [ProductFavouritesRepositoryCustomImpl (Check percentages)](src/main/java/uma/taw/ubayspring/repository/ProductFavouritesRepositoryCustomImpl.java)
+  - [ProductRepository](src/main/java/uma/taw/ubayspring/repository/ProductRepository.java)
+  - [ProductRepositoryCustom](src/main/java/uma/taw/ubayspring/repository/ProductRepositoryCustom.java)
+  - [ProductRepositoryCustomImpl](src/main/java/uma/taw/ubayspring/repository/ProductRepositoryCustomImpl.java)
+- Services
+  - [ProductService](src/main/java/uma/taw/ubayspring/service/products/ProductService.java)
+  - [BidService (Ported and edited)](src/main/java/uma/taw/ubayspring/service/BidService.java)
+- Keyfiles
+  - [ProductKeys](src/main/java/uma/taw/ubayspring/keys/UsersKeys.java)
+- Database
+  - Database Schema Design
+  - [Database Schema SQL](sql/scheme.sql)
+- Others
+  - Database design & ORM
+  - Minor/medium changes in many other files when needed (check github logs)
+  - Refactoring of the whole page (import, errors, etc)
+  - Styling set up / fixed all over the website
 
 # [José Luis Bueno](https://github.com/Altair-Bueno/ubay-spring/commits?author=jxtaaa)
 - Admin functions on user page

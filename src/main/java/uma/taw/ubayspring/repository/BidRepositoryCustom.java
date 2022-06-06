@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.repository;
 
+/**
+ * @author Francisco Javier Hernández
+ */
+
 import uma.taw.ubayspring.entity.BidEntity;
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.ProductEntity;

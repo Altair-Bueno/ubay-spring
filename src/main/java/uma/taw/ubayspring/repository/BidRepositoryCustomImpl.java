@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.repository;
 
+/**
+ * @author Francisco Javier Hernández
+ */
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import uma.taw.ubayspring.entity.BidEntity;
@@ -107,13 +111,6 @@ public class BidRepositoryCustomImpl implements BidRepositoryCustom{
         return resultList == null || resultList.isEmpty() ? null : resultList.get(0);
     }
 
-    /*
-     * Returns a list containing the (closed) bids
-     * that have been made by the client given
-     * by parameter.
-     *
-     * @author Fran Hernandez
-     */
     public List<BidEntity> productsBiddedClosedProducts(ClientEntity sesion){
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<BidEntity> query = builder.createQuery(BidEntity.class);
@@ -133,10 +130,6 @@ public class BidRepositoryCustomImpl implements BidRepositoryCustom{
                 .getResultList();
     }
 
-    /**
-     *
-     * @author Fran Hernandez
-     */
     public boolean isWinnerBid(ClientEntity client, BidEntity bid){
         return getHighestBidByProduct(bid.getProduct()).getClient().equals(client);
     }

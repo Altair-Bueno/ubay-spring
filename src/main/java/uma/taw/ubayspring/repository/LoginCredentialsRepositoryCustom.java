@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.repository;
 
+/**
+ * @author Altair Bueno
+ */
+
 import uma.taw.ubayspring.entity.ClientEntity;
 import uma.taw.ubayspring.entity.LoginCredentialsEntity;
 

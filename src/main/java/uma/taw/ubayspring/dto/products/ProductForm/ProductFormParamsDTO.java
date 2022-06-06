@@ -1,5 +1,9 @@
 package uma.taw.ubayspring.dto.products.ProductForm;
 
+/**
+ * @author Francisco Javier Hernández
+ */
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

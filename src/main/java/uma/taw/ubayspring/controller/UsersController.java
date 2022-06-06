@@ -187,6 +187,11 @@ public class UsersController {
         return "users/notifications";
     }
 
+    /**
+     *
+     * @author Francisco Javier Hernández Martín
+     *
+     */
     @GetMapping("/bids")
     public String bidsIndex(Model model,
                             HttpServletRequest request,
@@ -202,6 +207,11 @@ public class UsersController {
         return "/users/bids";
     }
 
+    /**
+     *
+     * @author Francisco Javier Hernández Martín
+     *
+     */
     @PostMapping("/bids/new")
     public String newBid(HttpServletRequest request, @ModelAttribute("newBidModel") NewBidsDTO newBidModel){
         bidService.createBid(newBidModel, getSession());
